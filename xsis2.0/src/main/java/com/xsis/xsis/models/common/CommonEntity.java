@@ -30,16 +30,16 @@ public class CommonEntity {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "modified_on", nullable = true)
+    @Column(name = "modified_on")
     private Date modifiedOn;
-    @Column(name = "modified_by", nullable = true)
+    @Column(name = "modified_by")
     private String modifiedBy;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "deleted_on", nullable = true)
+    @Column(name = "deleted_on")
     private Date deleteddOn;
-    @Column(name = "deleted_by", nullable = true)
+    @Column(name = "deleted_by")
     private String deletedBy;
 
     @Column(name = "isdelete", nullable = false)
