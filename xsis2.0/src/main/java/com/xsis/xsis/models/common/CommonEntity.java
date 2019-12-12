@@ -26,21 +26,21 @@ public class CommonEntity {
     @Column(name = "created_on", nullable = false)
     private Date createdOn;
     @Column(name = "created_by", nullable = false)
-    private String createdBy;
+    private Long createdBy;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "modified_on")
     private Date modifiedOn;
     @Column(name = "modified_by")
-    private String modifiedBy;
+    private Long modifiedBy;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "deleted_on")
     private Date deleteddOn;
     @Column(name = "deleted_by")
-    private String deletedBy;
+    private Long deletedBy;
 
     @Column(name = "isdelete", nullable = false)
     private Boolean isDelete = false;
@@ -48,8 +48,7 @@ public class CommonEntity {
     public CommonEntity() {
     }
 
-    public CommonEntity(Date createdOn, String createdBy, Date modifiedOn, String modifiedBy, Date deleteddOn,
-            String deletedBy, Boolean isDelete) {
+    public CommonEntity(Date createdOn, Long createdBy, Date modifiedOn, Long modifiedBy, Date deleteddOn, Long deletedBy, Boolean isDelete) {
         this.createdOn = createdOn;
         this.createdBy = createdBy;
         this.modifiedOn = modifiedOn;
@@ -60,59 +59,64 @@ public class CommonEntity {
     }
 
     public Date getCreatedOn() {
-        return createdOn;
+        return this.createdOn;
     }
 
     public void setCreatedOn(Date createdOn) {
         this.createdOn = createdOn;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
+    public Long getCreatedBy() {
+        return this.createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
     }
 
     public Date getModifiedOn() {
-        return modifiedOn;
+        return this.modifiedOn;
     }
 
     public void setModifiedOn(Date modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 
-    public String getModifiedBy() {
-        return modifiedBy;
+    public Long getModifiedBy() {
+        return this.modifiedBy;
     }
 
-    public void setModifiedBy(String modifiedBy) {
+    public void setModifiedBy(Long modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
     public Date getDeleteddOn() {
-        return deleteddOn;
+        return this.deleteddOn;
     }
 
     public void setDeleteddOn(Date deleteddOn) {
         this.deleteddOn = deleteddOn;
     }
 
-    public String getDeletedBy() {
-        return deletedBy;
+    public Long getDeletedBy() {
+        return this.deletedBy;
     }
 
-    public void setDeletedBy(String deletedBy) {
+    public void setDeletedBy(Long deletedBy) {
         this.deletedBy = deletedBy;
     }
 
+    public Boolean isIsDelete() {
+        return this.isDelete;
+    }
+
     public Boolean getIsDelete() {
-        return isDelete;
+        return this.isDelete;
     }
 
     public void setIsDelete(Boolean isDelete) {
         this.isDelete = isDelete;
     }
+
 
 }
