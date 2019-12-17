@@ -1,0 +1,664 @@
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  xmlns:with="http://www.thymeleaf.org/extras/with"
+  layout:decorate="~{layout}"
+  with:title="'B210'"
+>
+  <th:block layout:fragment="content">
+        <div class="bottom">
+            <div class="col">
+                <div class="container">
+                        <input type="search" class="form-control" id="input-search" placeholder="Search..." >
+                    <div class="card">
+                        <div class="card-block">
+                            <div id="showList">
+                                <!-- Show List Vacancy -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="detailVacancy" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true" style="overflow-y:auto;">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Detail Pelamar</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <div class="sidebar-nav">
+                        <div class="navbar navbar-default" role="navigation">
+                          <div class="navbar-collapse sidebar-navbar-collapse">
+                                <div class="list-group" id="list-tab" role="tablist">
+                                    <a class="list-group-item list-group-item-action active" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Profile</a>
+                                    <a class="list-group-item list-group-item-action" id="list-biodata-list" data-toggle="list" href="#list-biodata" role="tab" aria-controls="biodata">Biodata</a>
+                                    <a class="list-group-item list-group-item-action" id="list-pengalaman-kerja-list" data-toggle="list" href="#list-pengalaman-kerja" role="tab" aria-controls="pengalaman-kerja">Pengalamann Kerja</a>
+                                    <a class="list-group-item list-group-item-action" id="list-pendidikan-list" data-toggle="list" href="#list-pendidikan" role="tab" aria-controls="pendidikan">Pendidikan</a>
+                                    <a class="list-group-item list-group-item-action" id="list-pelatihan-list" data-toggle="list" href="#list-pelatihan" role="tab" aria-controls="pelatihan">Pelatihan</a>
+                                    <a class="list-group-item list-group-item-action" id="list-sertifikasi-list" data-toggle="list" href="#list-sertifikasi" role="tab" aria-controls="sertifikasi">Sertifikasi</a>
+                                    <a class="list-group-item list-group-item-action" id="list-sumber-lowongan-kerja-list" data-toggle="list" href="#list-sumber-lowongan-kerja" role="tab" aria-controls="sumber-lowongan-kerja">Sumber Lowongan Kerja</a>
+                                    <a class="list-group-item list-group-item-action" id="list-organisasi-list" data-toggle="list" href="#list-organisasi" role="tab" aria-controls="organisasi">Organisasi</a>
+                                    <a class="list-group-item list-group-item-action" id="list-keluarga-list" data-toggle="list" href="#list-keluarga" role="tab" aria-controls="keluarga">Keluarga</a>
+                                    <a class="list-group-item list-group-item-action" id="list-keahlian-list" data-toggle="list" href="#list-keahlian" role="tab" aria-controls="keahlian">Keahlian</a>
+                                    <a class="list-group-item list-group-item-action" id="list-lain-lain-list" data-toggle="list" href="#list-lain-lain" role="tab" aria-controls="lain-lain">Lain - Lain</a>
+                                    <a class="list-group-item list-group-item-action" id="list-dokumen-list" data-toggle="list" href="#list-dokumen" role="tab" aria-controls="dokumen">Dokumen</a>
+                                    <a class="list-group-item list-group-item-action" id="list-catatan-list" data-toggle="list" href="#list-catatan" role="tab" aria-controls="catatan">Catatan</a>
+                                    <a class="list-group-item list-group-item-action" id="list-aktivasi-akun-list" data-toggle="list" href="#list-aktivasi-akun" role="tab" aria-controls="aktivasi-akun">Aktivasi Akun</a>
+                                    <a class="list-group-item list-group-item-action" id="list-lihat-tes-list" data-toggle="list" href="#list-lihat-tes" role="tab" aria-controls="lihat-tes">Lihat Tes</a>
+                                    <a class="list-group-item list-group-item-action" id="list-hasil-tes-list" data-toggle="list" href="#list-hasil-tes" role="tab" aria-controls="hasil-tes">Hasil Tes</a>
+                                </div>
+                          </div><!--/.nav-collapse -->
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
+                            <div class="tab-pane fade show" id="list-keahlian" role="tabpanel" aria-labelledby="list-keahlian-list">
+                                Keahlian
+                            </div>
+                            <div class="tab-pane fade" id="list-pendidikan" role="tabpanel" aria-labelledby="list-pendidikan-list">
+                                    <h4>Pendidikan <a data-toggle="modal" data-target="#addModal" href="#" id="showAddData"><i class="fa fa-plus-circle" aria-hidden="true"></i></a></h4>
+                                    <div class="card">
+                                        <div class="card-block">
+                                           <table class="table table-hover">
+                                             <thead>
+                                              <tr class="text-center">
+                                                <th scope="col">SEKOLAH/INSTANSI</th>
+                                                <th scope="col">JENJANG</th>
+                                                <th scope="col">PERIODE</th>
+                                                <th scope="col">JURUSAN</th>
+                                                <th scope="col">IPK</th>
+                                                <th scope="col">#</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody id="tbEducation">
+                                            </tbody>
+                                          </table>
+                                        </div>
+                                        <div class="modal-body">
+                                           <!-- Content will be loaded here...  -->
+                                        </div>
+                                      </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+     <!-- Form Add Data  -->
+    <div class="modal fade" id="addData" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+     <div class="modal-dialog modal-lg" role="document">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <h3 class="modal-title">Form Add Education</h3>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                 </button>
+             </div>
+             <div class="modal-body">
+                    <form id="formAddData">
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <input class="form-control" type="hidden" id="biodataId" name="biodataId" value="">
+                                    <label style="font-size: 10pt;" for="schoolName">Nama Sekolah/Instansi*</label><br>
+                                    <input class="form-control" type="text" id="schoolName" name="schoolName" maxlength="100">
+                                </div>
+                                <div class="col-md-3">
+                                    <label style="font-size: 10pt;" for="city">Kota</label><br>
+                                    <input class="form-control" type="text" id="city" name="city" maxlength="50">
+                                </div>
+                                <div class="col-md-3">
+                                    <label style="font-size: 10pt;" for="country">Negara</label><br>
+                                    <input class="form-control" type="text" id="country" name="country" maxlength="50">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <label style="font-size: 10pt;" for="educationLevelId">Jenjang Pendidikan *</label><br>
+                                    <select class="form-control get_education_level" name="educationLevelId" id="educationLevelId"></select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label style="font-size: 10pt;" for="entryYear">Tahun Masuk</label><br>
+                                    <select class="form-control get_entry_year" name="entryYear" id="entryYear"></select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label style="font-size: 10pt;" for="graduationYear">Tahun Lulus</label><br>
+                                    <select class="form-control get_graduation_year" name="graduationYear" id="graduationYear"></select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <label style="font-size: 10pt;" for="major">Jurusan</label><br>
+                                    <input class="form-control" type="text" id="major" name="major" maxlength="100">
+                                </div>
+                                <div class="col-md-6">
+                                    <label style="font-size: 10pt;" for="gpa">IPK</label><br>
+                                    <input class="form-control" type="text" id="gpa" name="gpa">
+                                </div>
+                            </div>
+                            <div class="form-row" id="gradSchool1" style="display:none">
+                                <div class="col-md-12">
+                                    <label style="font-size: 10pt;" for="judulTa">Judul TA/Skripsi</label><br>
+                                    <input class="form-control" type="text" id="judulTa" name="judulTa" maxlength="255">
+                                </div>
+                            </div>
+                            <div class="form-row" id="gradSchool2" style="display:none">
+                                <div class="col-md-12">
+                                    <label style="font-size: 10pt;" for="deskripsiTa">Deskripsi TA/Skripsi</label>
+                                    <input class="form-control" type="text" id="deskripsiTa" name="deskripsiTa" maxlength="5000">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <label style="font-size: 10pt;" for="notes">Catatan</label>
+                                    <textarea class="form-control" type="text" id="notes" name="notes" maxlength="1000"></textarea>
+                                </div>
+                            </div>
+                    </form>   
+             </div>
+             <div class="modal-footer">
+                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                 <button type="button" id="saveBtn" class="btn btn-primary">Save</button>
+             </div>
+         </div>
+     </div>
+ </div>
+
+
+ <!-- Form Edit Data  -->
+ <div class="modal fade" id="editData" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+ aria-hidden="true">
+ <div class="modal-dialog modal-lg" role="document">
+     <div class="modal-content">
+         <div class="modal-header">
+             <h3 class="modal-title">Form Edit Education</h3>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+             </button>
+         </div>
+         <div class="modal-body">
+                <form id="formEditData">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <input class="form-control" type="hidden" id="eid" name="eid">
+                                <label style="font-size: 10pt;" for="schoolName">Nama Sekolah/Instansi*</label><br>
+                                <input class="form-control" type="text" id="eschoolName" name="schoolName" maxlength="100">
+                            </div>
+                            <div class="col-md-3">
+                                <label style="font-size: 10pt;" for="city">Kota</label><br>
+                                <input class="form-control" type="text" id="ecity" name="city" maxlength="50">
+                            </div>
+                            <div class="col-md-3">
+                                <label style="font-size: 10pt;" for="country">Negara</label><br>
+                                <input class="form-control" type="text" id="ecountry" name="country" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label style="font-size: 10pt;" for="educationLevelId">Jenjang Pendidikan *</label><br>
+                                <select class="form-control" name="educationLevelId" id="eeducationLevelId"></select>
+                            </div>
+                            <div class="col-md-3">
+                                <label style="font-size: 10pt;" for="entryYear">Tahun Masuk</label><br>
+                                <select class="form-control eget_education_level" name="entryYear" id="eentryYear"></select>
+                            </div>
+                            <div class="col-md-3">
+                                <label style="font-size: 10pt;" for="graduationYear">Tahun Lulus</label><br>
+                                <select class="form-control eget_education_level" name="graduationYear" id="egraduationYear"></select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label style="font-size: 10pt;" for="major">Jurusan</label><br>
+                                <input class="form-control" type="text" id="emajor" name="major" maxlength="100">
+                            </div>
+                            <div class="col-md-6">
+                                <label style="font-size: 10pt;" for="gpa">IPK</label><br>
+                                <input class="form-control" type="text" id="egpa" name="gpa">
+                            </div>
+                        </div>
+                        <div class="form-row" id="egradSchool1" style="display:none">
+                            <div class="col-md-12">
+                                <label style="font-size: 10pt;" for="judulTa">Judul TA/Skripsi</label><br>
+                                <input class="form-control" type="text" id="ejudulTa" name="judulTa" maxlength="255">
+                            </div>
+                        </div>
+                        <div class="form-row" id="egradSchool2" style="display:none">
+                            <div class="col-md-12">
+                                <label style="font-size: 10pt;" for="deskripsiTa">Deskripsi TA/Skripsi</label>
+                                <input class="form-control" type="text" id="edeskripsiTa" name="deskripsiTa" maxlength="5000">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <label style="font-size: 10pt;" for="notes">Catatan</label>
+                                <textarea class="form-control" type="text" id="enotes" name="notes" maxlength="1000"></textarea>
+                            </div>
+                        </div>
+                </form>   
+         </div>
+         <div class="modal-footer">
+             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+             <button type="button" id="editBtn" class="btn btn-primary">Update</button>
+         </div>
+     </div>
+ </div>
+</div>
+  </th:block>
+  <th:block layout:fragment="vacancy">
+
+  <script>
+     $(() => {
+  loadData();
+});
+ loadData = () => {
+  $.ajax({
+    url: 'api/biodata/',
+    type: 'get',
+    contentType: 'application/json',
+    success: (res) => {
+      $('#showList').html("");
+      res.map((data) => {
+        var actions = 
+        '<div class="col-md-7">\n'+
+        '   <div class="align-right text-right" style="margin-right:30px;">\n'+
+        '       <a onclick="get_id_biodata(' + data.id + ')" data-toggle="modal" data-target="#detailVacancy" href="#"><i class="fa fa-search" aria-hidden="true"></i></a>\n'+
+        '       <a href="/vacancy/"><i class="fa fa-envelope" aria-hidden="true" ></i></a>\n'+
+        '   </div>\n'+
+        '</div>'
+        var markup = 
+        '<div class="card bg-light text-dark">\n'+
+        '<div class="searchable-container">\n'+
+        '<div class="items col-xs-12 col-sm-12 col-md-12 col-lg-12 mb-3 clearfix">\n'+
+        '    <div class="info-block block-info clearfix">\n'+
+        '    <h4><strong>' + data.fullName +'</strong></h4>\n'+
+        '    <div class="row">\n'+
+        '        <div class="col-md-2">\n'+
+        '              <p>Nama Panggilan</p>\n'+
+        '        </div>\n'+
+        '       <div class="col-md-3">\n'+
+        '              <p class="text-left"><strong>' + data.nickName + '</strong></p>\n'+
+        '        </div>\n'+
+        '    </div>\n'+
+        '   <div class="row">\n'+
+        '        <div class="col-md-2">\n'+
+        '              <p>Email</p>\n'+
+        '        </div>\n'+
+        '        <div class="col-md-3">\n'+
+        '              <p class="text-left"><strong>' + data.email + '</strong></p>\n'+
+        '        </div>\n'+
+        '        ' + actions + '\n'+
+        '    </div>\n'+
+        '    <div class="row">\n'+
+        '        <div class="col-md-2">\n'+
+        '             <p>No. Handphone</p>\n'+
+        '       </div>\n'+
+        '        <div class="col-md-3">\n'+
+        '              <p class="text-left"><strong>' + data.phoneNumber1 + '</strong></p>\n'+
+        '        </div>\n'+
+        '    </div>\n'+
+        '    <div class="row">\n'+
+        '        <div class="col-md-2">\n'+
+        '              <p>Pendidikan</p>\n'+
+        '        </div>\n'+
+        '        <div class="col-md-5">\n'+
+        '              <p class="text-left"><strong>Teknik Informatika, Harvard University</strong></p>\n'+
+        '        </div>\n'+
+        '    </div>\n'+
+        '</div>\n'+
+        '</div>\n'+
+        '</div>\n'+
+        '</div>'
+        $('#showList').append(markup)
+      })
+    },
+    error: () => {
+      console.log('fetch data failed')
+    }
+  })
+}
+
+$(function() {    
+  $('#input-search').on('keyup', function() {
+    var rex = new RegExp($(this).val(), 'i');
+    $('.searchable-container .items').hide();
+    $('.searchable-container .items').filter(function() {
+      return rex.test($(this).text());
+    }).show();
+  });
+});
+
+    
+$('#showAddData').click(() => {
+  $('#addData').modal('show');
+  $('#detailVacancy').modal('hide');
+})
+
+$(() => {
+    get_entry_year();
+});
+get_entry_year = () => {
+  var current_year = new Date();
+  var year = current_year.getFullYear();
+  var value_year = "";
+  value_year += '<option value="">- Pilih -</option>';
+  var i = 1990;
+  while (i <= year) {
+    value_year += `<option value="`+ i +`">`+ i +`</option>`;
+    i++;
+}
+$("#entryYear").html(value_year);
+}
+
+
+$(() => {
+    get_graduation_year();
+});
+get_graduation_year = () => {
+    $(document).ready(function(){
+  $('#entryYear').on('change', function() {
+    var current_year = new Date();
+  var year = current_year.getFullYear();
+  var value_year = "";
+  value_year += '<option value="">- Pilih -</option>';
+  var j = this.value;
+  while (j <= year) {
+    value_year += `<option value="`+ j +`">`+ j +`</option>`;
+    j++;
+}
+$("#graduationYear").html(value_year);
+  });
+  });
+  
+}
+
+$(() => {
+    eget_entry_year();
+});
+eget_entry_year = () => {
+  var current_year = new Date();
+  var year = current_year.getFullYear();
+  var value_year = "";
+  value_year += '<option value="">- Pilih -</option>';
+  var i = 1990;
+  while (i <= year) {
+    value_year += `<option value="`+ i +`">`+ i +`</option>`;
+    i++;
+}
+$("#eentryYear").html(value_year);
+}
+
+
+$(() => {
+    eget_graduation_year();
+});
+eget_graduation_year = () => {
+  var current_year = new Date();
+  var year = current_year.getFullYear();
+  var value_year = "";
+  value_year += '<option value="">- Pilih -</option>';
+  var j = 1990;
+  while (j <= year) {
+    value_year += `<option value="`+ j +`">`+ j +`</option>`;
+    j++;
+}
+$("#egraduationYear").html(value_year);
+}
+
+
+
+$(() => {
+  get_education_level();
+});
+get_education_level = () => {
+  $.ajax({
+    url: 'api/education-level',
+    type: 'get',
+    contentType: "application/json",
+    success: function (result) {
+      var optValue = "";
+      optValue += '<option value="">- Pilih -</option>';
+      for (var i = 0; i < result.length; i++){
+        optValue += `<option value="${result[i].id}">${result[i].name}</option>`;
+      }
+      $("#educationLevelId").html(optValue);
+
+    },
+    error : function()
+    {
+      swal("","Gagal Mengambil Data", "error");
+    }
+  })
+}
+
+
+function get_id_biodata(id) {
+  $.ajax({
+    url: 'api/biodata/' + id,
+    type: 'get',
+    contentType: 'application/json',
+    success: (res) => {
+        $("#biodataId").val(id);
+      $.ajax({
+        url: 'api/education/level/'+ id,
+        type: 'get',
+        contentType: 'application/json',
+        success: (res) => {
+          $('#tbEducation').html("");
+          res.map((data) => {
+            
+            var actions = '<div class="input-group-btn">\n' +
+            '             <div class="dropdown show">\n' +
+            '                 <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Action </a>\n' +
+            '            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">\n' +
+            '                 <a class="dropdown-item" onclick="get_id_education_edit(' + data.id + ')" data-toggle="modal" data-target="#editData">Edit</a>\n' +
+            '                 <a class="dropdown-item" onclick="get_id_education_delete(\'' + data.id + '\',\'' + data.schoolName + '\',\'' + id + '\')">Delete</a>\n' +
+            '            </div>\n' +
+            '             </div>\n' +
+            '        </div>'
+            var markup = "<tr class='text-left'><td>" + data.schoolName + "</td><td>" + data.name + "</td><td>" + data.entryYear + " s.d " + data.graduationYear + "</td><td>" + data.major + "</td><td>" + data.gpa + "</td><td class='align-middle text-center'>" + actions + "</td></tr>"
+            $('#tbEducation').append(markup)
+          })
+        },
+        error: () => {
+          console.log('fetch data failed')
+        }
+      })
+    },
+    error: () => {
+      console.log("error fetch data")
+    }
+  })
+}
+
+function get_id_education_delete(vacancyId, schoolName, id) {
+    $('#detailVacancy').modal('hide');
+    const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: 'btn btn-danger',
+    cancelButton: 'btn btn-warning'
+  },
+  buttonsStyling: false
+})
+
+swalWithBootstrapButtons.fire({
+  title: 'Hapus Pendidikan ?',
+  text: "Anda yakin ingin menghapus pendidikan di " + schoolName + " ?",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonText: 'Ya',
+  cancelButtonText: 'Tidak',
+  reverseButtons: true
+}).then((result) => {
+  if (result.value) {
+    $.ajax({
+        url: 'api/education/' + vacancyId,
+        type: 'delete',
+        contentType: 'application/json',
+        success: () => {
+            get_id_biodata(id);
+            swalWithBootstrapButtons.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+            )
+            $('#detailVacancy').modal('show');
+            
+            
+        },
+    })
+  } else if (
+    /* Read more about handling dismissals below */
+    result.dismiss === Swal.DismissReason.cancel
+  ) {
+    swalWithBootstrapButtons.fire(
+      'Cancelled',
+      'Your imaginary file is safe :)',
+      'error'
+    )
+  }
+})
+}
+
+
+function get_id_education_edit(vacancyId) {
+    $('#detailVacancy').modal('hide');
+  $.ajax({
+    url: 'api/education/' + vacancyId,
+    type: 'get',
+    contentType: 'application/json',
+    success: (res) => {
+      $('#formEditData')[0].reset();
+      $('#eid').val(res.id),
+      $('#eschoolName').val(res.schoolName),
+      $('#ecity').val(res.city),
+      $('#ecountry').val(res.country),
+      $('#eentryYear').val(res.entryYear),
+      $('#egraduationYear').val(res.graduationYear),
+      $('#emajor').val(res.major),
+      $('#egpa').val(res.gpa),
+      $('#ejudulTa').val(res.judulTa),
+      $('#edeskripsiTa').val(res.deskripsiTa),
+      $('#enotes').val(res.notes),
+      $.ajax({
+        url: 'api/education-level',
+        type: 'get',
+        contentType: "application/json",
+        success: function (result) {
+          var optValue = "";
+          optValue += '<option value="">- Pilih -</option>';
+          for (var i = 0; i < result.length; i++){
+            if(res.educationLevelId == result[i].id){
+              optValue += `<option value="${result[i].id}" selected="selected">${result[i].name}</option>`;
+            } else {
+              optValue += `<option value="${result[i].id}">${result[i].name}</option>`;
+            }
+          }          
+          $("#eeducationLevelId").html(optValue);
+  
+        },
+        error : function()
+        {
+          swal("","Gagal Mengambil Data", "error");
+        }
+      })
+    },
+    error: () => {
+      console.log("error fetch data")
+    }
+  })
+}
+
+$(document).ready(function(){
+  $('#eeducationLevelId').on('change', function() {
+    if ( this.value <= 4) {
+      $("#egradSchool1").hide();
+      $("#egradSchool2").hide();     
+    } else {
+      $("#egradSchool1").show();
+      $("#egradSchool2").show();
+    }
+  });
+  });
+
+$(document).ready(function(){
+  $('#educationLevelId').on('change', function() {
+    if ( this.value <= 4) {
+      $("#gradSchool1").hide();
+      document.getElementById('judulTa').value='-';
+      $("#gradSchool2").hide();
+      document.getElementById('deskripsiTa').value='-';       
+    } else {
+      $("#gradSchool1").show();
+      document.getElementById('judulTa').value='';
+      $("#gradSchool2").show();
+      document.getElementById('deskripsiTa').value='';
+    }
+  });
+  });
+
+  $('#editBtn').click(() => {
+    var data = getFormData($('#formEditData'));
+    console.log(JSON.stringify(data));
+    $.ajax({
+      url: 'api/education/' +  $('#eid').val(),
+      type: 'put',
+      contentType: 'application/json',
+      data: JSON.stringify(data),
+      success: (res) => {
+        alert("Data has been added");
+        loadData();
+      },
+      error: () => {
+        alert('gagal update')
+      }
+    })
+  })
+
+
+  $('#saveBtn').click(() => {
+    var data = getFormData($('#formAddData'));
+    console.log(JSON.stringify(data));
+    $.ajax({
+      url: 'api/education/',
+      type: 'post',
+      contentType: 'application/json',
+      data: JSON.stringify(data),
+      success: (res) => {
+        $('#addData').modal('hide');
+        alert("Data has been added");
+        $('#detailVacancy').modal('show');
+      },
+      error: () => {
+        alert('gagal')
+      }
+    })
+  })
+
+  function getFormData($form) {
+    var unindexed_array = $form.serializeArray();
+    var indexed_array = {};
+    $.map(unindexed_array, function (n, i) {
+      indexed_array[n['name']] = n['value'];
+    });
+    return indexed_array;
+  }
+
+  </script>
+
+</th:block> 
+</html>
