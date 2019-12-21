@@ -9,10 +9,12 @@ import com.xsis.xsis.repository.PengalamanKerjaRepository;
 import com.xsis.xsis.services.PengalamanKerjaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * PengalamanKerjaServiceImpl
  */
+@Service
 public class PengalamanKerjaServiceImpl implements PengalamanKerjaService {
 
     @Autowired
