@@ -1,0 +1,473 @@
+$(() => {
+  get_all_data();
+  get_marriage_year();
+});
+
+
+function get_religion(relId) {
+  $.ajax({
+    url: '../api/religion',
+    type: 'get',
+    contentType: "application/json",
+    success: function (rel) {
+      var optValue = "";
+      optValue += '<option value="">- Pilih Agama -</option>';
+      for (var i = 0; i < rel.length; i++) {
+        if (relId == rel[i].id) {
+          optValue += `<option value="${rel[i].id}" selected="selected">${rel[i].name}</option>`;
+        } else {
+          optValue += `<option value="${rel[i].id}">${rel[i].name}</option>`;
+        }
+      }
+      $("#get_religion").html(optValue);
+    },
+    error: function () {
+      swal("", "Gagal Mengambil Data", "error");
+    }
+  })
+};
+
+
+function get_marital(marId) {
+  $.ajax({
+    url: '../api/marital',
+    type: 'get',
+    contentType: "application/json",
+    success: function (mar) {
+      var optValue = "";
+      optValue += '<option value="">- Pilih Status -</option>';
+      for (var i = 0; i < mar.length; i++) {
+        if (marId == mar[i].id) {
+          optValue += `<option value="${mar[i].id}" selected="selected">${mar[i].name}</option>`;
+        } else {
+          optValue += `<option value="${mar[i].id}">${mar[i].name}</option>`;
+        }
+      }
+      $("#get_marital_status").html(optValue);
+    },
+    error: function () {
+      swal("", "Gagal Mengambil Data", "error");
+    }
+  })
+};
+
+
+function get_identitas(identId) {
+  $.ajax({
+    url: '../api/identitas',
+    type: 'get',
+    contentType: "application/json",
+    success: function (ident) {
+      var optValue = "";
+      optValue += '<option value="">- Pilih Identitas -</option>';
+      for (var i = 0; i < ident.length; i++) {
+        if (identId == ident[i].id) {
+          optValue += `<option value="${ident[i].id}" selected="selected">${ident[i].name}</option>`;
+        } else {
+          optValue += `<option value="${ident[i].id}">${ident[i].name}</option>`;
+        }
+      }
+      $("#get_type_identity").html(optValue);
+    },
+    error: function () {
+      swal("", "Gagal Mengambil Data", "error");
+    }
+  })
+};
+
+
+function get_marriage_year() {
+  var current_year = new Date();
+  var year = current_year.getFullYear();
+  var value_year = "";
+  value_year += '<option value="">- Pilih Tahun Nikah -</option>';
+  var i = 1990;
+  while (i <= year) {
+    value_year += `<option value="` + i + `">` + i + `</option>`;
+    i++;
+  }
+  $("#get_marriage_year").html(value_year);
+}
+
+function get_all_data() {
+  var number = 1;
+  $("#data_rows").html(
+    `<tr> <td colspan="4" style="text-align:center"><i>Loading...</i> </td></td></tr>`
+  )
+  $.ajax({
+    url: '/api/biodata/',
+    type: 'get',
+    contentType: "application/json",
+    success: function (result) {
+
+      $("#data_rows").html("");
+      if (result.length > 0) {
+        for (let i = 0; i < result.length; i++) {
+          $("#data_rows").append(
+            `
+                        <tr>
+                          <td> ${number}</td>
+                          <td> ${result[i].fullName}</td>
+                          <td> ${result[i].email}</td>
+
+                        <td>
+                        <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-info">Aksi</button>
+                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu p-2">
+                            <li><a class="dropdown-item" onclick="get_data_byid( ${result[i].id},'edit')" >Edit</a></li>
+                           <li> <a class="dropdown-item" onclick="hapus(${result[i].id})">Hapus</a></li>
+                           <li> <a class="dropdown-item" onclick="get_data_byid(${result[i].id},'detail')" >Detail</a></li>
+                        </ul>
+                    </div>
+                        </td>
+                       </tr> `);
+          number++;
+        }
+      } else {
+        $("#data_rows").html(`<tr> <td colspan="4" style="text-align:center"><i>Loading...</i> </td></tr>`)
+      }
+    },
+    error: function () {
+      swal("", "Failed to fetch data", "error")
+    }
+  });
+
+};
+
+// get data by id Biodata
+function get_data_byid(id, action) {
+  $("#action").val(action);
+
+  $.ajax({
+    url: '/api/biodata/' + id,
+    type: 'get',
+    contentType: "application/json",
+    success: function (result) {
+
+      $("#get_form_biodata")[0].reset();
+
+      get_marital(result.maritalStatus.id);
+      get_religion(result.religion.id);
+      get_identitas(result.identityType.id);
+
+      $("#get_id").val(result.id);
+      $("#get_companyid").val(result.companyId);
+      $("#get_full_name").val(result.fullName);
+      $("#get_nickname").val(result.nickName);
+      $("#get_pob").val(result.pob);
+      $('#get_dob').val(result.dob);
+
+      var optValue = "";
+      optValue += '<option value="">- Pilih -</option>';
+      if (result.gender == true) {
+        optValue += `<option value="true" selected="selected">Laki-laki</option>`;
+        optValue += `<option value="false">Perempuan</option>`;
+      } else {
+        optValue += `<option value="true">Laki-laki</option>`;
+        optValue += `<option value="false" selected="selected">Perempuan</option>`;
+      }
+      $("#get_gender").html(optValue);
+
+      $("#get_hight").val(result.hight);
+      $("#get_weight").val(result.weight);
+      $("#get_nationality").val(result.nationality);
+      $("#get_ethnic").val(result.ethnic);
+      $("#get_hobby").val(result.hobby);
+      $("#get_email").val(result.email);
+      $("#get_no_hp1").val(result.phoneNumber1);
+      $("#get_no_hp2").val(result.phoneNumber2);
+      $("#get_parent_telphone").val(result.parentPhoneNumber);
+      $("#get_child_secuence").val(result.childSequence);
+      $("#get_how_many_brother").val(result.howManyBrothers);
+      $("#get_marriage_year").val(result.marriageYear);
+      $("#get_no_indentity").val(result.identityNo);
+
+      $.ajax({
+        url: '/api/address/bio/' + result.id,
+        type: 'get',
+        contentType: "application/json",
+        success: function (res) {
+
+          let add = res[0];
+
+          $("#get_addressid").val(add.id);
+          $("#get_address1").val(add.address1);
+          $("#get_address2").val(add.address2);
+          $("#get_postal_code1").val(add.postalCode1);
+          $("#get_postal_code2").val(add.postalCode2);
+          $("#get_rt1").val(add.rt1);
+          $("#get_rt2").val(add.rt2);
+          $("#get_rw1").val(add.rw1);
+          $("#get_rw2").val(add.rw2);
+          $("#get_kelurahan1").val(add.kelurahan1);
+          $("#get_kelurahan2").val(add.kelurahan2);
+          $("#get_kecamatan1").val(add.kecamatan1);
+          $("#get_kecamatan2").val(add.kecamatan2);
+          $("#get_region1").val(add.region1);
+          $("#get_region2").val(add.region2);
+
+        },
+        error: function () {
+          swal.fire("", "Failed Load address", "error");
+        }
+      });
+
+      if (action == "detail") {
+        $(".modal-judul").text("Detail Pelamar ");
+        $(".get_biodata").attr("disabled", true);
+      } else {
+        $(".modal-judul").text("Edit Biodata");
+        $(".get_biodata").attr("disabled", false);
+      }
+      $("#modal-biodata").modal("show");
+    },
+
+    error: function () {
+      swal.fire("", "Failed to fetch the data", "error");
+    }
+
+  });
+
+};
+
+$("#add_button").click(function () {
+  get_marital();
+  get_religion();
+  get_identitas();
+  $(".modal-judul").text("Tambah Pelamar");
+  $(".get_biodata").attr("disabled", false);
+  $("#get_form_biodata")[0].reset();
+  $("#get_id").val("");
+
+  var optValue = "";
+  optValue += '<option value="">- Pilih -</option>';
+  optValue += `<option value="true">Laki-laki</option>`
+  optValue += `<option value="false">Perempuan</option>`;
+
+  $("#get_gender").html(optValue);
+  $("#action").val("add");
+  $("#modal-biodata").modal("show");
+});
+
+
+$("#save_button").click(function () {
+
+  var action = $("#action").val();
+
+  var data = {
+    id: $("#get_id").val(),
+    fullName: $("#get_full_name").val(),
+    nickName: $("#get_nickname").val(),
+    pob: $("#get_pob").val(),
+    dob: $("#get_dob").val(),
+    gender: $("#get_gender").val(),
+    hight: $("#get_hight").val(),
+    weight: $("#get_weight").val(),
+    nationality: $("#get_nationality").val(),
+    ethnic: $("#get_ethnic").val(),
+    hobby: $("#get_hobby").val(),
+    email: $("#get_email").val(),
+    phoneNumber1: $("#get_no_hp1").val(),
+    phoneNumber2: $("#get_no_hp2").val(),
+    parentPhoneNumber: $("#get_parent_telphone").val(),
+    childSequence: $("#get_child_secuence").val(),
+    howManyBrothers: $("#get_how_many_brother").val(),
+    marriageYear: $("#get_marriage_year").val(),
+    identityNo: $("#get_no_indentity").val(),
+    companyId: $("#get_companyid").val(),
+
+    religion: {
+      id: $("#get_religion").val()
+    },
+    maritalStatus: {
+      id: $("#get_marital_status").val()
+    },
+    identityType: {
+      id: $("#get_type_identity").val()
+    },
+
+    biodataId: {
+      id: $("#get_id").val()
+    },
+    idA: $("#get_addressid").val(),
+    address1: $("#get_address1").val(),
+    address2: $("#get_address2").val(),
+    rt1: $("#get_rt1").val(),
+    rt2: $("#get_rt2").val(),
+    rw1: $("#get_rw1").val(),
+    rw2: $("#get_rw2").val(),
+    kelurahan1: $("#get_kelurahan1").val(),
+    kelurahan2: $("#get_kelurahan2").val(),
+    kecamatan1: $("#get_kecamatan1").val(),
+    kecamatan2: $("#get_kecamatan2").val(),
+    region1: $("#get_region1").val(),
+    region2: $("#get_region2").val(),
+    postalCode1: $("#get_postal_code1").val(),
+    postalCode2: $("#get_postal_code2").val(),
+  };
+
+  if (action == "add") {
+    type = 'post';
+  } else if (action == "edit") {
+    type = 'put';
+  }
+
+
+
+  //Mengambil nilai inputan
+  var fullName = $("#get_full_name").val();
+  var nickName = $("#get_nickname").val();
+  var pob = $("#get_pob").val();
+  var dob = $("#get_dob").val();
+  var gender = $("#get_gender").val();
+  var email = $("#get_email").val();
+  var phoneNumber1 = $("#get_no_hp1").val();
+  var parentPhoneNumber = $("#get_parent_telphone").val();
+  // var childSequence = $("#get_child_secuence").val();
+  // var howManyBrothers = $("#get_how_many_brother").val();
+
+  var religion = $("#get_religion").val();
+  var maritalStatus = $("#get_marital_status").val();
+  var identityType = $("#get_type_identity").val();
+  // ending inputan
+
+  // $.ajax({
+  //   url: '/api/biodata/',
+  //   type: 'get',
+  //   contentType: "application/json",
+  //   success: function (cek) {
+  //     if (cek.length > 0) {
+  //       for (let i = 0; i < cek.length; i++) {
+  //         if (email == cek[i].email) {
+  //           swal.fire("Email telah digunakan", "warning");
+  //         }
+  //       }
+  //     }
+  //   }
+  // });
+
+
+  // if (maritalStatus == "Single") {
+  //   $(".marr-sts").attr("disabled", true);
+  // } else {
+  //   $(".marr-sts").attr("disabled", false);
+  // }
+
+  if (fullName == "" || null) {
+    // $('#get_full_name').addClass("is-invalid");
+    swal.fire("Penting", "Mohon isi nama lengkap anda", "warning");
+
+  } else if (nickName == "" || null) {
+    // $('#get_full_name').removeClass("is-invalid");
+    // $('#get_nickname').addClass("is-invalid");
+    // $('#get_full_name').addClass("is-valid");
+    swal.fire("Penting", "Mohon isi nama Panggilan anda", "warning");
+
+  } else if (pob == "" || null) {
+    // $('#get_nickname').removeClass("is-invalid");
+    // $('#get_pob').addClass("is-invalid");
+    // $('#get_nickname').addClass("is-valid");
+    swal.fire("Penting", "Mohon isi nama Tempat Lahir anda", "warning");
+
+  } else if (dob == "" || null) {
+    // $('#get_pob').removeClass("is-invalid");
+    // $('#get_dob').addClass("is-invalid");
+    // $('#get_pob').addClass("is-valid");
+    swal.fire("Penting", "Mohon isi nama Tanggal Lahir anda", "warning");
+
+  } else if (gender == "" || null) {
+    // $('#get_dob').removeClass("is-invalid");
+    // $('#get_gender').addClass("is-invalid");
+    // $('#get_dob').addClass("is-valid");
+    swal.fire("Penting", "Anda belum memilih jenis kelamin.", "question");
+
+  } else if (religion == "" || null) {
+    // $('#get_gender').removeClass("is-invalid");
+    // $('#get_religion').addClass("is-invalid");
+    // $('#get_gender').addClass("is-valid");
+    swal.fire("Penting", "Anda belum memilih Agama.", "question");
+
+  } else if (identityType == "" || null) {
+    // $('#get_religion').removeClass("is-invalid");
+    // $('#get_type_identity').addClass("is-invalid");
+    // $('#get_religion').addClass("is-valid");
+    swal.fire("Penting", "Anda belum memilih tipe identitas.", "question");
+
+  } else if (email == "" || null) {
+    // $('#get_religion').removeClass("is-invalid");
+    // $('#get_email').addClass("is-invalid");
+    // $('#get_religion').addClass("is-valid");
+    swal.fire("Penting", "Pastikan email telah diisi.", "info");
+
+  } else if (phoneNumber1 == "" || null) {
+    // $('#get_email').removeClass("is-invalid");
+    // $('#get_no_hp1').addClass("is-invalid");
+    // $('#get_email').addClass("is-valid");
+    swal.fire("Penting", "Pastikan email telah diisi.", "info");
+
+  } else if (parentPhoneNumber == "" || null) {
+    // $('#get_no_hp1').removeClass("is-invalid");
+    // $('#get_parent_telphone').addClass("is-invalid");
+    // $('#get_no_hp1').addClass("is-valid");
+    swal.fire("Penting", "Pastikan email telah diisi.", "info");
+
+  } else if (maritalStatus == "" || null) {
+    // $('#get_email').removeClass("is-invalid");
+    // $('#get_marital_status').addClass("is-invalid");
+    // $('#get_email').addClass("is-valid");
+    swal.fire("Penting", "Status pernikahanmu?", "question");
+
+  } else {
+    $.ajax({
+      url: '/api/biodata',
+      type: type,
+      contentType: "application/json",
+      data: JSON.stringify(data),
+      success: function (result) {
+
+        $("#get_form_biodata")[0].reset();
+        get_all_data();
+        Swal.fire("", "Successfully " + action + " data", "success")
+        $("#modal-biodata").modal("hide");
+      },
+      error: function () {
+        Swal.fire("", "Failed to " + action + " data", "error");
+      }
+    });
+  }
+});
+
+function hapus(id) {
+  var data = {
+    id: $("#get_id").val()
+  }
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.value) {
+      $.ajax({
+        url: '/api/biodata/' + id,
+        type: 'delete',
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (result) {
+          get_all_data();
+          Swal.fire("", "Berhasil menghapus data", "success");
+        },
+        error: function () {
+          Swal.fire("", "Gagal menghapus data", "error")
+        }
+      });
+    }
+  })
+};

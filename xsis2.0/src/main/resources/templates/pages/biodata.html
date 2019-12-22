@@ -1,0 +1,426 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  xmlns:with="http://www.thymeleaf.org/extras/with" layout:decorate="~{layout}" with:title="'B210'">
+<th:block layout:fragment="content">
+  <div class="bottom p-4">
+    <div class="col">
+      <div class="container">
+        <h1 class="mb-2">Biodata Pelamar</h1>
+        <button id="add_button" class="btn btn-info btn-sm nBtn mb-3"> Tambah Pelamar </button>
+        <div class="card">
+          <div class="card-block">
+            <table class="table table-hover table-responsive-sm">
+              <thead class="">
+                <th>No</th>
+                <th>Nama Lengkap</th>
+                <th>Email</th>
+                <th>Action</th>
+              </thead>
+
+              <tbody id="data_rows">
+                <!-- Tempat data di isikan oleh java script -->
+              </tbody>
+
+            </table>
+            <hr />
+          </div>
+          <div class="modal-body">
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal untuk menampilkna cuy..tinggal modif aja isinya sesuai kebutuhan -->
+  <div class="modal fade" id="modal-biodata">
+    <div class="modal-dialog  modal-lg modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-judul">Biodata</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+
+          <!-- <div class="row"> -->
+          <!-- <div class="col-3">
+              <div class="list-group" id="list-tab" role="tablist">
+
+                <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list"
+                  href="#list-profile" role="tab" aria-controls="profile">Profile</a>
+                <a class="list-group-item list-group-item-action" id="list-biodata-list" data-toggle="list"
+                  href="#list-biodata" role="tab" aria-controls="biodata">Biodata</a>
+                <a class="list-group-item list-group-item-action" id="list-pengalaman-list" data-toggle="list"
+                  href="#list-pengalaman" role="tab" aria-controls="pengalaman">Pengalaman Kerja</a>
+                <a class="list-group-item list-group-item-action" id="list-pendidikan-list" data-toggle="list"
+                  href="#list-pendidikan" role="tab" aria-controls="pendidikan">pendidikan </a>
+                <a class="list-group-item list-group-item-action" id="list-pelatihan-list" data-toggle="list"
+                  href="#list-pelatihan" role="tab" aria-controls="pelatihan">Pelatihan </a>
+                <a class="list-group-item list-group-item-action" id="list-sertifikasi-list" data-toggle="list"
+                  href="#list-sertifikasi" role="tab" aria-controls="sertifikasi">Sertifikasi </a>
+                <a class="list-group-item list-group-item-action" id="list-sumber-list" data-toggle="list"
+                  href="#list-sumber" role="tab" aria-controls="sumber">Sumber Lowongan Kerja </a>
+                <a class="list-group-item list-group-item-action" id="list-organisasi-list" data-toggle="list"
+                  href="#list-organisasi" role="tab" aria-controls="organisasi">Organisasi </a>
+                <a class="list-group-item list-group-item-action" id="list-keluarga-list" data-toggle="list"
+                  href="#list-keluarga" role="tab" aria-controls="keluarga">Keluarga </a>
+                <a class="list-group-item list-group-item-action" id="list-keahlian-list" data-toggle="list"
+                  href="#list-keahlian" role="tab" aria-controls="keahlian">Keahlian </a>
+                <a class="list-group-item list-group-item-action" id="list-lainlain-list" data-toggle="list"
+                  href="#list-lainlain" role="tab" aria-controls="lainlain">Lain-lain </a>
+                <a class="list-group-item list-group-item-action" id="list-document-list" data-toggle="list"
+                  href="#list-document" role="tab" aria-controls="document">Document </a>
+                <a class="list-group-item list-group-item-action" id="list-catatan-list" data-toggle="list"
+                  href="#list-catatan" role="tab" aria-controls="catatan">Catatan </a>
+                <a class="list-group-item list-group-item-action" id="list-activasi-list" data-toggle="list"
+                  href="#list-activasi" role="tab" aria-controls="activasi">Aktivasi Akun </a>
+                <a class="list-group-item list-group-item-action" id="list-lihattes-list" data-toggle="list"
+                  href="#list-lihattes" role="tab" aria-controls="lihattes">Lihat Tes </a>
+                <a class="list-group-item list-group-item-action" id="list-hasiltes-list" data-toggle="list"
+                  href="#list-hasiltes" role="tab" aria-controls="hasiltes">Hasil Tes </a>
+
+              </div>
+            </div> -->
+          <!-- <div class="col-9 p-3">
+              <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade" id="list-biodata" role="tabpanel" aria-labelledby="list-biodata-list"> -->
+          <input type="hidden" id="action" value="">
+          <form id="get_form_biodata" class="needs-validation" novalidate>
+            <input type="hidden" id="get_id" name="id" class="get_biodata">
+            <input type="hidden" id="get_addressid" name="id" class="get_biodata">
+            <input type="hidden" id="get_companyid" name="id" class="companyId" value="1">
+            <!-- ROw Pertama -->
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="get_full_name">Nama Lengkap*</label>
+                  <input type="text" name="fullName" id="get_full_name" class="form-control get_biodata" required>
+                  <div class="invalid-feedback">
+                    Harap mengisi data nama lengkap dengan benar.
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="get_nickname">Nama Panggilan*</label>
+                  <input type="text" name="nickName" id="get_nickname" class="form-control get_biodata" required>
+                </div>
+              </div>
+            </div>
+            <!-- Row kedua -->
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="get_pob">Tempat Lahir*</label>
+                  <input type="text" name="pob" id="get_pob" class="form-control get_biodata" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="get_dob">Tgl Lahir(dd/bb/tttt)*</label>
+                  <input type="date" name="dob" id="get_dob" class="form-control get_biodata" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="get_gender">Jenis Kelamin*</label>
+                  <select class="custom-select get_biodata" id="get_gender" name="gender" required>
+                    <option selected>Pilih...</option>
+                    <option value="true">Laki-laki</option>
+                    <option value="false">Perempuan</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <!-- Menampilkan nama Agama -->
+                  <label for="get_religion">Agama</label>
+                  <select class="custom-select get_biodata" id="get_religion" name="religion" required>
+                    <!-- <option value="">- Pilih -</option> -->
+                  </select>
+                </div>
+              </div>
+            </div>
+            <!-- row ketiga -->
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="get_hight">Tinggi(cm)*</label>
+                  <input min="0" type="number" name="hight" id="get_hight" class="form-control get_biodata" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="get_weight">Berat Badan(Kg)*</label>
+                  <input min="0" type="number" name="weight" id="get_weight" class="form-control get_biodata" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="get_nationality">Kewarganegaraan*</label>
+                  <input type="text" name="nationality" id="get_nationality" class="form-control get_biodata" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="get_ethnic">Suku Bangsa</label>
+                  <input type="text" name="ethnic" id="get_ethnic" class="form-control get_biodata" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- row ke empat -->
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="get_hobby">Kegemaran/Hobi</label>
+                  <input type="text" name="hobby" id="get_hobby" class="form-control get_biodata" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="get_type_identity">Jenis Identitas*</label>
+                      <!-- di isi dengan javascrip menggunakan ajax -->
+                      <select class="custom-select get_biodata" id="get_type_identity" name="identityType"></select>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="get_no_indentity">Nomor Identitas</label>
+                      <input type="number" name="identityNo" id="get_no_indentity" class="form-control get_biodata"
+                        required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- row kelima -->
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="get_email">Email*</label>
+                  <input type="email" name="email" id="get_email" class="form-control get_biodata" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="get_no_hp1">No. HP*</label>
+                  <input type="number" min="0" name="phoneNumber1" id="get_no_hp1" class="form-control get_biodata"
+                    required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="get_no_hp2">No. HP Alternatif</label>
+                  <input type="number" min="0" name="phoneNumber2" id="get_no_hp2" class="form-control get_biodata"
+                    required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="get_parent_telphone">No. Tlp Orang Tua*</label>
+                  <input type="number" min="0" name="parentPhoneNumber" id="get_parent_telphone"
+                    class="form-control get_biodata" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- row ke enam -->
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="get_child_secuence">Anak ke*</label>
+                  <input min="0" type="number" name="childSequence" id="get_child_secuence"
+                    class="form-control get_biodata" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="get_how_many_brother">Dari berapa saudara*</label>
+                  <input type="number" min="0" name="howManyBrothers" id="get_how_many_brother"
+                    class="form-control get_biodata" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="get_marital_status">Status Pernikahan*</label>
+                  <!-- Bagian Status Pernikahan  -->
+                  <select class="custom-select get_biodata" id="get_marital_status" name="maritalStatus"></select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="get_marriage_year">Tahun Pernikahan*</label>
+                  <!-- Diisi dengan javascript -->
+                  <select class="custom-select marr_sts get_biodata" id="get_marriage_year" name="marriageYear">
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- row ke 7 -->
+            <div class="row mt-3">
+              <div class="col">
+                <h5>Alamat Sesuai Kartu Indentitas</h5>
+                <hr>
+              </div>
+              <div class="col">
+                <h5>Alamat Sesuai Tempat Tinggal saat Ini</h5>
+                <hr>
+              </div>
+            </div>
+
+            <!-- row ke 8 -->
+            <div class="row">
+              <div class="col">
+                <input type="hidden" name="biodataId" id="get_bioId" class="form-control get_biodata" required>
+
+                <div class="form-group">
+                  <label for="get_address1">Alamat*</label>
+                  <input type="text" name="address1" id="get_address1" class="form-control get_biodata" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="get_ddress2">Alamat*</label>
+                  <input type="text" name="address2" id="get_address2" class="form-control get_biodata" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- row ke 9 -->
+            <div class="row">
+              <div class="col">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="get_postal_code1">Kode Pos</label>
+                      <input min="0" type="number" name="postalCode1" id="get_postal_code1"
+                        class="form-control get_biodata" required>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label for="get_rt1">RT*</label>
+                      <input min="0" type="number" name="rt1" id="get_rt1" class="form-control get_biodata" required>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label for="get_rw1">RW*</label>
+                      <input min="0" type="number" name="rw1" id="get_rw1" class="form-control get_biodata" required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="get_postal_code2">Kode Pos</label>
+                      <input min="0" type="number" name="postalCode2" id="get_postal_code2"
+                        class="form-control get_biodata" required>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label for="get_rt2">RT*</label>
+                      <input min="0" type="number" name="rt2" id="get_rt2" class="form-control get_biodata" required>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label for="get_rw2">RW*</label>
+                      <input min="0" type="number" name="rw2" id="get_rw2" class="form-control get_biodata" required>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- row kesepuluh -->
+            <div class="row">
+              <div class="col">
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="get_kelurahan1">Desa/Kelurahan*</label>
+                      <input min="0" type="text" name="kelurahan1" id="get_kelurahan1" class="form-control get_biodata"
+                        required>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="get_kecamatan1">Kecamatan*</label>
+                      <input min="0" type="text" name="kecamatan1" id="get_kecamatan1" class="form-control get_biodata"
+                        required>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="get_region1">Kota*</label>
+                      <input min="0" type="text" name="region1" id="get_region1" class="form-control get_biodata"
+                        required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="get_kelurahan2">Desa/Kelurahan*</label>
+                      <input min="0" type="text" name="kelurahan2" id="get_kelurahan2" class="form-control get_biodata"
+                        required>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="get_kecamatan2">Kecamatan*</label>
+                      <input min="0" type="text" name="kecamatan2" id="get_kecamatan2" class="form-control get_biodata"
+                        required>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="get_region2">Kota*</label>
+                      <input min="0" type="text" name="region2" id="get_region2" class="form-control get_biodata"
+                        required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </form>
+          <!-- </div>
+      </div>
+    </div> -->
+          <!-- </div> -->
+        </div> <!-- /.modal-body -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary get_biodata" id="save_button">Save
+          </button>
+        </div> <!-- /.modal-footer -->
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
+</th:block>
+
+<th:block layout:fragment="biodata">
+  <script th:src="@{/js/biodata.js}"></script>
+</th:block>
