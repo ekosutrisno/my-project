@@ -6,13 +6,15 @@ package com.xsis.xsis.dto;
 public class ScheduleDto {
 
     private Long id;
+    private String name;
     private String description;
 
     public ScheduleDto() {
     }
 
-    public ScheduleDto(Long id, String description) {
+    public ScheduleDto(Long id, String name, String description) {
         this.id = id;
+        this.name = name;
         this.description = description;
     }
 
@@ -30,6 +32,14 @@ public class ScheduleDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }
