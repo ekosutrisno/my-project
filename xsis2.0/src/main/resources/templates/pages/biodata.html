@@ -5,7 +5,9 @@
     <div class="col">
       <div class="container">
         <h1 class="mb-2">Biodata Pelamar</h1>
-        <button id="add_button" class="btn btn-info btn-sm nBtn mb-3"> Tambah Pelamar </button>
+        <button id="add_button" class="btn btn-primary btn-sm nBtn mb-3"> Tambah Pelamar <i
+            class="fa fa-plus-circle ml-2"></i>
+        </button>
         <div class="card">
           <div class="card-block">
             <table class="table table-hover table-responsive-sm">
@@ -87,9 +89,15 @@
                 <div class="tab-pane fade" id="list-biodata" role="tabpanel" aria-labelledby="list-biodata-list"> -->
           <input type="hidden" id="action" value="">
           <form id="get_form_biodata" class="needs-validation" novalidate>
-            <input type="hidden" id="get_id" name="id" class="get_biodata">
-            <input type="hidden" id="get_addressid" name="id" class="get_biodata">
-            <input type="hidden" id="get_companyid" name="id" class="companyId" value="1">
+            <input type="hidden" id="get_id" name="id">
+            <input type="hidden" id="get_addressid" name="id">
+
+            <input type="hidden" id="get_companyid" name="id" value="1">
+
+            <input type="hidden" id="get_createdBy" name="createdBy">
+            <input type="hidden" id="get_createdOn" name="createdOn">
+
+
             <!-- ROw Pertama -->
             <div class="row">
               <div class="col">

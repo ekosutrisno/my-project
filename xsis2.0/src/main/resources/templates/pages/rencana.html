@@ -1,0 +1,52 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:with="http://www.thymeleaf.org/extras/with" layout:decorate="~{layout}" with:title="'B210'">
+<th:block layout:fragment="content">
+    <div class="bottom p-4">
+        <div class="col">
+            <div class="container">
+                <div class="card">
+                    <div class="card-block p-4">
+                        <div class="row">
+                            <div class="col">
+                                <h3 class="font-weight-bold">Rencana Jadwal</h3>
+                            </div>
+                            <div class="col">
+                                <h4 class=" float-right">
+                                    <a class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
+                                        id="showAddData"><i class="fa fa-sort-alpha-down" aria-hidden="true"></i></a>
+                                    <a class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
+                                        id="showAddData"><i class="fa fa-list" aria-hidden="true"></i></a>
+                                    <a class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
+                                        id="showAddData"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                                </h4>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col ml-3 mt-4 mb-3">
+                                <input type="date" class="form-control" id="input-search-dari" placeholder="Dari">
+                            </div>
+                            <div class="col mt-4 mb-3">
+                                <input type="date" class="form-control" id="input-search-sampai" placeholder="Sampai">
+                            </div>
+                            <div class="col-md-3 mt-4 mb-3 float-left">
+                                <button class="btn btn-primary">Cari</button>
+                                <button class="btn btn-primary">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-block p-4">
+                        <div id="showList">
+                            <!-- Show List Vacancy -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</th:block>
+<th:block layout:fragment="biodata">
+    <script th:src="@{/js/biodata.js}"></script>
+</th:block>

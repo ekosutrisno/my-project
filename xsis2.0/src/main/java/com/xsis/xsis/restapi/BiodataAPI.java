@@ -161,7 +161,6 @@ public class BiodataAPI {
         addressMapDetail.setRegion2(biodataDto.getRegion2());
         addressMapDetail.setBiodataId(biodataMapDetail);
         addressMapDetail.setId(biodataDto.getIdA());
-
         biodataService.update(biodataMapDetail);
         addressService.update(addressMapDetail);
         return biodataDto;

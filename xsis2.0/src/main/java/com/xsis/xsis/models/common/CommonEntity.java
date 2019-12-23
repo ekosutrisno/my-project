@@ -21,21 +21,21 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 @MappedSuperclass
 public class CommonEntity {
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_on", nullable = false)
     private Date createdOn;
     @Column(name = "created_by", nullable = false)
     private Long createdBy;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd ")
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "modified_on")
     private Date modifiedOn;
     @Column(name = "modified_by")
     private Long modifiedBy;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "deleted_on")
     private Date deleteddOn;

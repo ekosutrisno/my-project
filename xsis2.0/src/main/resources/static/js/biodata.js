@@ -111,18 +111,16 @@ function get_all_data() {
                           <td> ${result[i].email}</td>
 
                         <td>
-                        <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-info">Aksi</button>
-                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu p-2">
-                            <li><a class="dropdown-item" onclick="get_data_byid( ${result[i].id},'edit')" >Edit</a></li>
-                           <li> <a class="dropdown-item" onclick="hapus(${result[i].id})">Hapus</a></li>
-                           <li> <a class="dropdown-item" onclick="get_data_byid(${result[i].id},'detail')" >Detail</a></li>
-                        </ul>
-                    </div>
+
+                        <h4 class="">
+                          <a onclick="get_data_byid( ${result[i].id},'edit')"  class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
+                              id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                          <a onclick="hapus(${result[i].id})"  class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
+                              id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                          <a onclick="get_data_byid(${result[i].id},'detail')"  class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
+                              id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
+                        </h4>
+                        
                         </td>
                        </tr> `);
           number++;
@@ -154,6 +152,10 @@ function get_data_byid(id, action) {
       get_religion(result.religion.id);
       get_identitas(result.identityType.id);
 
+      $("#get_createdBy").val(result.createdBy);
+      $("#get_createdOn").val(result.createdOn);
+
+      console.log($("#get_createdOn").val())
       $("#get_id").val(result.id);
       $("#get_companyid").val(result.companyId);
       $("#get_full_name").val(result.fullName);
@@ -229,9 +231,7 @@ function get_data_byid(id, action) {
     error: function () {
       swal.fire("", "Failed to fetch the data", "error");
     }
-
   });
-
 };
 
 $("#add_button").click(function () {
@@ -280,6 +280,10 @@ $("#save_button").click(function () {
     identityNo: $("#get_no_indentity").val(),
     companyId: $("#get_companyid").val(),
 
+    createdBy: $("#get_createdBy").val(),
+    createdOn: $("#get_createdOn").val(),
+
+
     religion: {
       id: $("#get_religion").val()
     },
@@ -310,11 +314,7 @@ $("#save_button").click(function () {
     postalCode2: $("#get_postal_code2").val(),
   };
 
-  if (action == "add") {
-    type = 'post';
-  } else if (action == "edit") {
-    type = 'put';
-  }
+
 
 
 
@@ -335,90 +335,74 @@ $("#save_button").click(function () {
   var identityType = $("#get_type_identity").val();
   // ending inputan
 
-  // $.ajax({
-  //   url: '/api/biodata/',
-  //   type: 'get',
-  //   contentType: "application/json",
-  //   success: function (cek) {
-  //     if (cek.length > 0) {
-  //       for (let i = 0; i < cek.length; i++) {
-  //         if (email == cek[i].email) {
-  //           swal.fire("Email telah digunakan", "warning");
-  //         }
-  //       }
-  //     }
-  //   }
-  // });
+  $.ajax({
+    url: '/api/biodata/',
+    type: 'get',
+    contentType: "application/json",
+    success: function (cek) {
+      if (cek.length > 0) {
+        for (let i = 0; i < cek.length; i++) {
+          if (email == cek[i].email) {
+            swal.fire("Email" + cek[i].email + "telah digunakan", "warning");
+          }
+        }
+      }
+    }
+  });
+
+  $.ajax({
+    url: '/api/biodata/',
+    type: 'get',
+    contentType: "application/json",
+    success: function (cek) {
+      if (cek.length > 0) {
+        for (let i = 0; i < cek.length; i++) {
+          if (phoneNumber1 == cek[i].phoneNumber1) {
+            swal.fire("Email" + cek[i].email + "telah digunakan", "warning");
+          }
+        }
+      }
+    }
+  });
 
 
-  // if (maritalStatus == "Single") {
-  //   $(".marr-sts").attr("disabled", true);
-  // } else {
-  //   $(".marr-sts").attr("disabled", false);
-  // }
+  if (action == "add") {
+    type = 'post';
+  } else if (action == "edit") {
+    type = 'put';
+  }
 
   if (fullName == "" || null) {
-    // $('#get_full_name').addClass("is-invalid");
     swal.fire("Penting", "Mohon isi nama lengkap anda", "warning");
 
   } else if (nickName == "" || null) {
-    // $('#get_full_name').removeClass("is-invalid");
-    // $('#get_nickname').addClass("is-invalid");
-    // $('#get_full_name').addClass("is-valid");
     swal.fire("Penting", "Mohon isi nama Panggilan anda", "warning");
 
   } else if (pob == "" || null) {
-    // $('#get_nickname').removeClass("is-invalid");
-    // $('#get_pob').addClass("is-invalid");
-    // $('#get_nickname').addClass("is-valid");
     swal.fire("Penting", "Mohon isi nama Tempat Lahir anda", "warning");
 
   } else if (dob == "" || null) {
-    // $('#get_pob').removeClass("is-invalid");
-    // $('#get_dob').addClass("is-invalid");
-    // $('#get_pob').addClass("is-valid");
     swal.fire("Penting", "Mohon isi nama Tanggal Lahir anda", "warning");
 
   } else if (gender == "" || null) {
-    // $('#get_dob').removeClass("is-invalid");
-    // $('#get_gender').addClass("is-invalid");
-    // $('#get_dob').addClass("is-valid");
     swal.fire("Penting", "Anda belum memilih jenis kelamin.", "question");
 
   } else if (religion == "" || null) {
-    // $('#get_gender').removeClass("is-invalid");
-    // $('#get_religion').addClass("is-invalid");
-    // $('#get_gender').addClass("is-valid");
     swal.fire("Penting", "Anda belum memilih Agama.", "question");
 
   } else if (identityType == "" || null) {
-    // $('#get_religion').removeClass("is-invalid");
-    // $('#get_type_identity').addClass("is-invalid");
-    // $('#get_religion').addClass("is-valid");
     swal.fire("Penting", "Anda belum memilih tipe identitas.", "question");
 
   } else if (email == "" || null) {
-    // $('#get_religion').removeClass("is-invalid");
-    // $('#get_email').addClass("is-invalid");
-    // $('#get_religion').addClass("is-valid");
     swal.fire("Penting", "Pastikan email telah diisi.", "info");
 
   } else if (phoneNumber1 == "" || null) {
-    // $('#get_email').removeClass("is-invalid");
-    // $('#get_no_hp1').addClass("is-invalid");
-    // $('#get_email').addClass("is-valid");
     swal.fire("Penting", "Pastikan email telah diisi.", "info");
 
   } else if (parentPhoneNumber == "" || null) {
-    // $('#get_no_hp1').removeClass("is-invalid");
-    // $('#get_parent_telphone').addClass("is-invalid");
-    // $('#get_no_hp1').addClass("is-valid");
     swal.fire("Penting", "Pastikan email telah diisi.", "info");
 
   } else if (maritalStatus == "" || null) {
-    // $('#get_email').removeClass("is-invalid");
-    // $('#get_marital_status').addClass("is-invalid");
-    // $('#get_email').addClass("is-valid");
     swal.fire("Penting", "Status pernikahanmu?", "question");
 
   } else {

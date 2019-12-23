@@ -484,15 +484,15 @@
                   '                 <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Action </a>\n' +
                   '            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">\n' +
                   '                 <a class="dropdown-item" onclick="get_id_education_edit(' + data
-                  .id + ')" data-toggle="modal" data-target="#editData">Edit</a>\n' +
+                    .id + ')" data-toggle="modal" data-target="#editData">Edit</a>\n' +
                   '                 <a class="dropdown-item" onclick="get_id_education_delete(\'' + data
-                  .id + '\',\'' + data.schoolName + '\',\'' + id + '\')">Delete</a>\n' +
+                    .id + '\',\'' + data.schoolName + '\',\'' + id + '\')">Delete</a>\n' +
                   '            </div>\n' +
                   '             </div>\n' +
                   '        </div>'
                 var markup = "<tr class='text-left'><td>" + data.schoolName + "</td><td>" + data.name +
                   "</td><td>" + data.entryYear + " s.d " + data.graduationYear + "</td><td>" + data
-                  .major + "</td><td>" + data.gpa + "</td><td class='align-middle text-center'>" +
+                    .major + "</td><td>" + data.gpa + "</td><td class='align-middle text-center'>" +
                   actions + "</td></tr>"
                 $('#tbEducation').append(markup)
               })

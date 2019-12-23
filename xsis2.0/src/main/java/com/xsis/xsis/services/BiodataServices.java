@@ -11,9 +11,9 @@ import org.springframework.data.repository.query.Param;
  */
 public interface BiodataServices {
 
-    //Get Data Biodata
+    // Get Data Biodata
     Iterable<Biodata> getBiodata();
 
-    //Get Data Biodata Detail
+    // Get Data Biodata Detail
     Optional<Biodata> getBiodataById(@Param("id") Long id);
 }

@@ -53,6 +53,8 @@ public class BiodataDto {
     private String kecamatan2;
     private String region2;
     private Long idA;
+    private Long createdBy;
+    private Date createdOn;
 
     private ReligionEntity religion;
     private MaritalStatusEntity maritalStatus;
@@ -68,7 +70,8 @@ public class BiodataDto {
             Long companyId, Boolean isProcess, Boolean isComplete, String address1, String postalCode1, String rt1,
             String rw1, String kelurahan1, String kecamatan1, String region1, String address2, String postalCode2,
             String rt2, String rw2, String kelurahan2, String kecamatan2, String region2, ReligionEntity religion,
-            MaritalStatusEntity maritalStatus, IdentitasTypeEntity identityType, Long idA) {
+            MaritalStatusEntity maritalStatus, IdentitasTypeEntity identityType, Long idA, Long createdBy,
+            Date createdOn) {
         this.id = id;
         this.fullName = fullName;
         this.nickName = nickName;
@@ -112,6 +115,8 @@ public class BiodataDto {
         this.maritalStatus = maritalStatus;
         this.identityType = identityType;
         this.idA = idA;
+        this.createdBy = createdBy;
+        this.createdOn = createdOn;
     }
 
     public Long getId() {
@@ -456,6 +461,22 @@ public class BiodataDto {
 
     public void setIdA(Long idA) {
         this.idA = idA;
+    }
+
+    public Long getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Long createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Date getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
     }
 
 }
