@@ -41,6 +41,11 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
+    public List<EmployeeEntity> getTruId(Long id) {
+        return employeeRepository.getTruId(id);
+    }
+
+    @Override
     public EmployeeEntity save(EmployeeEntity employeeEntity) {
         employeeEntity.setCreatedBy(1L);
         employeeEntity.setCreatedOn(new Date());

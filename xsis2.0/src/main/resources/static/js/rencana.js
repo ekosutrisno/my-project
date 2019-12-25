@@ -2,6 +2,64 @@ $(() => {
 	get_all_rencana();
 });
 
+function get_all_rencana() {
+	$("#data_rows").html(
+		`<tr> <td colspan="4" style="text-align:center"><i>Loading...</i> </td></td></tr>`
+	);
+	$.ajax({
+		url: "/api/rencana/",
+		type: "get",
+		contentType: "application/json",
+		success: function (result) {
+			$("#data_rows").html("");
+			if (result.length > 0) {
+				for (let i = 0; i < result.length; i++) {
+					$("#is_auto").val(result[i].isAutomaticMail);
+
+					$("#data_rows").append(
+						`
+												<tr>
+												<td>
+											<div class="row font-weight-bold">
+												<div class="col-sm">${result[i].scheduleCode}</div>
+												<div class="col-sm"><h5>${result[i].scheduleDate}, ${result[i].time}</h5></div>
+												
+												<div class="col-sm">
+													<p class="">RO      : ${result[i].ro}</p>
+													<p class="">TRO     : ${result[i].tro}</p>
+													<p class="">Location     : ${result[i].location}</p>
+													<p class = "" id = "out-mode">Mode   : ${result[i].isAutomaticMail}</p>
+													<p class="">Jenis Jadwal  : ${result[i].scheduleTypeId.name}</p>
+												</div>
+												
+												<div class="col-sm">
+												 <h5 class="">
+                          <a onclick="get_data_byid(${result[i].id},'edit')"  class="mr-2 " data-toggle="modal" data-target="#modal-rencana" href="#"
+                              id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                          <a onclick="hapus(${result[i].id})"  class="mr-2" data-toggle="modal" data-target="" href="#"
+                              id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                          <a onclick="get_data_byid(${result[i].id},'detail')"  class="mr-2" data-toggle="modal" data-target="#modal-rencana" href="#"
+                              id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
+                        </h5>
+												</div>
+
+											</div>
+											</td>
+                       </tr> 
+											 `);
+				}
+			} else {
+				$("#data_rows").html(
+					`<tr> <td colspan="4" style="text-align:center"><i>Data tidak ditemukan...</i> </td></tr>`
+				);
+			}
+		},
+		error: function () {
+			swal("", "Failed to fetch data", "error");
+		}
+	});
+};
+
 //set tanggal dari
 $(function () {
 	$("#input-search-dari").daterangepicker({
@@ -113,9 +171,135 @@ $("#btn-search").on("click", function () {
 // menambah rencana
 $("#save_rencana").click(function () {
 	cek_ro_tro();
+	var action = $("#action").val();
 
-	// $("#modal-rencana").modal("show");
+	var data = {
+		id: $("#get_id").val(),
+		scheduleTypeId: {
+			id: $("#get_schedule_type").val()
+		},
+		scheduleCode: $("#get_schedule_code").val(),
+		scheduleDate: $("#get_tgl_rencana").val(),
+		time: $("#get_jam_rencana").val(),
+		ro: $("#get_ro").val(),
+		tro: $("#get_tro").val(),
+		location: $("#get_lokasi").val(),
+		otherRoTro: $("#get_othertro").val(),
+		notes: $("#get_notes").val(),
+		isAutomaticMail: $("#isAutomaticMail").val(),
+		// sentDAte: $("#get_sent_date").val(),
+	}
+	if (action == "add") {
+		type = "post";
+	} else if (action == "edit") {
+		type = "put";
+	}
+
+	$.ajax({
+		url: "/api/rencana",
+		type: type,
+		contentType: "application/json",
+		data: JSON.stringify(data),
+		success: function (result) {
+			$("#get_form_rencana")[0].reset();
+			get_all_rencana();
+			Toast.fire({
+				icon: 'success',
+				title: "Data berhasil di" + action + "."
+			})
+			$("#modal-rencana").modal("hide");
+		},
+		error: function () {
+			Swal.fire("", "Failed to " + action + " data", "error");
+		}
+	});
 });
+
+
+// function hapus rencana /jadwal
+function hapus(id) {
+	var data = {
+		id: $("#get_id").val()
+	};
+	Swal.fire({
+		title: "Are you sure?",
+		text: "You won't be able to revert this!",
+		icon: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "#3085d6",
+		cancelButtonColor: "#d33",
+		confirmButtonText: "Yes, delete it!"
+	}).then(result => {
+		if (result.value) {
+			$.ajax({
+				url: "/api/rencana/" + id,
+				type: "delete",
+				contentType: "application/json",
+				data: JSON.stringify(data),
+				success: function (result) {
+					get_all_rencana();
+					Toast.fire({
+						icon: 'success',
+						title: 'Data berhasil dihapus.'
+					})
+				},
+				error: function () {
+					Toast.fire({
+						icon: 'error',
+						title: 'Data gagal dihapus'
+					})
+				}
+			});
+		}
+	});
+};
+
+// get data by id rencana 
+function get_data_byid(id, action) {
+	$("#action").val(action);
+
+	$.ajax({
+		url: "/api/rencana/" + id,
+		type: "get",
+		contentType: "application/json",
+		success: function (rencana) {
+
+			$("#get_form_rencana")[0].reset();
+			get_ro_isero_true(rencana.ro);
+			get_tro_isero_true(rencana.tro);
+			get_typeschedule(rencana.scheduleTypeId.id);
+			$("#get_id").val(rencana.id);
+			$("#get_schedule_code").val(rencana.scheduleCode);
+			$("#get_tgl_rencana").val(rencana.scheduleDate);
+			$("#get_jam_rencana").val(rencana.time);
+			$("#get_lokasi").val(rencana.location);
+			$("#get_othertro").val(rencana.otherRoTro);
+			$("#get_notes").val(rencana.notes);
+			// $("#get_sent_date").val(result.notes)
+
+			// if (result.isAutomaticMail == true) {
+			// 	$("#isAutomaticMail").val("Otomatis")
+			// } else {
+			// 	$("#isAutomaticMail").val("Manual")
+			// }
+			console.log(action)
+			$(".modal-judul").text("");
+
+			if (action == "detail") {
+				$(".modal-judul").text("Detail Rencana");
+				$(".get_rencana").attr("disabled", true);
+			} else {
+				$(".modal-judul").text("Ubah Rencana");
+				$(".get_rencana").attr("disabled", false);
+			}
+			$("#modal-rencana").modal("show");
+		},
+
+		error: function () {
+			swal.fire("", "Failed to fetch the data", "error");
+		}
+	});
+};
 
 // ajax schedule
 function get_typeschedule(scheduleId) {
@@ -202,7 +386,7 @@ function cek_ro_tro() {
 	}
 }
 //mdngubah nilai is_automatic_sent menjaadi true / false
-$("#isAutoEmail").on("click", function () {});
+// $("#isAutoEmail").on("click", function () {});
 
 //menenable inputan date sent
 function enable_sendate(cek) {
@@ -213,71 +397,25 @@ function enable_sendate(cek) {
 		$("#get_sent_date").val("");
 		$("#get_sent_date").attr("disabled", true);
 	}
-}
-
-//  $(function() {
-//     $("#input-search").on("keyup", function() {
-//        var rex = new RegExp($(this).val(), "i");
-//        $(".blok-item").hide();
-//        $(".blok-item")
-//           .filter(function() {
-//              return rex.test($(this).text());
-//           })
-//           .show();
-//     });
-//  });
-
-
-function get_all_rencana() {
-	var number = 1;
-	$("#data_rows").html(
-		`<tr> <td colspan="4" style="text-align:center"><i>Loading...</i> </td></td></tr>`
-	);
-	$.ajax({
-		url: "/api/rencana/",
-		type: "get",
-		contentType: "application/json",
-		success: function (result) {
-			$("#data_rows").html("");
-			if (result.length > 0) {
-				for (let i = 0; i < result.length; i++) {
-					$("#data_rows").append(
-						`
-                        <tr>
-                          <td> ${number}</td>
-                          <td> ${result[i].scheduleCode}</td>
-                          <td> ${result[i].scheduleDate}</td>
-                          <td> ${result[i].time}</td>
-                          <td> ${result[i].ro}</td>
-                          <td> ${result[i].tro}</td>
-                          <td> ${result[i].location}</td>
-                          <td> ${result[i].isAutomaticMail}</td>
-                          <td> ${result[i].scheduleTypeId.name}</td>
-
-                        <td>
-
-                        <h5 class="">
-                          <a onclick="get_data_byid( ${result[i].id},'edit')"  class="mr-2 " data-toggle="modal" data-target="#addModal" href="#"
-                              id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                          <a onclick="hapus(${result[i].id})"  class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
-                              id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                          <a onclick="get_data_byid(${result[i].id},'detail')"  class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
-                              id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
-                        </h5>
-                        
-                        </td>
-                       </tr> `
-					);
-					number++;
-				}
-			} else {
-				$("#data_rows").html(
-					`<tr> <td colspan="4" style="text-align:center"><i>Loading...</i> </td></tr>`
-				);
-			}
-		},
-		error: function () {
-			swal("", "Failed to fetch data", "error");
-		}
-	});
 };
+
+function ouput_mode() {
+	var x = $("#is_auto").val();
+	if (x == true) {
+		$("#out-mode").val("Otomatis");
+	} else {
+		$("#out-mode").val("Otomatis");
+	}
+};
+
+const Toast = Swal.mixin({
+	toast: true,
+	position: 'bottom-end',
+	showConfirmButton: false,
+	timer: 3000,
+	timerProgressBar: true,
+	onOpen: (toast) => {
+		toast.addEventListener('mouseenter', Swal.stopTimer)
+		toast.addEventListener('mouseleave', Swal.resumeTimer)
+	}
+});

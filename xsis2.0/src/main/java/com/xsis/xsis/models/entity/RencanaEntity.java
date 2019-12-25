@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -40,8 +42,9 @@ public class RencanaEntity extends CommonEntity {
     @Column(name = "tro")
     private Long tro;
 
-    @Column(name = "schedule_type_id")
-    private Long scheduleTypeId;
+    @ManyToOne
+    @JoinColumn(name = "schedule_type_id", nullable = false, referencedColumnName = "id")
+    private ScheduleTypeEntity scheduleTypeId;
 
     @Column(name = "location", length = 100)
     private String location;
@@ -66,8 +69,8 @@ public class RencanaEntity extends CommonEntity {
     }
 
     public RencanaEntity(Long id, String scheduleCode, String scheduleDate, String time, Long ro, Long tro,
-            Long scheduleTypeId, String location, String otherRoTro, String notes, boolean isAutomaticMail,
-            Date sentDate, String status) {
+            ScheduleTypeEntity scheduleTypeId, String location, String otherRoTro, String notes,
+            boolean isAutomaticMail, Date sentDate, String status) {
         this.id = id;
         this.scheduleCode = scheduleCode;
         this.scheduleDate = scheduleDate;
@@ -131,11 +134,11 @@ public class RencanaEntity extends CommonEntity {
         this.tro = tro;
     }
 
-    public Long getScheduleTypeId() {
+    public ScheduleTypeEntity getScheduleTypeId() {
         return scheduleTypeId;
     }
 
-    public void setScheduleTypeId(Long scheduleTypeId) {
+    public void setScheduleTypeId(ScheduleTypeEntity scheduleTypeId) {
         this.scheduleTypeId = scheduleTypeId;
     }
 

@@ -17,7 +17,9 @@ public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Long> 
   @Query(value = "select * from x_employee where biodata_id = ?1", nativeQuery = true)
   List<EmployeeEntity> getRoAndTroByBiodataId(Long id);
 
-  @Query(value = "select * from x_employee where is_ero = true", nativeQuery = true)
+  @Query(value = "select * from x_employee where is_ero = true order by x_employee.id desc", nativeQuery = true)
   List<EmployeeEntity> getRoAndTroByEro();
 
+  @Query(value = "select * from x_employee where is_ero = true and biodata_id = ?1", nativeQuery = true)
+  List<EmployeeEntity> getTruId(Long id);
 }

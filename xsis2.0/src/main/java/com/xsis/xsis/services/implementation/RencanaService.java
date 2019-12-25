@@ -23,7 +23,7 @@ public class RencanaService implements IRencanaService {
 
     public List<RencanaEntity> getAll() {
         List<RencanaEntity> rencana = new ArrayList<>();
-        for (RencanaEntity rencanas : rencanaRepository.findAll()) {
+        for (RencanaEntity rencanas : rencanaRepository.getRencana()) {
             if (!rencanas.getIsDelete()) {
                 rencana.add(rencanas);
             }

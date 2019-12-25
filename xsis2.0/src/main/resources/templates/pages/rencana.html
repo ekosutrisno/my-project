@@ -68,19 +68,34 @@
 					</div>
 					<hr>
 					<div class="card-block p-4">
-						<div id="showList">
-							<!-- Show List Vacancy -->
-							<table class="table table-hover table-responsive-sm">
-								<thead class="">
-									<!-- table head dikosongkan -->
-								</thead>
+						<div class="row">
+							<div class="col-sm">
+								<div id="showList">
+									<!-- Show List Vacancy -->
+									<table class="table table-hover">
+										<thead class="">
+											<!-- table head dikosongkan -->
+											<!-- <th>No</th>
+											<th>Kode</th>
+											<th>Tanggal</th>
+											<th>Jam</th>
+											<th>RO</th>
+											<th>TRO</th>
+											<th>Location</th>
+											<th>Mode</th>
+											<th>Jenis</th>
+											<th>Action</th> -->
+										</thead>
 
-								<tbody id="data_rows">
-									<!-- Tempat data di isikan oleh java script -->
-								</tbody>
+										<tbody id="data_rows">
+											<!-- Tempat data di isikan oleh java script -->
 
-							</table>
+										</tbody>
 
+									</table>
+
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -93,7 +108,7 @@
 		<div class="modal-dialog modal-md modal-lg">
 			<div class="modal-content">
 				<div class="modal-header" style="background-color: #000066;">
-					<h4 class="modal-judul text-white">Buat Rencana Jadwal</h4>
+					<h4 class="modal-judul text-white"></h4>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true" class="text-white">&times;</span></button>
 				</div>
@@ -101,7 +116,12 @@
 					<input type="hidden" id="action" value="">
 
 					<form id="get_form_rencana" class="">
+
+						<!-- untuk menyimpan type hidden  -->
 						<input type="hidden" id="get_id" name="id">
+						<input type="hidden" id="get_schedule_code" name="scheduleCode">
+						<input type="hidden" id="is_auto" name="isAutoEmail">
+
 						<!-- ROw Pertama -->
 						<div class="row">
 							<div class="col-sm">
@@ -186,8 +206,8 @@
 						<div class="row">
 							<div class="col-sm">
 								<div class="form-group">
-									<label for="get_othertro">Notes</label>
-									<textarea type="text" name="otherRoTro" id="get_othertro" class="form-control get_rencana"
+									<label for="get_notes">Notes</label>
+									<textarea type="text" name="notes" id="get_notes" class="form-control get_rencana"
 										rows="3"></textarea>
 								</div>
 							</div>
@@ -196,9 +216,9 @@
 						<div class="row">
 							<div class="col-sm">
 								<div class="custom-control custom-checkbox mb-3">
-									<input type="checkbox" class="custom-control-input" id="isAutoEmail"
+									<input type="checkbox" class="custom-control-input" id="isAutomaticMail" name="isAutomaticMail"
 										onclick="enable_sendate(this.checked)">
-									<label class="custom-control-label" for="isAutoEmail">Kirim undangan otomatis.</label>
+									<label class="custom-control-label" for="isAutomaticMail">Kirim undangan otomatis.</label>
 								</div>
 							</div>
 						</div>
@@ -250,11 +270,6 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->
-
-
-
-
-
 
 </th:block>
 <th:block layout:fragment="rencana">

@@ -1,5 +1,7 @@
 package com.xsis.xsis.dto;
 
+import com.xsis.xsis.models.entity.ScheduleTypeEntity;
+
 /**
  * RencanaDto
  */
@@ -11,17 +13,19 @@ public class RencanaDto {
     private String time;
     private Long ro;
     private Long tro;
-    private Long scheduleTypeId;
+    private ScheduleTypeEntity scheduleTypeId;
     private String location;
     private String otherRoTro;
     private String notes;
     private boolean isAutomaticMail;
+    // private Date sentDate;
 
     public RencanaDto() {
     }
 
     public RencanaDto(Long id, String scheduleCode, String scheduleDate, String time, Long ro, Long tro,
-            Long scheduleTypeId, String location, String otherRoTro, String notes, boolean isAutomaticMail) {
+            ScheduleTypeEntity scheduleTypeId, String location, String otherRoTro, String notes,
+            boolean isAutomaticMail) {
         this.id = id;
         this.scheduleCode = scheduleCode;
         this.scheduleDate = scheduleDate;
@@ -83,11 +87,11 @@ public class RencanaDto {
         this.tro = tro;
     }
 
-    public Long getScheduleTypeId() {
+    public ScheduleTypeEntity getScheduleTypeId() {
         return scheduleTypeId;
     }
 
-    public void setScheduleTypeId(Long scheduleTypeId) {
+    public void setScheduleTypeId(ScheduleTypeEntity scheduleTypeId) {
         this.scheduleTypeId = scheduleTypeId;
     }
 

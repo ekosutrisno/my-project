@@ -40,6 +40,11 @@ public class EmployeeAPI {
         return employeeService.getRoAndTroByEro();
     }
 
+    @GetMapping("/erotrue/{bioId}")
+    public List<EmployeeEntity> getEmployeeByEroId(@PathVariable("bioId") Long id) {
+        return employeeService.getTruId(id);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getEmployeeById(@PathVariable("id") Long id) {
         Optional<EmployeeEntity> optReg = employeeService.getById(id);

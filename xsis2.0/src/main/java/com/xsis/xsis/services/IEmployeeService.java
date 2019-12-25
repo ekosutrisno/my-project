@@ -18,6 +18,9 @@ public interface IEmployeeService {
     // mengambil karyawan yang is_ero = true
     List<EmployeeEntity> getRoAndTroByEro();
 
+    // mengambil karyawan yang is_ero = true berdasarkan id
+    List<EmployeeEntity> getTruId(Long id);
+
     EmployeeEntity save(EmployeeEntity employeeEntity);
 
     Optional<EmployeeEntity> getById(Long id);
