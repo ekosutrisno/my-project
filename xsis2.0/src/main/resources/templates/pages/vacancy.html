@@ -300,7 +300,7 @@
               '   </div>\n' +
               '</div>'
             var markup =
-              '<div class="card p-4 text-dark shadow-sm">\n' +
+              '<div class="card p-4 text-dark shadow-sm blok-item">\n' +
               '<div class="searchable-container">\n' +
               '<div class="items col-xs-12 col-sm-12 col-md-12 col-lg-12 mb-3 clearfix">\n' +
               '    <div class="info-block block-info clearfix">\n' +
@@ -354,8 +354,8 @@
     $(function () {
       $('#input-search').on('keyup', function () {
         var rex = new RegExp($(this).val(), 'i');
-        $('.searchable-container .items').hide();
-        $('.searchable-container .items').filter(function () {
+        $('.blok-item').hide();
+        $('.blok-item').filter(function () {
           return rex.test($(this).text());
         }).show();
       });
@@ -484,15 +484,15 @@
                   '                 <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Action </a>\n' +
                   '            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">\n' +
                   '                 <a class="dropdown-item" onclick="get_id_education_edit(' + data
-                    .id + ')" data-toggle="modal" data-target="#editData">Edit</a>\n' +
+                  .id + ')" data-toggle="modal" data-target="#editData">Edit</a>\n' +
                   '                 <a class="dropdown-item" onclick="get_id_education_delete(\'' + data
-                    .id + '\',\'' + data.schoolName + '\',\'' + id + '\')">Delete</a>\n' +
+                  .id + '\',\'' + data.schoolName + '\',\'' + id + '\')">Delete</a>\n' +
                   '            </div>\n' +
                   '             </div>\n' +
                   '        </div>'
                 var markup = "<tr class='text-left'><td>" + data.schoolName + "</td><td>" + data.name +
                   "</td><td>" + data.entryYear + " s.d " + data.graduationYear + "</td><td>" + data
-                    .major + "</td><td>" + data.gpa + "</td><td class='align-middle text-center'>" +
+                  .major + "</td><td>" + data.gpa + "</td><td class='align-middle text-center'>" +
                   actions + "</td></tr>"
                 $('#tbEducation').append(markup)
               })

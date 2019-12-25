@@ -31,6 +31,16 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
+    public List<EmployeeEntity> getRoAndTroByBiodataId(Long id) {
+        return employeeRepository.getRoAndTroByBiodataId(id);
+    }
+
+    @Override
+    public List<EmployeeEntity> getRoAndTroByEro() {
+        return employeeRepository.getRoAndTroByEro();
+    }
+
+    @Override
     public EmployeeEntity save(EmployeeEntity employeeEntity) {
         employeeEntity.setCreatedBy(1L);
         employeeEntity.setCreatedOn(new Date());

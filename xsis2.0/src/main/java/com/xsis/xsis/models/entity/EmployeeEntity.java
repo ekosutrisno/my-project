@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.xsis.xsis.models.common.CommonEntity;
@@ -23,8 +25,9 @@ public class EmployeeEntity extends CommonEntity {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "biodata_id", nullable = false)
-    private Long biodataId;
+    @ManyToOne
+    @JoinColumn(name = "biodata_id", nullable = false, referencedColumnName = "id")
+    private BiodataEntity biodataId;
 
     @Column(name = "is_idle")
     private boolean isIdle;
@@ -41,7 +44,7 @@ public class EmployeeEntity extends CommonEntity {
     public EmployeeEntity() {
     }
 
-    public EmployeeEntity(Long id, Long biodataId, boolean isIdle, boolean isEro, boolean isUserClient,
+    public EmployeeEntity(Long id, BiodataEntity biodataId, boolean isIdle, boolean isEro, boolean isUserClient,
             String eroEmail) {
         this.id = id;
         this.biodataId = biodataId;
@@ -59,11 +62,11 @@ public class EmployeeEntity extends CommonEntity {
         this.id = id;
     }
 
-    public Long getBiodataId() {
+    public BiodataEntity getBiodataId() {
         return biodataId;
     }
 
-    public void setBiodataId(Long biodataId) {
+    public void setBiodataId(BiodataEntity biodataId) {
         this.biodataId = biodataId;
     }
 

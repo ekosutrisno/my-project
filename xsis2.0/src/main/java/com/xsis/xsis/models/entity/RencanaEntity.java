@@ -49,8 +49,8 @@ public class RencanaEntity extends CommonEntity {
     @Column(name = "other_ro_tro", length = 100)
     private String otherRoTro;
 
-    @Column(name = "note", length = 1000)
-    private String note;
+    @Column(name = "notes", length = 1000)
+    private String notes;
 
     @Column(name = "is_automatic_mail")
     private boolean isAutomaticMail;
@@ -66,7 +66,7 @@ public class RencanaEntity extends CommonEntity {
     }
 
     public RencanaEntity(Long id, String scheduleCode, String scheduleDate, String time, Long ro, Long tro,
-            Long scheduleTypeId, String location, String otherRoTro, String note, boolean isAutomaticMail,
+            Long scheduleTypeId, String location, String otherRoTro, String notes, boolean isAutomaticMail,
             Date sentDate, String status) {
         this.id = id;
         this.scheduleCode = scheduleCode;
@@ -77,7 +77,7 @@ public class RencanaEntity extends CommonEntity {
         this.scheduleTypeId = scheduleTypeId;
         this.location = location;
         this.otherRoTro = otherRoTro;
-        this.note = note;
+        this.notes = notes;
         this.isAutomaticMail = isAutomaticMail;
         this.sentDate = sentDate;
         this.status = status;
@@ -155,12 +155,12 @@ public class RencanaEntity extends CommonEntity {
         this.otherRoTro = otherRoTro;
     }
 
-    public String getNote() {
-        return note;
+    public String getNotes() {
+        return notes;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public boolean isAutomaticMail() {

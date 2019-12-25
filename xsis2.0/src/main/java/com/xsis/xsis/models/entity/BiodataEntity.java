@@ -139,11 +139,12 @@ public class BiodataEntity extends CommonEntity {
     public BiodataEntity() {
     }
 
-    public BiodataEntity(Long id, String fullName,  String nickName,  String pob,  Date dob, Boolean gender, Integer hight, Integer weight,  String nationality,
-            String ethnic, String hobby, Long identityTypeId, String email,String identityNo, String phoneNumber1, String phoneNumber2,
-            String parentPhoneNumber,  String childSequence,String howManyBrothers, Long addrbookId,  String token, Date expiredToken,
-            String marriageYear, Long companyId, Boolean isProcess, Boolean isComplete,
-            ReligionEntity religion, MaritalStatusEntity maritalStatus, IdentitasTypeEntity identityType) {
+    public BiodataEntity(Long id, String fullName, String nickName, String pob, Date dob, Boolean gender, Integer hight,
+            Integer weight, String nationality, String ethnic, String hobby, Long identityTypeId, String email,
+            String identityNo, String phoneNumber1, String phoneNumber2, String parentPhoneNumber, String childSequence,
+            String howManyBrothers, Long addrbookId, String token, Date expiredToken, String marriageYear,
+            Long companyId, Boolean isProcess, Boolean isComplete, ReligionEntity religion,
+            MaritalStatusEntity maritalStatus, IdentitasTypeEntity identityType) {
         this.id = id;
         this.fullName = fullName;
         this.nickName = nickName;
@@ -175,15 +176,12 @@ public class BiodataEntity extends CommonEntity {
     }
 
     public BiodataEntity(Date createdOn, Long createdBy, Date modifiedOn, Long modifiedBy, Date deleteddOn,
-            Long deletedBy, Boolean isDelete, Long id, String fullName, String nickName,
-            String pob, Date dob, Boolean gender, Integer hight, Integer weight,
-            String nationality, String ethnic, String hobby, Long identityTypeId,
-            String email, String identityNo, String phoneNumber1,
-            String phoneNumber2, String parentPhoneNumber,
-            String childSequence, String howManyBrothers, Long addrbookId,
-             String token, Date expiredToken,  String marriageYear, Long companyId,
-            Boolean isProcess, Boolean isComplete, ReligionEntity religion, MaritalStatusEntity maritalStatus,
-            IdentitasTypeEntity identityType) {
+            Long deletedBy, Boolean isDelete, Long id, String fullName, String nickName, String pob, Date dob,
+            Boolean gender, Integer hight, Integer weight, String nationality, String ethnic, String hobby,
+            Long identityTypeId, String email, String identityNo, String phoneNumber1, String phoneNumber2,
+            String parentPhoneNumber, String childSequence, String howManyBrothers, Long addrbookId, String token,
+            Date expiredToken, String marriageYear, Long companyId, Boolean isProcess, Boolean isComplete,
+            ReligionEntity religion, MaritalStatusEntity maritalStatus, IdentitasTypeEntity identityType) {
         super(createdOn, createdBy, modifiedOn, modifiedBy, deleteddOn, deletedBy, isDelete);
         this.id = id;
         this.fullName = fullName;

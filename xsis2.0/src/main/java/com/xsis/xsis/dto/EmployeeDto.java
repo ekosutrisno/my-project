@@ -1,12 +1,14 @@
 package com.xsis.xsis.dto;
 
+import com.xsis.xsis.models.entity.BiodataEntity;
+
 /**
  * EmployeeDto
  */
 public class EmployeeDto {
 
     private Long id;
-    private Long biodataId;
+    private BiodataEntity biodataId;
     private boolean isIdle;
     private boolean isEro;
     private boolean isUserClient;
@@ -15,7 +17,8 @@ public class EmployeeDto {
     public EmployeeDto() {
     }
 
-    public EmployeeDto(Long id, Long biodataId, boolean isIdle, boolean isEro, boolean isUserClient, String eroEmail) {
+    public EmployeeDto(Long id, BiodataEntity biodataId, boolean isIdle, boolean isEro, boolean isUserClient,
+            String eroEmail) {
         this.id = id;
         this.biodataId = biodataId;
         this.isIdle = isIdle;
@@ -32,11 +35,11 @@ public class EmployeeDto {
         this.id = id;
     }
 
-    public Long getBiodataId() {
+    public BiodataEntity getBiodataId() {
         return biodataId;
     }
 
-    public void setBiodataId(Long biodataId) {
+    public void setBiodataId(BiodataEntity biodataId) {
         this.biodataId = biodataId;
     }
 

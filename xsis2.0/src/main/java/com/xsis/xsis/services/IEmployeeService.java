@@ -12,6 +12,12 @@ public interface IEmployeeService {
 
     List<EmployeeEntity> getAll();
 
+    // join tabel dengan x_biodata
+    List<EmployeeEntity> getRoAndTroByBiodataId(Long id);
+
+    // mengambil karyawan yang is_ero = true
+    List<EmployeeEntity> getRoAndTroByEro();
+
     EmployeeEntity save(EmployeeEntity employeeEntity);
 
     Optional<EmployeeEntity> getById(Long id);

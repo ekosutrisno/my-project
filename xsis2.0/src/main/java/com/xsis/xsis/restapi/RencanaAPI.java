@@ -60,7 +60,7 @@ public class RencanaAPI {
         rencanaDetail.setScheduleTypeId(rencanaDto.getScheduleTypeId());
         rencanaDetail.setLocation(rencanaDto.getLocation());
         rencanaDetail.setOtherRoTro(rencanaDto.getOtherRoTro());
-        rencanaDetail.setNote(rencanaDto.getNote());
+        rencanaDetail.setNotes(rencanaDto.getNotes());
         rencanaDetail.setAutomaticMail(false);
 
         rencanaService.save(rencanaDetail);
@@ -81,7 +81,7 @@ public class RencanaAPI {
         rencanaDetail.setScheduleTypeId(rencanaDto.getScheduleTypeId());
         rencanaDetail.setLocation(rencanaDto.getLocation());
         rencanaDetail.setOtherRoTro(rencanaDto.getOtherRoTro());
-        rencanaDetail.setNote(rencanaDto.getNote());
+        rencanaDetail.setNotes(rencanaDto.getNotes());
 
         rencanaDetail.setAutomaticMail(false);
 

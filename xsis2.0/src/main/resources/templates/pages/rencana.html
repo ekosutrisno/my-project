@@ -1,52 +1,262 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    xmlns:with="http://www.thymeleaf.org/extras/with" layout:decorate="~{layout}" with:title="'B210'">
+	xmlns:with="http://www.thymeleaf.org/extras/with" layout:decorate="~{layout}" with:title="'B210'">
 <th:block layout:fragment="content">
-    <div class="bottom p-4">
-        <div class="col">
-            <div class="container">
-                <div class="card">
-                    <div class="card-block p-4">
-                        <div class="row">
-                            <div class="col">
-                                <h3 class="font-weight-bold">Rencana Jadwal</h3>
-                            </div>
-                            <div class="col">
-                                <h4 class=" float-right">
-                                    <a class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
-                                        id="showAddData"><i class="fa fa-sort-alpha-down" aria-hidden="true"></i></a>
-                                    <a class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
-                                        id="showAddData"><i class="fa fa-list" aria-hidden="true"></i></a>
-                                    <a class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
-                                        id="showAddData"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
-                                </h4>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col ml-3 mt-4 mb-3">
-                                <input type="date" class="form-control" id="input-search-dari" placeholder="Dari">
-                            </div>
-                            <div class="col mt-4 mb-3">
-                                <input type="date" class="form-control" id="input-search-sampai" placeholder="Sampai">
-                            </div>
-                            <div class="col-md-3 mt-4 mb-3 float-left">
-                                <button class="btn btn-primary">Cari</button>
-                                <button class="btn btn-primary">Reset</button>
-                            </div>
-                        </div>
-                    </div>
+	<div class="bottom p-4">
+		<div class="col">
+			<div class="container">
+				<div class="card">
+					<div class="card-block p-4">
+						<div class="row">
+							<div class="col">
+								<h3 class="font-weight-bold">Rencana Jadwal</h3>
+							</div>
+							<div class="col">
+								<h4 class=" float-right">
+									<a class="mr-2" data-toggle="modal" data-target="#modal-rencana" href="#" id="page_sorting"><i
+											class="fa fa-sort-alpha-down" aria-hidden="true"></i></a>
+									<a class="mr-2" data-toggle="modal" data-target="#modal-rencana" href="#" id="page_show"><i
+											class="fa fa-list" aria-hidden="true"></i></a>
+									<a class="mr-2" data-toggle="modal" data-target="#modal-rencana" href="#" id="add_rencana"><i
+											class="fa fa-plus-circle" aria-hidden="true"></i></a>
+								</h4>
+							</div>
+						</div>
+						<hr>
+						<div class="row">
+							<div class="col-sm">
 
-                    <div class="card-block p-4">
-                        <div id="showList">
-                            <!-- Show List Vacancy -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+								<div class="form-group">
+									<label for="input-search-dari">Dari</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">
+												<i class="far fa-calendar-alt"></i>
+											</span>
+										</div>
+										<input type="text" class="form-control" id="input-search-dari" required>
+									</div>
+									<!-- /.input group -->
+								</div>
+							</div>
+
+							<div class="col-sm">
+								<div class="form-group">
+									<label for="input-search-sampai">Sampai</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">
+												<i class="far fa-calendar-alt"></i>
+											</span>
+										</div>
+										<input type="text" class="form-control" id="input-search-sampai" required>
+									</div>
+									<!-- /.input group -->
+								</div>
+							</div>
+
+							<div class="col-sm float-left">
+								<div class="form-group">
+									<label class="text-white">action</label>
+									<div class="input-group">
+										<button id="btn-search" class="btn btn-primary mr-2">Cari</button>
+										<button id="btn-reset" class="btn btn-primary">Reset</button>
+									</div>
+									<!-- /.input group -->
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr>
+					<div class="card-block p-4">
+						<div id="showList">
+							<!-- Show List Vacancy -->
+							<table class="table table-hover table-responsive-sm">
+								<thead class="">
+									<!-- table head dikosongkan -->
+								</thead>
+
+								<tbody id="data_rows">
+									<!-- Tempat data di isikan oleh java script -->
+								</tbody>
+
+							</table>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal untuk menampilkna cuy..tinggal modif aja isinya sesuai kebutuhan -->
+	<div class="modal fade" id="modal-rencana">
+		<div class="modal-dialog modal-md modal-lg">
+			<div class="modal-content">
+				<div class="modal-header" style="background-color: #000066;">
+					<h4 class="modal-judul text-white">Buat Rencana Jadwal</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true" class="text-white">&times;</span></button>
+				</div>
+				<div class="modal-body px-4">
+					<input type="hidden" id="action" value="">
+
+					<form id="get_form_rencana" class="">
+						<input type="hidden" id="get_id" name="id">
+						<!-- ROw Pertama -->
+						<div class="row">
+							<div class="col-sm">
+								<div class="form-group">
+									<label for="get_tgl_rencana">Tanggal rencana jadwal*</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">
+												<i class="far fa-calendar-alt"></i>
+											</span>
+										</div>
+										<input type="text" class="form-control" id="get_tgl_rencana" name="scheduleDate" required>
+									</div>
+									<!-- /.input group -->
+								</div>
+							</div>
+							<div class="col-sm">
+								<div class="form-group">
+									<label for="get_jam_rencana">Jam*</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">
+												<i class="fa fa-clock"></i>
+											</span>
+										</div>
+										<input type="text" class="form-control" id="get_jam_rencana" name="time" required
+											autocomplete="off">
+									</div>
+									<!-- /.input group -->
+								</div>
+							</div>
+						</div>
+						<!-- Row kedua -->
+						<div class="row">
+							<div class="col-sm">
+								<div class="form-group">
+									<!-- Menampilkan nama Agama -->
+									<label for="get_ro">RO</label>
+									<select class="form-control get_rencana" id="get_ro" name="ro" required>
+										<!-- <option value="">- Pilih -</option> -->
+									</select>
+								</div>
+							</div>
+							<div class="col-sm">
+								<div class="form-group">
+									<!-- Menampilkan nama Agama -->
+									<label for="get_tro">TRO</label>
+									<select class="form-control get_rencana" id="get_tro" name="tro" required>
+										<!-- <option value="">- Pilih -</option> -->
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm">
+								<div class="form-group">
+									<label for="get_schedule_type">Jenis Jadwal*</label>
+									<select class="form-control get_rencana" id="get_schedule_type" name="scheduleTypeId" required>
+										<!-- diisi dari database master -->
+									</select>
+								</div>
+							</div>
+							<div class="col-sm">
+								<div class="form-group">
+									<label for="get_lokasi">Location</label>
+									<input type="text" name="location" id="get_lokasi" class="form-control get_rencana">
+									<div class="invalid-feedback">
+										Please provide a valid city.
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm">
+								<div class="form-group">
+									<label for="get_othertro">RO / TRO Lain</label>
+									<input type="text" name="otherRoTro" id="get_othertro" class="form-control get_rencana">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm">
+								<div class="form-group">
+									<label for="get_othertro">Notes</label>
+									<textarea type="text" name="otherRoTro" id="get_othertro" class="form-control get_rencana"
+										rows="3"></textarea>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm">
+								<div class="custom-control custom-checkbox mb-3">
+									<input type="checkbox" class="custom-control-input" id="isAutoEmail"
+										onclick="enable_sendate(this.checked)">
+									<label class="custom-control-label" for="isAutoEmail">Kirim undangan otomatis.</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group">
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="far fa-calendar-alt"></i>
+										</span>
+									</div>
+									<input type="text" class="form-control" id="get_sent_date" name="sentDate" disabled
+										autocomplete="off">
+								</div>
+								<!-- /.input group -->
+							</div>
+						</div>
+						<div class="row">
+							<h3><Strong>Pelamar</Strong></h3>
+							<hr>
+						</div>
+						<div class="row">
+							<div class="col-sm">
+								<div class="custom-control custom-checkbox mb-3">
+									<input type="checkbox" class="custom-control-input" id="e1" required>
+									<label class="custom-control-label" for="e1">Elga Canesis Di Lascrea</label>
+								</div>
+								<div class="custom-control custom-checkbox mb-3">
+									<input type="checkbox" class="custom-control-input" id="e2">
+									<label class="custom-control-label" for="e2">Seirra J. Loyart</label>
+								</div>
+								<div class="custom-control custom-checkbox mb-3">
+									<input type="checkbox" class="custom-control-input" id="e3">
+									<label class="custom-control-label" for="e3">Franken Stain</label>
+								</div>
+							</div>
+						</div>
+
+				</div> <!-- /.modal-body -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary get_rencana" id="save_rencana">Save
+					</button>
+				</div> <!-- /.modal-footer -->
+				</form>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
+
+
+
+
 
 </th:block>
-<th:block layout:fragment="biodata">
-    <script th:src="@{/js/biodata.js}"></script>
+<th:block layout:fragment="rencana">
+	<script th:src="@{/js/rencana.js}"></script>
 </th:block>
