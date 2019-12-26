@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -30,17 +31,20 @@ public class RencanaEntity extends CommonEntity {
     @Column(name = " schedule_code", length = 20)
     private String scheduleCode;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = " schedule_date")
-    private String scheduleDate;
+    private Date scheduleDate;
 
     @Column(name = "time", length = 10)
     private String time;
 
-    @Column(name = "ro")
-    private Long ro;
+    @OneToOne
+    @JoinColumn(name = "ro")
+    private EmployeeEntity ro;
 
-    @Column(name = "tro")
-    private Long tro;
+    @OneToOne
+    @JoinColumn(name = "tro")
+    private EmployeeEntity tro;
 
     @ManyToOne
     @JoinColumn(name = "schedule_type_id", nullable = false, referencedColumnName = "id")
@@ -68,8 +72,8 @@ public class RencanaEntity extends CommonEntity {
     public RencanaEntity() {
     }
 
-    public RencanaEntity(Long id, String scheduleCode, String scheduleDate, String time, Long ro, Long tro,
-            ScheduleTypeEntity scheduleTypeId, String location, String otherRoTro, String notes,
+    public RencanaEntity(Long id, String scheduleCode, Date scheduleDate, String time, EmployeeEntity ro,
+            EmployeeEntity tro, ScheduleTypeEntity scheduleTypeId, String location, String otherRoTro, String notes,
             boolean isAutomaticMail, Date sentDate, String status) {
         this.id = id;
         this.scheduleCode = scheduleCode;
@@ -102,11 +106,11 @@ public class RencanaEntity extends CommonEntity {
         this.scheduleCode = scheduleCode;
     }
 
-    public String getScheduleDate() {
+    public Date getScheduleDate() {
         return scheduleDate;
     }
 
-    public void setScheduleDate(String scheduleDate) {
+    public void setScheduleDate(Date scheduleDate) {
         this.scheduleDate = scheduleDate;
     }
 
@@ -118,19 +122,19 @@ public class RencanaEntity extends CommonEntity {
         this.time = time;
     }
 
-    public Long getRo() {
+    public EmployeeEntity getRo() {
         return ro;
     }
 
-    public void setRo(Long ro) {
+    public void setRo(EmployeeEntity ro) {
         this.ro = ro;
     }
 
-    public Long getTro() {
+    public EmployeeEntity getTro() {
         return tro;
     }
 
-    public void setTro(Long tro) {
+    public void setTro(EmployeeEntity tro) {
         this.tro = tro;
     }
 

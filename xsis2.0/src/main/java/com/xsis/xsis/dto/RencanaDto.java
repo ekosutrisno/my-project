@@ -1,5 +1,7 @@
 package com.xsis.xsis.dto;
 
+import java.util.Date;
+import com.xsis.xsis.models.entity.EmployeeEntity;
 import com.xsis.xsis.models.entity.ScheduleTypeEntity;
 
 /**
@@ -9,23 +11,23 @@ public class RencanaDto {
 
     private Long id;
     private String scheduleCode;
-    private String scheduleDate;
+    private Date scheduleDate;
     private String time;
-    private Long ro;
-    private Long tro;
+    private EmployeeEntity ro;
+    private EmployeeEntity tro;
     private ScheduleTypeEntity scheduleTypeId;
     private String location;
     private String otherRoTro;
     private String notes;
     private boolean isAutomaticMail;
-    // private Date sentDate;
+    private Date sentDate;
 
     public RencanaDto() {
     }
 
-    public RencanaDto(Long id, String scheduleCode, String scheduleDate, String time, Long ro, Long tro,
-            ScheduleTypeEntity scheduleTypeId, String location, String otherRoTro, String notes,
-            boolean isAutomaticMail) {
+    public RencanaDto(Long id, String scheduleCode, Date scheduleDate, String time, EmployeeEntity ro,
+            EmployeeEntity tro, ScheduleTypeEntity scheduleTypeId, String location, String otherRoTro, String notes,
+            boolean isAutomaticMail, Date sentDate) {
         this.id = id;
         this.scheduleCode = scheduleCode;
         this.scheduleDate = scheduleDate;
@@ -37,6 +39,7 @@ public class RencanaDto {
         this.otherRoTro = otherRoTro;
         this.notes = notes;
         this.isAutomaticMail = isAutomaticMail;
+        this.sentDate = sentDate;
     }
 
     public Long getId() {
@@ -55,11 +58,11 @@ public class RencanaDto {
         this.scheduleCode = scheduleCode;
     }
 
-    public String getScheduleDate() {
+    public Date getScheduleDate() {
         return scheduleDate;
     }
 
-    public void setScheduleDate(String scheduleDate) {
+    public void setScheduleDate(Date scheduleDate) {
         this.scheduleDate = scheduleDate;
     }
 
@@ -71,19 +74,19 @@ public class RencanaDto {
         this.time = time;
     }
 
-    public Long getRo() {
+    public EmployeeEntity getRo() {
         return ro;
     }
 
-    public void setRo(Long ro) {
+    public void setRo(EmployeeEntity ro) {
         this.ro = ro;
     }
 
-    public Long getTro() {
+    public EmployeeEntity getTro() {
         return tro;
     }
 
-    public void setTro(Long tro) {
+    public void setTro(EmployeeEntity tro) {
         this.tro = tro;
     }
 
@@ -125,6 +128,14 @@ public class RencanaDto {
 
     public void setAutomaticMail(boolean isAutomaticMail) {
         this.isAutomaticMail = isAutomaticMail;
+    }
+
+    public Date getSentDate() {
+        return sentDate;
+    }
+
+    public void setSentDate(Date sentDate) {
+        this.sentDate = sentDate;
     }
 
 }

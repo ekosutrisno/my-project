@@ -14,9 +14,8 @@ function get_all_rencana() {
 			$("#data_rows").html("");
 			if (result.length > 0) {
 				for (let i = 0; i < result.length; i++) {
-					$("#is_auto").val(result[i].isAutomaticMail);
-
 					$("#data_rows").append(
+
 						`
 												<tr>
 												<td>
@@ -25,10 +24,10 @@ function get_all_rencana() {
 												<div class="col-sm"><h5>${result[i].scheduleDate}, ${result[i].time}</h5></div>
 												
 												<div class="col-sm">
-													<p class="">RO      : ${result[i].ro}</p>
-													<p class="">TRO     : ${result[i].tro}</p>
+													<p class="">RO      :${result[i].ro.biodataId.fullName}</p>
+													<p class="">TRO     : ${result[i].tro.biodataId.fullName}</p>
 													<p class="">Location     : ${result[i].location}</p>
-													<p class = "" id = "out-mode">Mode   : ${result[i].isAutomaticMail}</p>
+													<p class = "" id = "out-mode">Mode   : <p id="sent"></p> </p>
 													<p class="">Jenis Jadwal  : ${result[i].scheduleTypeId.name}</p>
 												</div>
 												
@@ -158,14 +157,10 @@ $("#btn-reset").on("click", function () {
 
 // fungsi menccari data
 $("#btn-search").on("click", function () {
-	$.ajax({
-		url: "api/rencana/",
-		type: "get",
-		contentType: "application/json",
-		success: function (data) {
-			for (var i = 0; i < data.length; i++) {}
-		}
-	});
+
+	var tgl_mulai = $('#input-search-dari').val();
+	var tgl_sampai = $('#input-search-sampai').val();
+	search_data(tgl_mulai, tgl_sampai);
 });
 
 // menambah rencana
@@ -181,14 +176,15 @@ $("#save_rencana").click(function () {
 		scheduleCode: $("#get_schedule_code").val(),
 		scheduleDate: $("#get_tgl_rencana").val(),
 		time: $("#get_jam_rencana").val(),
-		ro: $("#get_ro").val(),
-		tro: $("#get_tro").val(),
+		ro: { id: $("#get_ro").val() },
+		tro: { id: $("#get_tro").val() },
 		location: $("#get_lokasi").val(),
 		otherRoTro: $("#get_othertro").val(),
 		notes: $("#get_notes").val(),
-		isAutomaticMail: $("#isAutomaticMail").val(),
-		// sentDAte: $("#get_sent_date").val(),
+		isAutomaticMail: $("#cek_sent_date").val(),
+		sentDate: $("#get_sent_date").val(),
 	}
+
 	if (action == "add") {
 		type = "post";
 	} else if (action == "edit") {
@@ -265,8 +261,9 @@ function get_data_byid(id, action) {
 		success: function (rencana) {
 
 			$("#get_form_rencana")[0].reset();
-			get_ro_isero_true(rencana.ro);
-			get_tro_isero_true(rencana.tro);
+
+			get_ro_isero_true(rencana.ro.biodataId.id);
+			get_tro_isero_true(rencana.tro.biodataId.id);
 			get_typeschedule(rencana.scheduleTypeId.id);
 			$("#get_id").val(rencana.id);
 			$("#get_schedule_code").val(rencana.scheduleCode);
@@ -275,14 +272,10 @@ function get_data_byid(id, action) {
 			$("#get_lokasi").val(rencana.location);
 			$("#get_othertro").val(rencana.otherRoTro);
 			$("#get_notes").val(rencana.notes);
-			// $("#get_sent_date").val(result.notes)
+			$("#get_sent_date").val(rencana.sentDate)
+			$("#is_auto").val(result.isAutomaticMail)
 
-			// if (result.isAutomaticMail == true) {
-			// 	$("#isAutomaticMail").val("Otomatis")
-			// } else {
-			// 	$("#isAutomaticMail").val("Manual")
-			// }
-			console.log(action)
+
 			$(".modal-judul").text("");
 
 			if (action == "detail") {
@@ -385,26 +378,26 @@ function cek_ro_tro() {
 		);
 	}
 }
-//mdngubah nilai is_automatic_sent menjaadi true / false
-// $("#isAutoEmail").on("click", function () {});
 
-//menenable inputan date sent
-function enable_sendate(cek) {
-	cek != cek;
-	if (cek) {
+$('#cek_sent_date').click(function () {
+	if ($('#cek_sent_date').is(':checked')) {
+		$("#cek_sent_date").val("true")
 		$("#get_sent_date").attr("disabled", false);
+		$("#save_rencana").text("Simpan");
 	} else {
+		$("#save_rencana").text("Simpan & Kirim");
 		$("#get_sent_date").val("");
 		$("#get_sent_date").attr("disabled", true);
+		$("#cek_sent_date").val("false")
 	}
-};
+});
 
 function ouput_mode() {
-	var x = $("#is_auto").val();
+	var x = $("#cek_sent_date").val();
 	if (x == true) {
-		$("#out-mode").val("Otomatis");
+		$("#sent").val("Otomatis");
 	} else {
-		$("#out-mode").val("Otomatis");
+		$("#sent").val("Manual");
 	}
 };
 
@@ -419,3 +412,58 @@ const Toast = Swal.mixin({
 		toast.addEventListener('mouseleave', Swal.resumeTimer)
 	}
 });
+
+
+//Function search
+function search_data(tgl_mulai, tgl_sampai) {
+	$.ajax({
+		url: "api/rencana/search?tgl_mulai=" + tgl_mulai + "&tgl_sampai=" + tgl_sampai,
+		type: "get",
+		contentType: "application/json",
+		success: function (Data) {
+
+			$("#data_rows").html("");
+			if (Data.length > 0) {
+				for (let i = 0; i < Data.length; i++) {
+					$("#data_rows").append(
+
+						`
+												<tr>
+												<td>
+											<div class="row font-weight-bold">
+												<div class="col-sm">${Data[i].scheduleCode}</div>
+												<div class="col-sm"><h5>${Data[i].scheduleDate}, ${Data[i].time}</h5></div>
+												
+												<div class="col-sm">
+													<p class="">RO      :${Data[i].ro.biodataId.fullName}</p>
+													<p class="">TRO     : ${Data[i].tro.biodataId.fullName}</p>
+													<p class="">Location     : ${Data[i].location}</p>
+													<p class = "" id = "out-mode">Mode   : <p id="sent"></p> </p>
+													<p class="">Jenis Jadwal  : ${Data[i].scheduleTypeId.name}</p>
+												</div>
+												
+												<div class="col-sm">
+												 <h5 class="">
+                          <a onclick="get_data_byid(${Data[i].id},'edit')"  class="mr-2 " data-toggle="modal" data-target="#modal-rencana" href="#"
+                              id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                          <a onclick="hapus(${Data[i].id})"  class="mr-2" data-toggle="modal" data-target="" href="#"
+                              id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                          <a onclick="get_data_byid(${Data[i].id},'detail')"  class="mr-2" data-toggle="modal" data-target="#modal-rencana" href="#"
+                              id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
+                        </h5>
+												</div>
+
+											</div>
+											</td>
+                       </tr> 
+											 `);
+				}
+			} else {
+				$("#data_rows").html(
+					`<tr> <td colspan="4" style="text-align:center"><i>Data tidak ditemukan...</i> </td></tr>`
+				);
+			}
+		},
+	});
+
+}

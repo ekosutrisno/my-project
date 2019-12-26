@@ -114,13 +114,13 @@
 				</div>
 				<div class="modal-body px-4">
 					<input type="hidden" id="action" value="">
+					<input type="hidden" id="is_auto" name="isAutomaticMail" value="Eko Sutrisn">
 
 					<form id="get_form_rencana" class="">
 
 						<!-- untuk menyimpan type hidden  -->
 						<input type="hidden" id="get_id" name="id">
 						<input type="hidden" id="get_schedule_code" name="scheduleCode">
-						<input type="hidden" id="is_auto" name="isAutoEmail">
 
 						<!-- ROw Pertama -->
 						<div class="row">
@@ -216,9 +216,10 @@
 						<div class="row">
 							<div class="col-sm">
 								<div class="custom-control custom-checkbox mb-3">
-									<input type="checkbox" class="custom-control-input" id="isAutomaticMail" name="isAutomaticMail"
-										onclick="enable_sendate(this.checked)">
-									<label class="custom-control-label" for="isAutomaticMail">Kirim undangan otomatis.</label>
+									<input type="checkbox" class="custom-control-input" id="cek_sent_date" name="automaticMail"
+										onclick="enable_sendate(this.checked)" value="false">
+									<label class="custom-control-label" for="cek_sent_date">Kirim undangan
+										otomatis.</label>
 								</div>
 							</div>
 						</div>
@@ -260,7 +261,7 @@
 				</div> <!-- /.modal-body -->
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary get_rencana" id="save_rencana">Save
+					<button type="button" class="btn btn-primary get_rencana" id="save_rencana">Simpan & Kirim
 					</button>
 				</div> <!-- /.modal-footer -->
 				</form>

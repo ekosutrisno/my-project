@@ -6,6 +6,7 @@ import com.xsis.xsis.models.entity.RencanaEntity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,13 +16,14 @@ import org.springframework.stereotype.Repository;
 public interface RencanaRepository extends JpaRepository<RencanaEntity, Long> {
 
   @Query(value = "SELECT*FROM x_rencana_jadwal ORDER BY id ASC", nativeQuery = true)
-  List<RencanaEntity> getRencana();
+  List<RencanaEntity> getRencanaAsc();
 
-  static String TGL_MULAI = "";
-  static String TGL_SAMPAI = "";
-  static final String CARI_DATA = "SELECT*FROM x_rencana_jadwal WHERE schedule_date BETWEEN '" + TGL_MULAI + "' AND '"
-      + TGL_MULAI + "'";
+  @Query(value = "SELECT*FROM x_rencana_jadwal ORDER BY id ASC", nativeQuery = true)
+  List<RencanaEntity> getRencanaDesc();
+
+  static final String CARI_DATA = "SELECT * FROM x_rencana_jadwal WHERE schedule_date BETWEEN :tgl_mulai AND :tgl_sampai";
 
   @Query(value = CARI_DATA, nativeQuery = true)
-  List<RencanaEntity> searchData(String tgl_mulai, String tgl_akhir);
+  List<RencanaEntity> searchData(@Param("tgl_mulai") String tgl_mulai, @Param("tgl_sampai") String tgl_sampai);
+
 }

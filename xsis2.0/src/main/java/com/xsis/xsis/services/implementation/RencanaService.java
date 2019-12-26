@@ -23,12 +23,17 @@ public class RencanaService implements IRencanaService {
 
     public List<RencanaEntity> getAll() {
         List<RencanaEntity> rencana = new ArrayList<>();
-        for (RencanaEntity rencanas : rencanaRepository.getRencana()) {
+        for (RencanaEntity rencanas : rencanaRepository.getRencanaAsc()) {
             if (!rencanas.getIsDelete()) {
                 rencana.add(rencanas);
             }
         }
         return rencana;
+    }
+
+    @Override
+    public List<RencanaEntity> searchData(String tgl_mulai, String tgl_sampai) {
+        return rencanaRepository.searchData(tgl_mulai, tgl_sampai);
     }
 
     @Override
@@ -58,6 +63,7 @@ public class RencanaService implements IRencanaService {
         rencanaDetail.setLocation(rencanaEntity.getLocation());
         rencanaDetail.setOtherRoTro(rencanaEntity.getOtherRoTro());
         rencanaDetail.setNotes(rencanaEntity.getNotes());
+        rencanaDetail.setSentDate(rencanaEntity.getSentDate());
 
         rencanaDetail.setAutomaticMail(false);
 

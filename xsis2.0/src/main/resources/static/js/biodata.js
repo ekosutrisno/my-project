@@ -151,7 +151,6 @@ function get_data_byid(id, action) {
          $("#get_createdBy").val(result.createdBy);
          $("#get_createdOn").val(result.createdOn);
 
-         console.log($("#get_createdOn").val());
          $("#get_id").val(result.id);
          $("#get_companyid").val(result.companyId);
          $("#get_full_name").val(result.fullName);

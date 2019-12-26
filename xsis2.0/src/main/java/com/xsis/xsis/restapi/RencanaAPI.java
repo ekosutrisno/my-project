@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -25,72 +26,80 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/rencana")
+@RequestMapping(path = "/api/rencana", produces = "application/json")
 public class RencanaAPI {
 
-    @Autowired
-    private IRencanaService rencanaService;
+	@Autowired
+	private IRencanaService rencanaService;
 
-    @GetMapping
-    public List<RencanaEntity> getAll() {
-        return rencanaService.getAll();
-    }
+	@GetMapping
+	public List<RencanaEntity> getAll() {
+		return rencanaService.getAll();
+	}
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> biodataById(@PathVariable("id") Long id) {
-        Optional<RencanaEntity> optReg = rencanaService.getById(id);
-        if (optReg.isPresent()) {
-            return new ResponseEntity<>(optReg.get(), HttpStatus.OK);
-        }
+	@GetMapping("/search")
+	public List<RencanaEntity> getSearch(@RequestParam(name = "tgl_mulai") String tgl_mulai,
+			@RequestParam(name = "tgl_sampai") String tgl_sampai) {
+		return rencanaService.searchData(tgl_mulai, tgl_sampai);
+	}
 
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-    }
+	@GetMapping("/{id}")
+	public ResponseEntity<?> biodataById(@PathVariable("id") Long id) {
+		Optional<RencanaEntity> optReg = rencanaService.getById(id);
+		if (optReg.isPresent()) {
+			return new ResponseEntity<>(optReg.get(), HttpStatus.OK);
+		}
 
-    @PostMapping
-    public RencanaDto simpanReligion(@RequestBody RencanaDto rencanaDto) {
+		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+	}
 
-        RencanaEntity rencanaDetail = new RencanaEntity();
+	@PostMapping
+	public RencanaDto simpanReligion(@RequestBody RencanaDto rencanaDto) {
 
-        rencanaDetail.setScheduleCode(rencanaDto.getScheduleCode());
-        rencanaDetail.setScheduleDate(rencanaDto.getScheduleDate());
-        rencanaDetail.setTime(rencanaDto.getTime());
-        rencanaDetail.setTime(rencanaDto.getTime());
-        rencanaDetail.setRo(rencanaDto.getRo());
-        rencanaDetail.setTro(rencanaDto.getTro());
-        rencanaDetail.setScheduleTypeId(rencanaDto.getScheduleTypeId());
-        rencanaDetail.setLocation(rencanaDto.getLocation());
-        rencanaDetail.setOtherRoTro(rencanaDto.getOtherRoTro());
-        rencanaDetail.setNotes(rencanaDto.getNotes());
-        rencanaDetail.setAutomaticMail(false);
+		RencanaEntity rencanaDetail = new RencanaEntity();
 
-        rencanaService.save(rencanaDetail);
-        return rencanaDto;
-    }
+		rencanaDetail.setScheduleCode(rencanaDto.getScheduleCode());
+		rencanaDetail.setScheduleDate(rencanaDto.getScheduleDate());
+		rencanaDetail.setTime(rencanaDto.getTime());
+		rencanaDetail.setTime(rencanaDto.getTime());
+		rencanaDetail.setRo(rencanaDto.getRo());
+		rencanaDetail.setTro(rencanaDto.getTro());
+		rencanaDetail.setScheduleTypeId(rencanaDto.getScheduleTypeId());
+		rencanaDetail.setLocation(rencanaDto.getLocation());
+		rencanaDetail.setOtherRoTro(rencanaDto.getOtherRoTro());
+		rencanaDetail.setNotes(rencanaDto.getNotes());
+		rencanaDetail.setSentDate(rencanaDto.getSentDate());
+		rencanaDetail.setAutomaticMail(false);
 
-    @PutMapping
-    public RencanaDto updateReligion(@RequestBody RencanaDto rencanaDto) {
+		rencanaService.save(rencanaDetail);
+		return rencanaDto;
+	}
 
-        RencanaEntity rencanaDetail = new RencanaEntity();
-        rencanaDetail.setId(rencanaDto.getId());
-        rencanaDetail.setScheduleCode(rencanaDto.getScheduleCode());
-        rencanaDetail.setScheduleDate(rencanaDto.getScheduleDate());
-        rencanaDetail.setTime(rencanaDto.getTime());
-        rencanaDetail.setTime(rencanaDto.getTime());
-        rencanaDetail.setRo(rencanaDto.getRo());
-        rencanaDetail.setTro(rencanaDto.getTro());
-        rencanaDetail.setScheduleTypeId(rencanaDto.getScheduleTypeId());
-        rencanaDetail.setLocation(rencanaDto.getLocation());
-        rencanaDetail.setOtherRoTro(rencanaDto.getOtherRoTro());
-        rencanaDetail.setNotes(rencanaDto.getNotes());
+	@PutMapping
+	public RencanaDto updateReligion(@RequestBody RencanaDto rencanaDto) {
 
-        rencanaDetail.setAutomaticMail(false);
+		RencanaEntity rencanaDetail = new RencanaEntity();
+		rencanaDetail.setId(rencanaDto.getId());
+		rencanaDetail.setScheduleCode(rencanaDto.getScheduleCode());
+		rencanaDetail.setScheduleDate(rencanaDto.getScheduleDate());
+		rencanaDetail.setTime(rencanaDto.getTime());
+		rencanaDetail.setTime(rencanaDto.getTime());
+		rencanaDetail.setRo(rencanaDto.getRo());
+		rencanaDetail.setTro(rencanaDto.getTro());
+		rencanaDetail.setScheduleTypeId(rencanaDto.getScheduleTypeId());
+		rencanaDetail.setLocation(rencanaDto.getLocation());
+		rencanaDetail.setOtherRoTro(rencanaDto.getOtherRoTro());
+		rencanaDetail.setNotes(rencanaDto.getNotes());
+		rencanaDetail.setSentDate(rencanaDto.getSentDate());
 
-        rencanaService.update(rencanaDetail);
-        return rencanaDto;
-    }
+		rencanaDetail.setAutomaticMail(false);
 
-    @DeleteMapping("/{id}")
-    public RencanaEntity deleteReligion(@PathVariable(value = "id") Long id) {
-        return rencanaService.delete(id);
-    }
+		rencanaService.update(rencanaDetail);
+		return rencanaDto;
+	}
+
+	@DeleteMapping("/{id}")
+	public RencanaEntity deleteReligion(@PathVariable(value = "id") Long id) {
+		return rencanaService.delete(id);
+	}
 }
