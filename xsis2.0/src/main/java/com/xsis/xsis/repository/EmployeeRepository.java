@@ -14,12 +14,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Long> {
 
-  @Query(value = "select * from x_employee where biodata_id = ?1", nativeQuery = true)
+  @Query(value = "SELECT * FROM x_employee WHERE biodata_id = ?1", nativeQuery = true)
   List<EmployeeEntity> getRoAndTroByBiodataId(Long id);
 
-  @Query(value = "select * from x_employee where is_ero = true order by x_employee.id desc", nativeQuery = true)
+  @Query(value = "SELECT * FROM x_employee WHERE is_ero = true ORDER BY x_employee.id ASC", nativeQuery = true)
   List<EmployeeEntity> getRoAndTroByEro();
 
-  @Query(value = "select * from x_employee where is_ero = true and biodata_id = ?1", nativeQuery = true)
+  @Query(value = "SELECT * FROM x_employee WHERE is_ero = true AND biodata_id = ?1", nativeQuery = true)
   List<EmployeeEntity> getTruId(Long id);
 }

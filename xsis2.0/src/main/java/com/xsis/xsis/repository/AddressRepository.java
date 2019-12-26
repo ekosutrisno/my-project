@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface AddressRepository extends JpaRepository<AddressEntity, Long> {
 
-    @Query(value = "select * from x_address where biodata_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM x_address WHERE biodata_id = ?1", nativeQuery = true)
     List<AddressEntity> getAddressByBiodata(Long id);
 
 }

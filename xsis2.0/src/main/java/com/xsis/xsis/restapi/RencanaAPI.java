@@ -37,10 +37,25 @@ public class RencanaAPI {
 		return rencanaService.getAll();
 	}
 
+	@GetMapping("/asc")
+	public List<RencanaEntity> getAllAscending() {
+		return rencanaService.getAscending();
+	}
+
+	@GetMapping("/desc")
+	public List<RencanaEntity> getAllDescending() {
+		return rencanaService.getDescending();
+	}
+
 	@GetMapping("/search")
 	public List<RencanaEntity> getSearch(@RequestParam(name = "tgl_mulai") String tgl_mulai,
 			@RequestParam(name = "tgl_sampai") String tgl_sampai) {
 		return rencanaService.searchData(tgl_mulai, tgl_sampai);
+	}
+
+	@GetMapping("/sama")
+	public List<RencanaEntity> getSearchSama(@RequestParam(name = "tgl_mulai") String tgl_mulai) {
+		return rencanaService.searchDataSama(tgl_mulai);
 	}
 
 	@GetMapping("/{id}")
@@ -49,12 +64,11 @@ public class RencanaAPI {
 		if (optReg.isPresent()) {
 			return new ResponseEntity<>(optReg.get(), HttpStatus.OK);
 		}
-
 		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 	}
 
 	@PostMapping
-	public RencanaDto simpanReligion(@RequestBody RencanaDto rencanaDto) {
+	public RencanaDto simpanRencana(@RequestBody RencanaDto rencanaDto) {
 
 		RencanaEntity rencanaDetail = new RencanaEntity();
 
@@ -76,7 +90,7 @@ public class RencanaAPI {
 	}
 
 	@PutMapping
-	public RencanaDto updateReligion(@RequestBody RencanaDto rencanaDto) {
+	public RencanaDto updateRencana(@RequestBody RencanaDto rencanaDto) {
 
 		RencanaEntity rencanaDetail = new RencanaEntity();
 		rencanaDetail.setId(rencanaDto.getId());
@@ -99,7 +113,7 @@ public class RencanaAPI {
 	}
 
 	@DeleteMapping("/{id}")
-	public RencanaEntity deleteReligion(@PathVariable(value = "id") Long id) {
+	public RencanaEntity deleteRencana(@PathVariable(value = "id") Long id) {
 		return rencanaService.delete(id);
 	}
 }

@@ -1,5 +1,6 @@
 $(() => {
 	get_all_rencana();
+	$('#page_sorting2').hide();
 });
 
 function get_all_rencana() {
@@ -157,7 +158,7 @@ $("#btn-reset").on("click", function () {
 
 // fungsi menccari data
 $("#btn-search").on("click", function () {
-
+	$("#data_rows").html("");
 	var tgl_mulai = $('#input-search-dari').val();
 	var tgl_sampai = $('#input-search-sampai').val();
 	search_data(tgl_mulai, tgl_sampai);
@@ -176,8 +177,12 @@ $("#save_rencana").click(function () {
 		scheduleCode: $("#get_schedule_code").val(),
 		scheduleDate: $("#get_tgl_rencana").val(),
 		time: $("#get_jam_rencana").val(),
-		ro: { id: $("#get_ro").val() },
-		tro: { id: $("#get_tro").val() },
+		ro: {
+			id: $("#get_ro").val()
+		},
+		tro: {
+			id: $("#get_tro").val()
+		},
 		location: $("#get_lokasi").val(),
 		otherRoTro: $("#get_othertro").val(),
 		notes: $("#get_notes").val(),
@@ -463,7 +468,120 @@ function search_data(tgl_mulai, tgl_sampai) {
 					`<tr> <td colspan="4" style="text-align:center"><i>Data tidak ditemukan...</i> </td></tr>`
 				);
 			}
-		},
+		}
 	});
 
 }
+
+$('#page_sorting1').on('click', function () {
+	sorting_ascending();
+	$('#page_sorting2').show();
+	$('#page_sorting1').hide();
+});
+
+//sorting ascending data
+function sorting_ascending() {
+	$.ajax({
+		url: "api/rencana/asc",
+		type: 'get',
+		contentType: 'application/json',
+		success: function (asc) {
+			$("#data_rows").html("");
+			if (asc.length > 0) {
+				for (let i = 0; i < asc.length; i++) {
+					$("#data_rows").append(
+						`
+												<tr>
+												<td>
+											<div class="row font-weight-bold">
+												<div class="col-sm">${asc[i].scheduleCode}</div>
+												<div class="col-sm"><h5>${asc[i].scheduleDate}, ${asc[i].time}</h5></div>
+												
+												<div class="col-sm">
+													<p class="">RO      :${asc[i].ro.biodataId.fullName}</p>
+													<p class="">TRO     : ${asc[i].tro.biodataId.fullName}</p>
+													<p class="">Location     : ${asc[i].location}</p>
+													<p class = "" id = "out-mode">Mode   : <p id="sent"></p> </p>
+													<p class="">Jenis Jadwal  : ${asc[i].scheduleTypeId.name}</p>
+													</div>
+													
+												<div class="col-sm">
+												<h5 class="">
+                          <a onclick="get_data_byid(${asc[i].id},'edit')"  class="mr-2 " data-toggle="modal" data-target="#modal-rencana" href="#"
+                              id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
+															<a onclick="hapus(${asc[i].id})"  class="mr-2" data-toggle="modal" data-target="" href="#"
+                              id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                          <a onclick="get_data_byid(${asc[i].id},'detail')"  class="mr-2" data-toggle="modal" data-target="#modal-rencana" href="#"
+                              id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
+															</h5>
+															</div>
+
+											</div>
+											</td>
+                       </tr> 
+											 `);
+				}
+			} else {
+				$("#data_rows").html(
+					`<tr> <td colspan="4" style="text-align:center"><i>Data tidak ditemukan...</i> </td></tr>`
+				);
+			}
+		}
+	});
+};
+
+$('#page_sorting2').on('click', function () {
+	sorting_descending();
+	$('#page_sorting1').show();
+	$('#page_sorting2').hide();
+});
+// sorting descending data 
+function sorting_descending() {
+	$.ajax({
+		url: "api/rencana/desc",
+		type: 'get',
+		contentType: 'application/json',
+		success: function (asc) {
+			$("#data_rows").html("");
+			if (asc.length > 0) {
+				for (let i = 0; i < asc.length; i++) {
+					$("#data_rows").append(
+						`
+												<tr>
+												<td>
+											<div class="row font-weight-bold">
+												<div class="col-sm">${asc[i].scheduleCode}</div>
+												<div class="col-sm"><h5>${asc[i].scheduleDate}, ${asc[i].time}</h5></div>
+												
+												<div class="col-sm">
+													<p class="">RO      :${asc[i].ro.biodataId.fullName}</p>
+													<p class="">TRO     : ${asc[i].tro.biodataId.fullName}</p>
+													<p class="">Location     : ${asc[i].location}</p>
+													<p class = "" id = "out-mode">Mode   : <p id="sent"></p> </p>
+													<p class="">Jenis Jadwal  : ${asc[i].scheduleTypeId.name}</p>
+												</div>
+												
+												<div class="col-sm">
+												 <h5 class="">
+                          <a onclick="get_data_byid(${asc[i].id},'edit')"  class="mr-2 " data-toggle="modal" data-target="#modal-rencana" href="#"
+                              id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                          <a onclick="hapus(${asc[i].id})"  class="mr-2" data-toggle="modal" data-target="" href="#"
+                              id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                          <a onclick="get_data_byid(${asc[i].id},'detail')"  class="mr-2" data-toggle="modal" data-target="#modal-rencana" href="#"
+                              id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
+                        </h5>
+												</div>
+
+											</div>
+											</td>
+                       </tr> 
+											 `);
+				}
+			} else {
+				$("#data_rows").html(
+					`<tr> <td colspan="4" style="text-align:center"><i>Data tidak ditemukan...</i> </td></tr>`
+				);
+			}
+		}
+	});
+};

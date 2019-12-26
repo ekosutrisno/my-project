@@ -12,7 +12,13 @@ public interface IRencanaService {
 
     List<RencanaEntity> getAll();
 
+    List<RencanaEntity> getAscending();
+
+    List<RencanaEntity> getDescending();
+
     List<RencanaEntity> searchData(@Param("tgl_mulai") String tgl_mulai, @Param("tgl_sampai") String tgl_sampai);
+
+    List<RencanaEntity> searchDataSama(@Param("tgl_mulai") String tgl_mulai);
 
     RencanaEntity save(RencanaEntity rencanaEntity);
 
