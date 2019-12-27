@@ -6,10 +6,14 @@ import java.util.List;
 import java.util.Optional;
 
 import com.xsis.xsis.models.entity.RencanaEntity;
+import com.xsis.xsis.repository.PagingRepository;
 import com.xsis.xsis.repository.RencanaRepository;
 import com.xsis.xsis.services.IRencanaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,6 +24,9 @@ public class RencanaService implements IRencanaService {
 
 	@Autowired
 	private RencanaRepository rencanaRepository;
+
+	@Autowired
+	private PagingRepository pagingRepository;
 
 	@Override
 	public List<RencanaEntity> getAll() {
@@ -44,6 +51,11 @@ public class RencanaService implements IRencanaService {
 	}
 
 	@Override
+	public Page<RencanaEntity> findByPaging(@PageableDefault(size = 0, sort = "id") Pageable pageable, String key) {
+		return pagingRepository.findByPaging(pageable, key);
+	}
+
+	@Override
 	public List<RencanaEntity> getDescending() {
 		List<RencanaEntity> rencana = new ArrayList<>();
 		for (RencanaEntity rencanas : rencanaRepository.getRencanaDesc()) {
@@ -57,11 +69,6 @@ public class RencanaService implements IRencanaService {
 	@Override
 	public List<RencanaEntity> searchData(String tgl_mulai, String tgl_sampai) {
 		return rencanaRepository.searchData(tgl_mulai, tgl_sampai);
-	}
-
-	@Override
-	public List<RencanaEntity> searchDataSama(String tgl_mulai) {
-		return rencanaRepository.searchDataSama(tgl_mulai);
 	}
 
 	@Override

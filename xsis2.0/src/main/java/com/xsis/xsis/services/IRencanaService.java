@@ -3,6 +3,9 @@ package com.xsis.xsis.services;
 import java.util.List;
 import java.util.Optional;
 import com.xsis.xsis.models.entity.RencanaEntity;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 
 /**
@@ -18,7 +21,7 @@ public interface IRencanaService {
 
     List<RencanaEntity> searchData(@Param("tgl_mulai") String tgl_mulai, @Param("tgl_sampai") String tgl_sampai);
 
-    List<RencanaEntity> searchDataSama(@Param("tgl_mulai") String tgl_mulai);
+    Page<RencanaEntity> findByPaging(Pageable pageable, String key);
 
     RencanaEntity save(RencanaEntity rencanaEntity);
 

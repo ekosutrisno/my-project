@@ -137,6 +137,11 @@ $(function () {
 		});
 });
 
+//pagination function
+$('#page_show').on('click', function () {
+	paginate_data(1, 2);
+});
+
 // menambah rencana
 $("#add_rencana").click(function () {
 	get_typeschedule();
@@ -568,6 +573,59 @@ function sorting_descending() {
                           <a onclick="hapus(${asc[i].id})"  class="mr-2" data-toggle="modal" data-target="" href="#"
                               id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
                           <a onclick="get_data_byid(${asc[i].id},'detail')"  class="mr-2" data-toggle="modal" data-target="#modal-rencana" href="#"
+                              id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
+                        </h5>
+												</div>
+
+											</div>
+											</td>
+                       </tr> 
+											 `);
+				}
+			} else {
+				$("#data_rows").html(
+					`<tr> <td colspan="4" style="text-align:center"><i>Data tidak ditemukan...</i> </td></tr>`
+				);
+			}
+		}
+	});
+};
+
+
+// paginate data
+function paginate_data(page, size) {
+	$.ajax({
+		url: "api/rencana/paging?page=" + page + "&size=" + size,
+		type: 'get',
+		contentType: 'application/json',
+		success: function (pagination) {
+			var pagination = pagination.content;
+			$("#data_rows").html("");
+			if (pagination.length > 0) {
+				for (let i = 0; i < pagination.length; i++) {
+					$("#data_rows").append(
+						`
+												<tr>
+												<td>
+											<div class="row font-weight-bold">
+												<div class="col-sm">${pagination[i].scheduleCode}</div>
+												<div class="col-sm"><h5>${pagination[i].scheduleDate}, ${pagination[i].time}</h5></div>
+												
+												<div class="col-sm">
+													<p class="">RO      :${pagination[i].ro.biodataId.fullName}</p>
+													<p class="">TRO     : ${pagination[i].tro.biodataId.fullName}</p>
+													<p class="">Location     : ${pagination[i].location}</p>
+													<p class = "" id = "out-mode">Mode   : <p id="sent"></p> </p>
+													<p class="">Jenis Jadwal  : ${pagination[i].scheduleTypeId.name}</p>
+												</div>
+												
+												<div class="col-sm">
+												 <h5 class="">
+                          <a onclick="get_data_byid(${pagination[i].id},'edit')"  class="mr-2 " data-toggle="modal" data-target="#modal-rencana" href="#"
+                              id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                          <a onclick="hapus(${pagination[i].id})"  class="mr-2" data-toggle="modal" data-target="" href="#"
+                              id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                          <a onclick="get_data_byid(${pagination[i].id},'detail')"  class="mr-2" data-toggle="modal" data-target="#modal-rencana" href="#"
                               id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
                         </h5>
 												</div>

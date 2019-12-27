@@ -8,6 +8,8 @@ import com.xsis.xsis.models.entity.RencanaEntity;
 import com.xsis.xsis.services.IRencanaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -53,9 +55,10 @@ public class RencanaAPI {
 		return rencanaService.searchData(tgl_mulai, tgl_sampai);
 	}
 
-	@GetMapping("/sama")
-	public List<RencanaEntity> getSearchSama(@RequestParam(name = "tgl_mulai") String tgl_mulai) {
-		return rencanaService.searchDataSama(tgl_mulai);
+	@GetMapping("/paging")
+	public Page<RencanaEntity> findByPaging(Pageable pageable,
+			@RequestParam(name = "key", defaultValue = "") String key) {
+		return rencanaService.findByPaging(pageable, key);
 	}
 
 	@GetMapping("/{id}")
