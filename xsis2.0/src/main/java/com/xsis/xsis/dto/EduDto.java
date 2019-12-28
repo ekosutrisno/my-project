@@ -10,6 +10,8 @@ public class EduDto {
     private Long biodataId;
     private Long educationLevelId;
     private String schoolName;
+    private String city;
+    private String country;
     private String name;
     private String entryYear;
     private String graduationYear;
@@ -19,12 +21,14 @@ public class EduDto {
     public EduDto() {
     }
 
-    public EduDto(Long id, Boolean isDelete, Long biodataId, Long educationLevelId, String schoolName, String name, String entryYear, String graduationYear, String major, Double gpa) {
+    public EduDto(Long id, Boolean isDelete, Long biodataId, Long educationLevelId, String schoolName, String city, String country, String name, String entryYear, String graduationYear, String major, Double gpa) {
         this.id = id;
         this.isDelete = isDelete;
         this.biodataId = biodataId;
         this.educationLevelId = educationLevelId;
         this.schoolName = schoolName;
+        this.city = city;
+        this.country = country;
         this.name = name;
         this.entryYear = entryYear;
         this.graduationYear = graduationYear;
@@ -76,6 +80,22 @@ public class EduDto {
         this.schoolName = schoolName;
     }
 
+    public String getCity() {
+        return this.city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return this.country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     public String getName() {
         return this.name;
     }
@@ -116,7 +136,6 @@ public class EduDto {
         this.gpa = gpa;
     }
 
-
-
+    
     
 }

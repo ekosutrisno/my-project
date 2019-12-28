@@ -45,6 +45,11 @@ public class EducationServicesImpl implements EducationServices {
         return educationRepository.getEduNameDetail(biodataId, id);
     }
 
+    @Override
+    public List<EduDto> getLastEducation(Long biodataId) {
+        return educationRepository.getLastEducation(biodataId);
+    }
+
     
 
 

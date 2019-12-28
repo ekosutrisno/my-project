@@ -12,20 +12,29 @@ import com.xsis.xsis.models.common.CommonEntity;
     @ColumnResult(name = "biodata_id", type = Long.class),
     @ColumnResult(name = "education_level_id", type = Long.class),
     @ColumnResult(name = "school_name", type = String.class),
+    @ColumnResult(name = "city", type = String.class),
+    @ColumnResult(name = "country", type = String.class),
     @ColumnResult(name = "name", type = String.class),
     @ColumnResult(name = "entry_year", type = String.class),
     @ColumnResult(name = "graduation_year", type = String.class),
     @ColumnResult(name = "major", type = String.class),
     @ColumnResult(name = "gpa", type = Double.class)}) })
 
-// List Category Join Brand
+// List Education Join Education Level
 @NamedNativeQuery(name = "Education.getEduName", 
-query = "select a.id,a.isdelete,a.education_level_id,a.biodata_id,a.school_name,b.name,a.entry_year,a.graduation_year,a.major,a.gpa from x_riwayat_pendidikan a " +
-"join x_education_level b on b.id=a.education_level_id where a.biodata_id=:biodataId and a.isdelete=false", resultSetMapping = "educationMapping")
+query = "select a.id,a.isdelete,a.education_level_id,a.biodata_id,a.school_name,a.city,a.country,b.name,a.entry_year,a.graduation_year,a.major,a.gpa from x_riwayat_pendidikan a " +
+"join x_education_level b on b.id=a.education_level_id where a.biodata_id=:biodataId and a.isdelete=false and b.isdelete=false", resultSetMapping = "educationMapping")
 
+// Get Last Education By ID
+@NamedNativeQuery(name = "Education.getLastEducation", 
+query = "select a.id,a.isdelete,a.education_level_id,a.biodata_id,a.school_name,a.city,a.country,b.name,a.entry_year,a.graduation_year,a.major,a.gpa from x_riwayat_pendidikan a " +
+"join x_education_level b on b.id=a.education_level_id where a.biodata_id=:biodataId and a.isdelete=false and b.isdelete=false order by a.education_level_id desc limit 1", resultSetMapping = "educationMapping")
+
+
+// Get Detail Education Join Biodata
 @NamedNativeQuery(name = "Education.getEduNameDetail", 
-query = "select a.id,a.isdelete,a.education_level_id,a.biodata_id,a.school_name,b.name,a.entry_year,a.graduation_year,a.major,a.gpa from x_riwayat_pendidikan a " +
-"join x_education_level b on b.id=a.education_level_id where (a.biodata_id=:biodataId and a.id=:id) and a.isdelete=false", resultSetMapping = "educationMapping")
+query = "select a.id,a.isdelete,a.education_level_id,a.biodata_id,a.school_name,a.city,a.country,b.name,a.entry_year,a.graduation_year,a.major,a.gpa from x_riwayat_pendidikan a " +
+"join x_education_level b on b.id=a.education_level_id where (a.biodata_id=:biodataId and a.id=:id) and a.isdelete=false and b.isdelete=false", resultSetMapping = "educationMapping")
 
 /**
  * Pendidikan
