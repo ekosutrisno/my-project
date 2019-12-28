@@ -1,17 +1,19 @@
-package com.xsis.xsis.services.implementation;
+package com.xsis.xsis.services.vacancy_pendidikan_resourceproject.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.xsis.xsis.dto.ResourceProDto;
-import com.xsis.xsis.model.ResourceProject;
-import com.xsis.xsis.repository.ResourceProjectRepository;
-import com.xsis.xsis.services.ResourceProjectService;
+import com.xsis.xsis.dto.vacancy_pendidikan_resourceproject.ResourceProDto;
+import com.xsis.xsis.model.vacancy_pendidikan_resourceproject.ResourceProject;
+import com.xsis.xsis.repository.vacancy_pendidikan_resourceproject.ResourceProjectRepository;
+import com.xsis.xsis.services.vacancy_pendidikan_resourceproject.ResourceProjectService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 /**
@@ -26,11 +28,6 @@ public class ResourceProjectServiceImpl implements ResourceProjectService {
     @Override
     public ResourceProject saveResourceProject(ResourceProject resourceProject) {
         return resourceProjectRepository.save(resourceProject);
-    }
-
-    @Override
-    public Iterable<ResourceProDto> getResourceProjectClientEmployee() {
-        return resourceProjectRepository.getResourceProjectClientEmployee();
     }
 
     @Override
@@ -71,5 +68,31 @@ public class ResourceProjectServiceImpl implements ResourceProjectService {
     public List<ResourceProDto> getResultSearcNameClientResourceProject(String name) {
         return resourceProjectRepository.searchNameClientResourceProject(name);
     }
+
+    @Override
+    public Iterable<ResourceProDto> getPagingResourceProjectClientEmployee(Integer pageNo, Integer pageSize,
+            String sortBy) {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<ResourceProDto> pagedResult = resourceProjectRepository.getPagingResourceProjectClientEmployee(paging);
+        if (pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<ResourceProDto>();
+        }
+    }
+
+    @Override
+    public Iterable<ResourceProDto> getResourceProjectClientEmployee() {
+        return resourceProjectRepository.getResourceProjectClientEmployee();
+    }
+
+    // @Override
+    // public Page<ResourceProDto> getPagingResourceProjectClientEmployee(
+    // @PageableDefault(size = 0, sort = " id") Pageable pageable, String key) {
+    // return
+    // resourceProjectRepository.getPagingResourceProjectClientEmployee(pageable,
+    // key);
+    // }
 
 }

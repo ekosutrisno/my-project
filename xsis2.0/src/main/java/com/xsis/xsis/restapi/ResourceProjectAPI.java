@@ -1,13 +1,13 @@
-package com.xsis.xsis.restapi;
+package com.xsis.xsis.restapi.vacancy_pendidikan_resourceproject;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import com.xsis.xsis.dto.ResourceProDto;
-import com.xsis.xsis.model.ResourceProject;
-import com.xsis.xsis.services.ResourceProjectService;
+import com.xsis.xsis.dto.vacancy_pendidikan_resourceproject.ResourceProDto;
+import com.xsis.xsis.model.vacancy_pendidikan_resourceproject.ResourceProject;
+import com.xsis.xsis.services.vacancy_pendidikan_resourceproject.ResourceProjectService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -61,6 +61,22 @@ public class ResourceProjectAPI {
         return new ResponseEntity<>(resourceProjectService.getResourceProjectClientEmployee(), HttpStatus.OK);
     }
 
+    @GetMapping("/paging")
+    public ResponseEntity<Iterable<ResourceProDto>> getAllEmployees(@RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "2 ") Integer pageSize, @RequestParam(defaultValue = "id") String sortBy) {
+        Iterable<ResourceProDto> list = resourceProjectService.getPagingResourceProjectClientEmployee(pageNo, pageSize,
+                sortBy);
+
+        return new ResponseEntity<Iterable<ResourceProDto>>(list, HttpStatus.OK);
+    }
+
+    // @GetMapping("/paging")
+    // public Page<ResourceProDto> findByPaging(Pageable pageable,
+    // @RequestParam(name = "key", defaultValue = "") String key) {
+    // return
+    // resourceProjectService.getPagingResourceProjectClientEmployee(pageable, key);
+    // }
+
     // @GetMapping("/order")
     // public ResponseEntity<?> findAllResourceProjectByPage(@RequestParam Integer
     // pageNo,
@@ -69,7 +85,6 @@ public class ResourceProjectAPI {
     // ResponseEntity<>(resourceProjectService.findAllResourceProjectPandS(pageNo,
     // pageSize),
     // HttpStatus.OK);
-
     // }
 
     @GetMapping("/{id}")
