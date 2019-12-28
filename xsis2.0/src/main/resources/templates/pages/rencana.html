@@ -3,21 +3,32 @@
 <th:block layout:fragment="content">
 	<div class="bottom p-4">
 		<div class="col">
-			<div class="container">
+			<div class="container-fluid clearfix">
 				<div class="card">
 					<div class="card-block p-4">
 						<div class="row">
 							<div class="col">
-								<h3 class="font-weight-bold">Rencana Jadwal</h3>
+								<h3 class="font-weight-bold">Rencana Jadwal <label class="badge badge-primary" id="show-info"></label>
+								</h3>
 							</div>
 							<div class="col">
 								<h4 class=" float-right">
 									<a class="mr-2" data-toggle="modal" data-target="" href="#" id="page_sorting1"><i
 											class="fa fa-sort-alpha-down" aria-hidden="true" id="sort-data1"></i></a>
+
 									<a class="mr-2" data-toggle="modal" data-target="" href="#" id="page_sorting2"><i
 											class="fa fa-sort-alpha-up-alt" aria-hidden="true" id="sort-data2"></i></a>
-									<a class="mr-2" data-toggle="modal" data-target="" href="#" id="page_show"><i class="fa fa-list"
-											aria-hidden="true"></i></a>
+
+									<a class="mr-2" data-toggle="dropdown" data-target="" data-display="static" href="" id="page_show"><i
+											class="fa fa-list" aria-hidden="true" aria-haspopup="true" aria-expanded="false"></i></a>
+									<div class="dropdown-menu dropdown-menu-lg-right">
+										<a id="data-show-10" class="dropdown-item" type="button">10 Data Per Page</a>
+										<a id="data-show-20" class="dropdown-item" type="button">20 Data Per Page</a>
+										<a id="data-show-30" class="dropdown-item" type="button">30 Data Per Page</a>
+										<a id="data-show-40" class="dropdown-item" type="button">40 Data Per Page</a>
+										<a id="data-show-50" class="dropdown-item" type="button">50 Data Per Page</a>
+									</div>
+
 									<a class="mr-2" data-toggle="modal" data-target="" href="#" id="add_rencana"><i
 											class="fa fa-plus-circle" aria-hidden="true"></i></a>
 								</h4>
@@ -74,29 +85,45 @@
 							<div class="col-sm">
 								<div id="showList">
 									<!-- Show List Vacancy -->
-									<table class="table table-hover">
+									<table id="my-data" class="table table-hover">
 										<thead class="">
-											<!-- table head dikosongkan -->
-											<!-- <th>No</th>
-											<th>Kode</th>
-											<th>Tanggal</th>
-											<th>Jam</th>
-											<th>RO</th>
-											<th>TRO</th>
-											<th>Location</th>
-											<th>Mode</th>
-											<th>Jenis</th>
-											<th>Action</th> -->
 										</thead>
 
 										<tbody id="data_rows">
 											<!-- Tempat data di isikan oleh java script -->
 
 										</tbody>
-
 									</table>
+									<hr>
+									<tfoot>
+										<div class="row">
+											<div class="col-sm col-md">
+												<p> Total Data:
+													<a class="badge badge-danger text-white" id="total-data"></a></p>
+											</div>
+											<div class="col-sm col-md">
+												<p> Total Halaman:
+													<a class="badge badge-warning text-white" id="total-size"></a></p>
+											</div>
+											<div class="col-sm col-md">
+												<p>Data Per Halaman:
+													<a class="badge badge-success text-white" id="total-page"></a></p>
+											</div>
+											<div class="col-sm col-md">
+												<p> Halaman Ke:
+													<a class="badge badge-primary text-white" id="total-ke"></a></p>
+											</div>
+										</div>
+									</tfoot>
 
 								</div>
+								<hr>
+								<nav aria-label="Page navigation example">
+									<ul class="pagination justify-content-end mr-5">
+										<li class="page-item"><a class="page-link" href="#" id="prev">Previous</a></li>
+										<li class="page-item"><a class="page-link" href="#" id="next">Next</a></li>
+									</ul>
+								</nav>
 							</div>
 						</div>
 					</div>
@@ -116,6 +143,7 @@
 				</div>
 				<div class="modal-body px-4">
 					<input type="hidden" id="action" value="">
+					<input type="hidden" id="cek-show" value="asc">
 					<input type="hidden" id="is_auto" name="isAutomaticMail" value="Eko Sutrisn">
 
 					<form id="get_form_rencana" class="">
@@ -263,7 +291,7 @@
 				</div> <!-- /.modal-body -->
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary get_rencana" id="save_rencana">Simpan & Kirim
+					<button type="button" class="btn btn-primary get_rencana x-hide" id="save_rencana">Simpan & Kirim
 					</button>
 				</div> <!-- /.modal-footer -->
 				</form>

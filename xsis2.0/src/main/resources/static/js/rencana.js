@@ -1,6 +1,7 @@
 $(() => {
 	get_all_rencana();
 	$('#page_sorting2').hide();
+
 });
 
 function get_all_rencana() {
@@ -8,11 +9,18 @@ function get_all_rencana() {
 		`<tr> <td colspan="4" style="text-align:center"><i>Loading...</i> </td></td></tr>`
 	);
 	$.ajax({
-		url: "/api/rencana/",
+		url: "api/rencana/paging?size=10",
 		type: "get",
 		contentType: "application/json",
 		success: function (result) {
+			$("#total-data").text(result.totalElements);
+			$("#total-size").text(result.totalPages);
+			$("#total-page").text(result.size);
+			$("#total-ke").text(result.totalElements);
+
+			var result = result.content;
 			$("#data_rows").html("");
+
 			if (result.length > 0) {
 				for (let i = 0; i < result.length; i++) {
 					$("#data_rows").append(
@@ -25,11 +33,11 @@ function get_all_rencana() {
 												<div class="col-sm"><h5>${result[i].scheduleDate}, ${result[i].time}</h5></div>
 												
 												<div class="col-sm">
-													<p class="">RO      :${result[i].ro.biodataId.fullName}</p>
-													<p class="">TRO     : ${result[i].tro.biodataId.fullName}</p>
-													<p class="">Location     : ${result[i].location}</p>
-													<p class = "" id = "out-mode">Mode   : <p id="sent"></p> </p>
-													<p class="">Jenis Jadwal  : ${result[i].scheduleTypeId.name}</p>
+													<p>RO      :${result[i].ro.biodataId.fullName} <br>
+													TRO     : ${result[i].tro.biodataId.fullName}<br>
+													Lokasi     : ${result[i].location} <br>
+													Mode     : ${result[i].isAutomaticMail} <br>
+													Jenis Jadwal  : ${result[i].scheduleTypeId.name}</p>
 												</div>
 												
 												<div class="col-sm">
@@ -137,17 +145,12 @@ $(function () {
 		});
 });
 
-//pagination function
-$('#page_show').on('click', function () {
-	paginate_data(1, 2);
-});
-
 // menambah rencana
 $("#add_rencana").click(function () {
 	get_typeschedule();
 	get_ro_isero_true();
 	get_tro_isero_true();
-	$(".modal-judul").text("Buat Rencana Jadwal ");
+	$(".modal-judul").text("Buat Rencana Jadwal");
 	$(".get_rencana").attr("disabled", false);
 	$("#get_form_rencana")[0].reset();
 	$("#get_id").val("");
@@ -286,18 +289,18 @@ function get_data_byid(id, action) {
 			$("#is_auto").val(result.isAutomaticMail)
 
 
-			$(".modal-judul").text("");
+			// $(".modal-judul").text("");
 
 			if (action == "detail") {
 				$(".modal-judul").text("Detail Rencana");
 				$(".get_rencana").attr("disabled", true);
+				$(".x-hide").hide();
 			} else {
 				$(".modal-judul").text("Ubah Rencana");
 				$(".get_rencana").attr("disabled", false);
 			}
 			$("#modal-rencana").modal("show");
 		},
-
 		error: function () {
 			swal.fire("", "Failed to fetch the data", "error");
 		}
@@ -470,7 +473,11 @@ function search_data(tgl_mulai, tgl_sampai) {
 				}
 			} else {
 				$("#data_rows").html(
-					`<tr> <td colspan="4" style="text-align:center"><i>Data tidak ditemukan...</i> </td></tr>`
+					`<tr> <td colspan="4">
+					<div class="alert alert-danger" role="alert">
+						Data tidak ditemukan!
+					</div> 
+					</td></tr>`
 				);
 			}
 		}
@@ -478,13 +485,13 @@ function search_data(tgl_mulai, tgl_sampai) {
 
 }
 
-$('#page_sorting1').on('click', function () {
-	sorting_ascending();
+$('#sort-data1').on('click', function () {
+	var banyakdata = $("#show-info").text();
+	paginate_data(0, banyakdata, 'id', 'asc');
 	$('#page_sorting2').show();
 	$('#page_sorting1').hide();
 });
 
-//sorting ascending data
 function sorting_ascending() {
 	$.ajax({
 		url: "api/rencana/asc",
@@ -536,7 +543,8 @@ function sorting_ascending() {
 };
 
 $('#page_sorting2').on('click', function () {
-	sorting_descending();
+	var banyakdata = $("#show-info").text();
+	paginate_data(0, banyakdata, 'id', 'desc');
 	$('#page_sorting1').show();
 	$('#page_sorting2').hide();
 });
@@ -591,14 +599,19 @@ function sorting_descending() {
 	});
 };
 
-
 // paginate data
-function paginate_data(page, size) {
+function paginate_data(page, size, sortby, orderby) {
 	$.ajax({
-		url: "api/rencana/paging?page=" + page + "&size=" + size,
+		url: "api/rencana/paging?page=" + page + "&size=" + size + "&sort=" + sortby + "," + orderby,
 		type: 'get',
 		contentType: 'application/json',
 		success: function (pagination) {
+			$("#total-data").text(pagination.totalElements);
+			$("#total-page").text(pagination.size);
+			$("#show-info").text(pagination.size);
+			$("#total-size").text(pagination.totalPages);
+			// $("#total-ke").text(pagination.totalElements);
+
 			var pagination = pagination.content;
 			$("#data_rows").html("");
 			if (pagination.length > 0) {
@@ -612,11 +625,11 @@ function paginate_data(page, size) {
 												<div class="col-sm"><h5>${pagination[i].scheduleDate}, ${pagination[i].time}</h5></div>
 												
 												<div class="col-sm">
-													<p class="">RO      :${pagination[i].ro.biodataId.fullName}</p>
-													<p class="">TRO     : ${pagination[i].tro.biodataId.fullName}</p>
-													<p class="">Location     : ${pagination[i].location}</p>
-													<p class = "" id = "out-mode">Mode   : <p id="sent"></p> </p>
-													<p class="">Jenis Jadwal  : ${pagination[i].scheduleTypeId.name}</p>
+													<p>RO      :${pagination[i].ro.biodataId.fullName} <br>
+													TRO     : ${pagination[i].tro.biodataId.fullName}<br>
+													Lokasi     : ${pagination[i].location} <br>
+													Mode     : ${pagination[i].isAutomaticMail} <br>
+													Jenis Jadwal  : ${pagination[i].scheduleTypeId.name}</p>
 												</div>
 												
 												<div class="col-sm">
@@ -643,3 +656,28 @@ function paginate_data(page, size) {
 		}
 	});
 };
+
+
+
+// start menentukan banyak data perpage
+$('#data-show-10').on('click', function () {
+	paginate_data(0, 5, 'id', 'asc');
+});
+
+$('#data-show-20').on('click', function () {
+	paginate_data(0, 7, 'id', 'asc');
+});
+
+$('#data-show-30').on('click', function () {
+	paginate_data(0, 30, 'id', 'asc');
+});
+
+$('#data-show-40').on('click', function () {
+	paginate_data(0, 40, 'id', 'asc');
+});
+
+$('#data-show-50').on('click', function () {
+	paginate_data(0, 50, 'id', 'asc');
+});
+
+//ending menentukan data perpage

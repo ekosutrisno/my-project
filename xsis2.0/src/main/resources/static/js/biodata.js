@@ -213,7 +213,7 @@ function get_data_byid(id, action) {
 
          if (action == "detail") {
             $(".modal-judul").text("Detail Pelamar ");
-            $(".get_biodata").attr("disabled", true);
+            $("#sava_button").attr("disabled", true);
          } else {
             $(".modal-judul").text("Edit Biodata");
             $(".get_biodata").attr("disabled", false);

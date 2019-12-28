@@ -51,7 +51,7 @@ public class RencanaService implements IRencanaService {
 	}
 
 	@Override
-	public Page<RencanaEntity> findByPaging(@PageableDefault(size = 0, sort = "id") Pageable pageable, String key) {
+	public Page<RencanaEntity> findByPaging(@PageableDefault(value =10, sort = "id") Pageable pageable, String key) {
 		return pagingRepository.findByPaging(pageable, key);
 	}
 
