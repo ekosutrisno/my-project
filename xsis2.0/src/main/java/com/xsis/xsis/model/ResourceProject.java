@@ -1,11 +1,11 @@
-package com.xsis.xsis.model;
+package com.xsis.xsis.model.vacancy_pendidikan_resourceproject;
 
 import java.util.Date;
 
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.xsis.xsis.dto.ResourceProDto;
+import com.xsis.xsis.dto.vacancy_pendidikan_resourceproject.ResourceProDto;
 import com.xsis.xsis.models.common.CommonEntity;
 
 @SqlResultSetMapping(name = "resourceProjectMapping", classes = {
@@ -21,11 +21,17 @@ import com.xsis.xsis.models.common.CommonEntity;
                 @ColumnResult(name = "ero", type = Long.class),
                 @ColumnResult(name = "is_ero", type = Boolean.class) }) })
 
+// List Paging Resource Project Join Client Join Employee
+@NamedNativeQuery(name = "ResourceProject.getPagingResourceProjectClientEmployee", query = "select a.id,a.isdelete,a.client_id,a.start_project,a.end_project,a.department,a.pic_name,"
+        + "b.name,b.user_client_name,b.ero,c.is_ero from x_resource_project a "
+        + "join x_client b on b.id=a.client_id join x_employee c on c.id=b.ero "
+        + "where (a.isdelete=false and b.isdelete=false and c.isdelete=false)", resultSetMapping = "resourceProjectMapping")
+
 // List Resource Project Join Client Join Employee
 @NamedNativeQuery(name = "ResourceProject.getResourceProjectClientEmployee", query = "select a.id,a.isdelete,a.client_id,a.start_project,a.end_project,a.department,a.pic_name,"
         + "b.name,b.user_client_name,b.ero,c.is_ero from x_resource_project a "
         + "join x_client b on b.id=a.client_id join x_employee c on c.id=b.ero "
-        + "where a.isdelete=false and b.isdelete=false and c.isdelete=false", resultSetMapping = "resourceProjectMapping")
+        + "where (a.isdelete=false and b.isdelete=false and c.isdelete=false)", resultSetMapping = "resourceProjectMapping")
 
 // Page & Sorting Resource Project Join Client Join Employee
 @NamedNativeQuery(name = "ResourceProject.getResourceProjectClientEmployeePandS", query = "select a.id,a.isdelete,a.client_id,a.start_project,a.end_project,a.department,a.pic_name,"

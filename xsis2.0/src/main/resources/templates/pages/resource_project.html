@@ -18,13 +18,13 @@
             <button class="btn btn-primary" id="searchResourceProject"><i class="fa fa-search"></i></button>
           </div>
           <div class="col-md-4 align-right text-right">
-            <select id="select_graphtype" onchange="order(this.value)">
-              <option>Order</option>
+            <select class="selectpicker" id="select_graphtype" onchange="order(this.value)">
+              <option><i class="fa fa-plus-circle"></i></option>
               <option value="asc">Ascending</option>
               <option value="des">Descending</option>
             </select>
-            <select id="select_graphtype" onchange="row_per_page(this.value)">
-              <option>Row Per Page</option>
+            <select id="maxRows" onchange="row_per_page(this.value)">
+              <option value="100">Row Per Page</option>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -51,6 +51,15 @@
               </tbody>
             </table>
             <hr />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-10 align-right text-right">
+          </div>
+          <div class="col-md-2 align-left text-left">
+            <div id="pager" class="paginationjs-theme-blue paginationjs-big">
+              <ul id="pagination" class="pagination-sm"></ul>
+            </div>
           </div>
         </div>
       </div>
@@ -278,37 +287,106 @@
   <script>
 
     $(() => {
-      loadResoureProject();
+      var rowperpage = 100;
+      row_per_page(rowperpage);
     });
-    loadResoureProject = () => {
+
+    function row_per_page(rowperpage) {
+      var rowperpage = rowperpage;
+      var $pagination = $('#pagination'),
+        totalRecords = 0,
+        records = [],
+        displayRecords = [],
+        recPerPage = rowperpage,
+        page = 1,
+        totalPages = 3;
       $.ajax({
-        url: 'api/resource-project/client-employee',
-        type: 'get',
-        contentType: 'application/json',
-        success: (res) => {
-          document.getElementById('searchStartDate').value = "";
-          document.getElementById('searchEndDate').value = "";
-          $('#tbResourceProjct').html("");
-          res.map((data) => {
-            var actions = '<div class="input-group-btn">\n' +
-              '             <div class="dropdown show">\n' +
-              '                 <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Action </a>\n' +
-              '            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">\n' +
-              '                 <a class="dropdown-item" onclick="get_id_resource_project_detail(\'' + data.id + '\',\'' + data.name + '\')" data-toggle="modal" data-target="#detailData" id="detailResourceProject">Detail</a>\n' +
-              '                 <a class="dropdown-item" onclick="get_id_resource_project_edit(' + data.id + ')" data-toggle="modal" data-target="#addData">Edit</a>\n' +
-              '                 <a class="dropdown-item" onclick="get_id_resource_project_delete(\'' + data.id + '\',\'' + data.name + '\')">Delete</a>\n' +
-              '            </div>\n' +
-              '             </div>\n' +
-              '        </div>'
-            var markup = "<tr class='align-middle text-center'><td>" + data.name + "</td><td>" + convertionDate(data.startProject) + "</td><td>" + convertionDate(data.endProject) + "</td><td>" + actions + "</td></tr>"
-            $('#tbResourceProjct').append(markup)
-          })
-        },
-        error: () => {
-          swal.fire("Error!", "Fetch Data Resource Project Failed", "error");
+        url: "api/resource-project/client-employee",
+        async: true,
+        dataType: 'json',
+        success: function (data) {
+          records = data;
+          totalRecords = records.length;
+          totalPages = Math.ceil(totalRecords / recPerPage);
+          apply_pagination(rowperpage);
         }
-      })
+      });
+
+      function apply_pagination(rowperpage) {
+        document.getElementById('searchStartDate').value = "";
+        document.getElementById('searchEndDate').value = "";
+        $.ajax({
+          url: "api/resource-project/client-employee",
+          async: true,
+          dataType: 'json',
+          success: function (data) {
+            $pagination.pagination({
+              dataSource: data,
+              pageSize: rowperpage,
+              showPageNumbers: false,
+              next: '<i class="fa fa-fw fa-long-arrow-right">',
+              previous: '<i class="fa fa-fw fa-long-arrow-left">',
+              callback: function (displayRecords, pagination) {
+                $('#tbResourceProjct').html('');
+                for (var i = 0; i < displayRecords.length; i++) {
+                  tr = $('<tr/>');
+                  tr.append("<td>" + displayRecords[i].name + "</td>");
+                  tr.append("<td>" + convertionDate(displayRecords[i].startProject) + "</td>");
+                  tr.append("<td>" + convertionDate(displayRecords[i].endProject) + "</td>");
+                  tr.append('<td>\n' +
+                    '<div class="input-group-btn">\n' +
+                    '             <div class="dropdown show">\n' +
+                    '                 <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Action </a>\n' +
+                    '            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">\n' +
+                    '                 <a class="dropdown-item" onclick="get_id_resource_project_detail(\'' + displayRecords[i].id + '\',\'' + displayRecords[i].name + '\')" data-toggle="modal" data-target="#detailData" id="detailResourceProject">Detail</a>\n' +
+                    '                 <a class="dropdown-item" onclick="get_id_resource_project_edit(' + displayRecords[i].id + ')" data-toggle="modal" data-target="#addData">Edit</a>\n' +
+                    '                 <a class="dropdown-item" onclick="get_id_resource_project_delete(\'' + displayRecords[i].id + '\',\'' + displayRecords[i].name + '\')">Delete</a>\n' +
+                    '            </div>\n' +
+                    '             </div>\n' +
+                    '        </div>\n' +
+                    '</td>')
+                  $('#tbResourceProjct').append(tr);
+                }
+              }
+            });
+          }
+        });
+      }
     }
+
+
+    // $(() => {
+    //   loadResoureProject();
+    // });
+    // loadResoureProject = () => {
+    //   $.ajax({
+    //     url: 'api/resource-project/client-employee',
+    //     type: 'get',
+    //     contentType: 'application/json',
+    //     success: (res) => {
+    //       document.getElementById('searchStartDate').value = "";
+    //       document.getElementById('searchEndDate').value = "";
+    //       $('#tbResourceProjct').html("");
+    //       res.map((data) => {
+    //         var actions = '<div class="input-group-btn">\n' +
+    //           '             <div class="dropdown show">\n' +
+    //           '                 <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Action </a>\n' +
+    //           '            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">\n' +
+    //           '                 <a class="dropdown-item" onclick="get_id_resource_project_detail(\'' + data.id + '\',\'' + data.name + '\')" data-toggle="modal" data-target="#detailData" id="detailResourceProject">Detail</a>\n' +
+    //           '                 <a class="dropdown-item" onclick="get_id_resource_project_edit(' + data.id + ')" data-toggle="modal" data-target="#addData">Edit</a>\n' +
+    //           '                 <a class="dropdown-item" onclick="get_id_resource_project_delete(\'' + data.id + '\',\'' + data.name + '\')">Delete</a>\n' +
+    //           '            </div>\n' +
+    //           '             </div>\n' +
+    //           '        </div>'
+    //         var markup = "<tr class='align-middle text-center'><td>" + data.name + "</td><td>" + convertionDate(data.startProject) + "</td><td>" + convertionDate(data.endProject) + "</td><td>" + actions + "</td></tr>"
+    //         $('#tbResourceProjct').append(markup)
+    //       })
+    //     },
+    //     error: () => {
+    //       swal.fire("Error!", "Fetch Data Resource Project Failed", "error");
+    //     }
+    //   })
+    // }
 
     function order(order_type) {
       if (order_type == 'asc') {
@@ -364,22 +442,6 @@
             swal.fire("Error!", "Fetch Data Resource Project Failed", "error");
           }
         })
-      }
-    }
-
-
-
-    function row_per_page(page) {
-      if (page == '1') {
-        get_data(page);
-      } else if (page == '2') {
-        get_data(page);
-      } else if (page == '3') {
-        get_data(page);
-      } else if (page == '4') {
-        get_data(page);
-      } else {
-        get_data(page);
       }
     }
 
