@@ -9,7 +9,7 @@ import javax.transaction.Transactional;
 
 import com.xsis.xsis.models.entity.AddressEntity;
 import com.xsis.xsis.models.entity.BiodataEntity;
-import com.xsis.xsis.repository.BiodataRepository;
+import com.xsis.xsis.repository.BioRepoBackup;
 import com.xsis.xsis.services.IBiodataService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 public class BiodataService implements IBiodataService {
 
     @Autowired
-    private BiodataRepository biodataRepository;
+    private BioRepoBackup biodataRepository;
 
     @Override
     public List<BiodataEntity> getAll() {

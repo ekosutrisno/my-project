@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.xsis.xsis.model.entity.PengalamanKerja;
+import com.xsis.xsis.model.PengalamanKerja;
 import com.xsis.xsis.repository.PengalamanKerjaRepository;
 import com.xsis.xsis.services.PengalamanKerjaService;
 

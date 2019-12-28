@@ -11,9 +11,9 @@ import org.springframework.data.jpa.repository.Query;
 /**
  * PengalamanKerjaRepository
  */
-public interface PengalamanKerjaRepository extends JpaRepository<PengalamanKerja, Long>{
+public interface PengalamanKerjaRepository extends JpaRepository<PengalamanKerja, Long> {
 
     @Query(nativeQuery = true)
     List<PeKerDto> getPengalamanKerjaBiodata(Long biodataId);
-    
+
 }

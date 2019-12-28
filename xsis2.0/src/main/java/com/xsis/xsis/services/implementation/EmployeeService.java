@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.xsis.xsis.models.entity.EmployeeEntity;
-import com.xsis.xsis.repository.EmployeeRepository;
+import com.xsis.xsis.repository.EmpRepoBackup;
 import com.xsis.xsis.services.IEmployeeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmployeeService implements IEmployeeService {
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private EmpRepoBackup employeeRepository;
 
     public List<EmployeeEntity> getAll() {
         List<EmployeeEntity> employee = new ArrayList<>();

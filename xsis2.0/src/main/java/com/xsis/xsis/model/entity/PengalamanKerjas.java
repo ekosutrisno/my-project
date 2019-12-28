@@ -7,7 +7,7 @@ import com.xsis.xsis.models.common.CommonEntity;
 
 @Entity
 @Table(name = "x_riwayat_pekerjaan")
-public class PengalamanKerja extends CommonEntity {
+public class PengalamanKerjas extends CommonEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,10 +70,10 @@ public class PengalamanKerja extends CommonEntity {
     @Size(max = 5000)
     private String notes;
 
-    public PengalamanKerja() {
+    public PengalamanKerjas() {
     }
 
-    public PengalamanKerja(Long biodataId, String companyName, String city, String country, String joinYear,
+    public PengalamanKerjas(Long biodataId, String companyName, String city, String country, String joinYear,
             String joinMonth, String resignYear, String resignMonth, String lastPosition, String income,
             Boolean isItRelated, String aboutJob, String exitReason, String notes) {
         this.biodataId = biodataId;

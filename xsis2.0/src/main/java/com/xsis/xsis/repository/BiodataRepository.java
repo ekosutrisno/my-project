@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * BiodataRepository
  */
-public interface BiodataRepository extends JpaRepository <Biodata, Long> {
+public interface BiodataRepository extends JpaRepository<Biodata, Long> {
 
-    
 }

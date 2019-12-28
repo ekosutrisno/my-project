@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/vacancy")
 public class VacancyController {
 
-    @GetMapping("/")
-    public String showVacancy(Model model) {
-        return "pages/vacancy";
-    }
-
     @GetMapping("/show")
     public String showVacancy(Model model) {
         return "pages/show_vacancy";
+    }
+
+    @GetMapping("/vac")
+    public String showVacancyBackup(Model model) {
+        return "pages/vacancy";
     }
 }

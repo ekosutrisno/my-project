@@ -2,7 +2,7 @@ package com.xsis.xsis.services;
 
 import java.util.List;
 
-import com.xsis.xsis.model.entity.PengalamanKerja;
+import com.xsis.xsis.model.PengalamanKerja;
 
 /**
  * PengalamanKerjaService
