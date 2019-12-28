@@ -1,6 +1,7 @@
 <th:block xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   layout:fragment="end">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
   <!-- jQuery -->
   <script th:src="@{/AdminLTE-3.0.0/plugins/jquery/jquery.min.js}"></script>
   <!-- jQuery UI 1.11.4 -->
@@ -29,16 +30,19 @@
   <script th:src="@{/AdminLTE-3.0.0/plugins/summernote/summernote-bs4.min.js}"></script>
   <!-- overlayScrollbars -->
   <script th:src="@{/AdminLTE-3.0.0/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
-  <script th:src="@{/AdminLTE-3.0.0/plugins/bootstrap-select/js/bootstrap-select.min.js}"></script>
   <!-- AdminLTE App -->
   <script th:src="@{/AdminLTE-3.0.0/dist/js/adminlte.js}"></script>
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <script th:src="@{/AdminLTE-3.0.0/dist/js/pages/dashboard.js}"></script>
   <!-- AdminLTE for demo purposes -->
   <script th:src="@{/AdminLTE-3.0.0/dist/js/demo.js}"></script>
+  <script th:src="@{/AdminLTE-3.0.0/dist/js/mricode.pagination.js}"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
 
   <th:block layout:fragment="education"></th:block>
   <th:block layout:fragment="vacancy"></th:block>
-  <th:block layout:fragment="biodata"></th:block>
-  <th:block layout:fragment="rencana"></th:block>
+  <th:block layout:fragment="resource_project"></th:block>
 </th:block>

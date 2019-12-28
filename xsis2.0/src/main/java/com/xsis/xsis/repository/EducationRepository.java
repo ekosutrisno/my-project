@@ -18,5 +18,8 @@ public interface EducationRepository extends JpaRepository<Education, Long> {
     List<EduDto> getEduName(Long biodataId);
 
     @Query(nativeQuery = true)
+    List<EduDto> getLastEducation(Long biodataId);
+
+    @Query(nativeQuery = true)
     Optional<EduDto> getEduNameDetail(Long biodataId, Long id);
 }

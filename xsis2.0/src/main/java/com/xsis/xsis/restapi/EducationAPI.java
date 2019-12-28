@@ -42,7 +42,6 @@ public class EducationAPI {
             }
         }
         return education;
-
     }
 
     @GetMapping("/{id}")
@@ -68,10 +67,8 @@ public class EducationAPI {
     public Education putEducationVacancy(@RequestBody Education education) {
         Education educationDetail = educationServices.getEducationById(education.getId()).get();
         educationDetail.setModifiedBy(1L);
-        educationDetail.setModifiedOn(new Date());  
-        educationDetail.setIsDelete(false);
+        educationDetail.setModifiedOn(new Date());
         educationDetail.setId(education.getId());
-        educationDetail.setBiodataId(education.getBiodataId());
         educationDetail.setSchoolName(education.getSchoolName());
         educationDetail.setCity(education.getCity());
         educationDetail.setCountry(education.getCountry());
@@ -81,10 +78,10 @@ public class EducationAPI {
         educationDetail.setMajor(education.getMajor());
         educationDetail.setGpa(education.getGpa());
         educationDetail.setNotes(education.getNotes());
-        educationDetail.setOrders(education.getOrders());
+        educationDetail.setOrders(1);
         educationDetail.setJudulTa(education.getJudulTa());
         educationDetail.setDeskripsiTa(education.getDeskripsiTa());
-        return educationServices.saveEducation(education);
+        return educationServices.saveEducation(educationDetail);
     }
 
     @DeleteMapping("/{id}")
@@ -96,17 +93,21 @@ public class EducationAPI {
         return educationServices.saveEducation(edu);
     }
 
-    //Join with Education Level
+    // Join with Education Level
     @GetMapping("/level/{biodata_id}")
-    public ResponseEntity<?> findCategoryBrand(@PathVariable("biodata_id") Long biodataId) {
+    public ResponseEntity<?> findEducationName(@PathVariable("biodata_id") Long biodataId) {
         return new ResponseEntity<>(educationServices.getEduName(biodataId), HttpStatus.OK);
     }
 
     @GetMapping("/level/{biodata_id}/{id}")
-    public ResponseEntity<?> findCategoryBrand(@PathVariable("biodata_id") Long biodataId, @PathVariable("id") Long id) {
+    public ResponseEntity<?> findEduNameDetail(@PathVariable("biodata_id") Long biodataId,
+            @PathVariable("id") Long id) {
         return new ResponseEntity<>(educationServices.getEduNameDetail(biodataId, id), HttpStatus.OK);
     }
-   
-    
+
+    @GetMapping("/last/{biodata_id}")
+    public ResponseEntity<?> findLastEducation(@PathVariable("biodata_id") Long biodataId) {
+        return new ResponseEntity<>(educationServices.getLastEducation(biodataId), HttpStatus.OK);
+    }
 
 }

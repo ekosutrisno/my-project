@@ -27,4 +27,7 @@ public interface EducationServices {
 
     // Education Join Education Level Detail
     Optional<EduDto> getEduNameDetail(Long biodataId, Long id);
+
+    // Get Last Education By Biodata
+    List<EduDto> getLastEducation(Long biodataId);
 }

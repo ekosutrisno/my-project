@@ -16,4 +16,9 @@ public class VacancyController {
     public String showVacancy(Model model) {
         return "pages/vacancy";
     }
+
+    @GetMapping("/show")
+    public String showVacancy(Model model) {
+        return "pages/show_vacancy";
+    }
 }

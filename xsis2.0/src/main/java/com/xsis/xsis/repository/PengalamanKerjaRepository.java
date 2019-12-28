@@ -1,12 +1,19 @@
 package com.xsis.xsis.repository;
 
-import com.xsis.xsis.model.entity.PengalamanKerja;
+import java.util.List;
 
-import org.springframework.data.repository.CrudRepository;
+import com.xsis.xsis.dto.PeKerDto;
+import com.xsis.xsis.model.PengalamanKerja;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * PengalamanKerjaRepository
  */
-public interface PengalamanKerjaRepository extends CrudRepository<PengalamanKerja, Long> {
+public interface PengalamanKerjaRepository extends JpaRepository<PengalamanKerja, Long>{
 
+    @Query(nativeQuery = true)
+    List<PeKerDto> getPengalamanKerjaBiodata(Long biodataId);
+    
 }
