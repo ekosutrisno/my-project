@@ -21,13 +21,14 @@ public class RencanaDto {
     private String notes;
     private boolean isAutomaticMail;
     private Date sentDate;
+    private boolean isAuto;
 
     public RencanaDto() {
     }
 
     public RencanaDto(Long id, String scheduleCode, Date scheduleDate, String time, EmployeeEntity ro,
             EmployeeEntity tro, ScheduleTypeEntity scheduleTypeId, String location, String otherRoTro, String notes,
-            boolean isAutomaticMail, Date sentDate) {
+            boolean isAutomaticMail, Date sentDate, Boolean isAuto) {
         this.id = id;
         this.scheduleCode = scheduleCode;
         this.scheduleDate = scheduleDate;
@@ -40,6 +41,7 @@ public class RencanaDto {
         this.notes = notes;
         this.isAutomaticMail = isAutomaticMail;
         this.sentDate = sentDate;
+        this.isAuto = isAuto;
     }
 
     public Long getId() {
@@ -136,6 +138,14 @@ public class RencanaDto {
 
     public void setSentDate(Date sentDate) {
         this.sentDate = sentDate;
+    }
+
+    public boolean getIsAuto() {
+        return isAuto;
+    }
+
+    public void setIsAuto(boolean isAuto) {
+        this.isAuto = isAuto;
     }
 
 }

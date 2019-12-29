@@ -8,7 +8,7 @@
 					<div class="card-block p-4">
 						<div class="row">
 							<div class="col">
-								<h3 class="font-weight-bold">Rencana Jadwal <label class="badge badge-primary" id="show-info"></label>
+								<h3 class="font-weight-bold">Rencana Jadwal <label class="badge badge-primary" id="show-info">10</label>
 								</h3>
 							</div>
 							<div class="col">
@@ -46,7 +46,7 @@
 												<i class="far fa-calendar-alt"></i>
 											</span>
 										</div>
-										<input type="text" class="form-control" id="input-search-dari" required>
+										<input type="text" class="form-control" id="input-search-dari" required autocomplete="off">
 									</div>
 									<!-- /.input group -->
 								</div>
@@ -61,7 +61,7 @@
 												<i class="far fa-calendar-alt"></i>
 											</span>
 										</div>
-										<input type="text" class="form-control" id="input-search-sampai" required>
+										<input type="text" class="form-control" id="input-search-sampai" required autocomplete="off">
 									</div>
 									<!-- /.input group -->
 								</div>
@@ -71,7 +71,7 @@
 								<div class="form-group">
 									<label class="text-white">action</label>
 									<div class="input-group">
-										<button id="btn-search" class="btn btn-primary mr-2">Cari</button>
+										<button id="btn-search" class="btn btn-primary mr-2"><i class="fa fa-search"></i></button>
 										<button id="btn-reset" class="btn btn-primary">Reset</button>
 									</div>
 									<!-- /.input group -->
@@ -118,10 +118,13 @@
 
 								</div>
 								<hr>
+								<input type="hidden" id="count-page">
+								<input type="hidden" id="count-first">
+								<input type="hidden" id="count-last">
 								<nav aria-label="Page navigation example">
-									<ul class="pagination justify-content-end mr-5">
-										<li class="page-item"><a class="page-link" href="#" id="prev">Previous</a></li>
-										<li class="page-item"><a class="page-link" href="#" id="next">Next</a></li>
+									<ul class="pagination justify-content-end mr-2">
+										<li class="page-item"><button class="page-link" id="prev">Previous</button></li>
+										<li class="page-item"><button class="page-link diasabled" href="" id="next">Next</button></li>
 									</ul>
 								</nav>
 							</div>
@@ -242,12 +245,12 @@
 								</div>
 							</div>
 						</div>
-
+						<!-- onclick="enable_sendate(this.checked)" -->
 						<div class="row">
 							<div class="col-sm">
 								<div class="custom-control custom-checkbox mb-3">
 									<input type="checkbox" class="custom-control-input" id="cek_sent_date" name="automaticMail"
-										onclick="enable_sendate(this.checked)" value="false">
+										value="false">
 									<label class="custom-control-label" for="cek_sent_date">Kirim undangan
 										otomatis.</label>
 								</div>

@@ -30,10 +30,8 @@ public class BiodataAPI {
     @GetMapping
     public Iterable<Biodata> findAllBiodata() {
         List<Biodata> biodata = new ArrayList<>();
-        for (Biodata biodatas : biodataServices.getBiodata())
-        {
-            if (!biodatas.getIsDelete())
-            {
+        for (Biodata biodatas : biodataServices.getBiodata()) {
+            if (!biodatas.getIsDelete()) {
                 biodata.add(biodatas);
             }
         }
@@ -49,5 +47,4 @@ public class BiodataAPI {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    
 }

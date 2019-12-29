@@ -86,7 +86,12 @@ public class RencanaAPI {
 		rencanaDetail.setOtherRoTro(rencanaDto.getOtherRoTro());
 		rencanaDetail.setNotes(rencanaDto.getNotes());
 		rencanaDetail.setSentDate(rencanaDto.getSentDate());
-		rencanaDetail.setAutomaticMail(false);
+
+		if (rencanaDto.getIsAuto() == true) {
+			rencanaDetail.setAutomaticMail(true);
+		} else {
+			rencanaDetail.setAutomaticMail(false);
+		}
 
 		rencanaService.save(rencanaDetail);
 		return rencanaDto;
@@ -108,8 +113,6 @@ public class RencanaAPI {
 		rencanaDetail.setOtherRoTro(rencanaDto.getOtherRoTro());
 		rencanaDetail.setNotes(rencanaDto.getNotes());
 		rencanaDetail.setSentDate(rencanaDto.getSentDate());
-
-		rencanaDetail.setAutomaticMail(false);
 
 		rencanaService.update(rencanaDetail);
 		return rencanaDto;

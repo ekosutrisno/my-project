@@ -91,7 +91,7 @@ function get_all_data() {
       `<tr> <td colspan="4" style="text-align:center"><i>Loading...</i> </td></td></tr>`
    );
    $.ajax({
-      url: "/api/biodata/",
+      url: "/api/biodata-rest/",
       type: "get",
       contentType: "application/json",
       success: function (result) {
@@ -123,7 +123,11 @@ function get_all_data() {
             }
          } else {
             $("#data_rows").html(
-               `<tr> <td colspan="4" style="text-align:center"><i>Loading...</i> </td></tr>`
+               `<tr> <td colspan="4">
+               <div class="alert alert-primary text-center" role="alert">
+						Data tidak ditemukan! <span><i class="fa fa-error"></i></span>
+					</div> 
+               </td></tr>`
             );
          }
       },
@@ -136,9 +140,16 @@ function get_all_data() {
 // get data by id Biodata
 function get_data_byid(id, action) {
    $("#action").val(action);
-
+   if (action == "detail") {
+      $(".modal-judul").text("Detail Pelamar ");
+      $("#sava_button").attr("disabled", true);
+      $(".get_biodata").attr("disabled", true);
+   } else {
+      $(".modal-judul").text("Edit Biodata");
+      $(".get_biodata").attr("disabled", false);
+   }
    $.ajax({
-      url: "/api/biodata/" + id,
+      url: "/api/biodata-rest/" + id,
       type: "get",
       contentType: "application/json",
       success: function (result) {
@@ -210,14 +221,6 @@ function get_data_byid(id, action) {
                swal.fire("", "Failed Load address", "error");
             }
          });
-
-         if (action == "detail") {
-            $(".modal-judul").text("Detail Pelamar ");
-            $("#sava_button").attr("disabled", true);
-         } else {
-            $(".modal-judul").text("Edit Biodata");
-            $(".get_biodata").attr("disabled", false);
-         }
          $("#modal-biodata").modal("show");
       },
 
@@ -271,9 +274,6 @@ $("#save_button").click(function () {
       identityNo: $("#get_no_indentity").val(),
       companyId: $("#get_companyid").val(),
 
-      createdBy: $("#get_createdBy").val(),
-      createdOn: $("#get_createdOn").val(),
-
       religion: {
          id: $("#get_religion").val()
       },
@@ -322,7 +322,7 @@ $("#save_button").click(function () {
    // ending inputan
    function cek_email() {
       $.ajax({
-         url: "/api/biodata/",
+         url: "/api/biodata-rest/",
          type: "get",
          contentType: "application/json",
          success: function (cek) {
@@ -342,7 +342,7 @@ $("#save_button").click(function () {
 
    function cek_nohp() {
       $.ajax({
-         url: "/api/biodata/",
+         url: "/api/biodata-rest/",
          type: "get",
          contentType: "application/json",
          success: function (cek) {
@@ -392,7 +392,7 @@ $("#save_button").click(function () {
       swal.fire("Penting", "Status pernikahanmu?", "question");
    } else {
       $.ajax({
-         url: "/api/biodata",
+         url: "/api/biodata-rest",
          type: type,
          contentType: "application/json",
          data: JSON.stringify(data),
@@ -427,7 +427,7 @@ function hapus(id) {
    }).then(result => {
       if (result.value) {
          $.ajax({
-            url: "/api/biodata/" + id,
+            url: "/api/biodata-rest/" + id,
             type: "delete",
             contentType: "application/json",
             data: JSON.stringify(data),

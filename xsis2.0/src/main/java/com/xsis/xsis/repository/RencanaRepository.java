@@ -22,7 +22,7 @@ public interface RencanaRepository extends JpaRepository<RencanaEntity, Long> {
   List<RencanaEntity> getRencanaDesc();
 
   // to_date('20170103','YYYYMMDD')
-  static final String CARI_DATA = "SELECT * FROM x_rencana_jadwal WHERE TO_CHAR(schedule_date,'yyyy-MM-dd') BETWEEN :tgl_mulai AND :tgl_sampai ORDER BY schedule_date";
+  static final String CARI_DATA = "SELECT * FROM x_rencana_jadwal WHERE CAST(schedule_date AS VARCHAR) BETWEEN :tgl_mulai AND :tgl_sampai ORDER BY schedule_date";
 
   @Query(value = CARI_DATA, nativeQuery = true)
   List<RencanaEntity> searchData(@Param("tgl_mulai") String tgl_mulai, @Param("tgl_sampai") String tgl_sampai);

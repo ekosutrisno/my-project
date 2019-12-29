@@ -1,9 +1,9 @@
-package com.xsis.xsis.repository.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.repository;
 
 import java.util.List;
 
-import com.xsis.xsis.dto.vacancy_pendidikan_resourceproject.ResourceProDto;
-import com.xsis.xsis.model.vacancy_pendidikan_resourceproject.ResourceProject;
+import com.xsis.xsis.dto.ResourceProDto;
+import com.xsis.xsis.model.ResourceProject;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

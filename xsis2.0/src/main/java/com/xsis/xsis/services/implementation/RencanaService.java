@@ -51,7 +51,7 @@ public class RencanaService implements IRencanaService {
 	}
 
 	@Override
-	public Page<RencanaEntity> findByPaging(@PageableDefault(value =10, sort = "id") Pageable pageable, String key) {
+	public Page<RencanaEntity> findByPaging(@PageableDefault(value = 10, sort = "id") Pageable pageable, String key) {
 		return pagingRepository.findByPaging(pageable, key);
 	}
 
@@ -99,8 +99,6 @@ public class RencanaService implements IRencanaService {
 		rencanaDetail.setOtherRoTro(rencanaEntity.getOtherRoTro());
 		rencanaDetail.setNotes(rencanaEntity.getNotes());
 		rencanaDetail.setSentDate(rencanaEntity.getSentDate());
-
-		rencanaDetail.setAutomaticMail(false);
 
 		rencanaDetail.setModifiedBy(1L);
 		rencanaDetail.setModifiedOn(new Date());

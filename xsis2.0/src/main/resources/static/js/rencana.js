@@ -1,7 +1,7 @@
 $(() => {
 	get_all_rencana();
 	$('#page_sorting2').hide();
-
+	$("#get_sent_date").attr("disabled", true);
 });
 
 function get_all_rencana() {
@@ -9,25 +9,32 @@ function get_all_rencana() {
 		`<tr> <td colspan="4" style="text-align:center"><i>Loading...</i> </td></td></tr>`
 	);
 	$.ajax({
-		url: "api/rencana/paging?size=10",
+		url: "api/rencana/paging?size=10&page=0",
 		type: "get",
 		contentType: "application/json",
 		success: function (result) {
 			$("#total-data").text(result.totalElements);
 			$("#total-size").text(result.totalPages);
 			$("#total-page").text(result.size);
-			$("#total-ke").text(result.totalElements);
+			$("#total-ke").text(result.pageable.pageNumber);
+			$("#count-page").val(result.pageable.pageNumber);
+			$("#count-first").val(result.first);
+			$("#count-last").val(result.last);
 
 			var result = result.content;
 			$("#data_rows").html("");
-
+			var x;
 			if (result.length > 0) {
 				for (let i = 0; i < result.length; i++) {
+					if (result[i].isAutomaticMail == true) {
+						x = "Otomatis";
+					} else {
+						x = "Manual";
+					}
 					$("#data_rows").append(
 
-						`
-												<tr>
-												<td>
+						`	<tr>
+								<td>
 											<div class="row font-weight-bold">
 												<div class="col-sm">${result[i].scheduleCode}</div>
 												<div class="col-sm"><h5>${result[i].scheduleDate}, ${result[i].time}</h5></div>
@@ -36,13 +43,13 @@ function get_all_rencana() {
 													<p>RO      :${result[i].ro.biodataId.fullName} <br>
 													TRO     : ${result[i].tro.biodataId.fullName}<br>
 													Lokasi     : ${result[i].location} <br>
-													Mode     : ${result[i].isAutomaticMail} <br>
+													Mode     : ${x} <br>
 													Jenis Jadwal  : ${result[i].scheduleTypeId.name}</p>
 												</div>
 												
 												<div class="col-sm">
 												 <h5 class="">
-                          <a onclick="get_data_byid(${result[i].id},'edit')"  class="mr-2 " data-toggle="modal" data-target="#modal-rencana" href="#"
+                          <a onclick="get_data_byid(${result[i].id},'ubah')"  class="mr-2 " data-toggle="modal" data-target="#modal-rencana" href="#"
                               id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
                           <a onclick="hapus(${result[i].id})"  class="mr-2" data-toggle="modal" data-target="" href="#"
                               id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
@@ -50,15 +57,18 @@ function get_all_rencana() {
                               id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
                         </h5>
 												</div>
-
 											</div>
-											</td>
-                       </tr> 
+								</td>
+              </tr> 
 											 `);
 				}
 			} else {
 				$("#data_rows").html(
-					`<tr> <td colspan="4" style="text-align:center"><i>Data tidak ditemukan...</i> </td></tr>`
+					`<tr> <td colspan="4">
+					<div class="alert alert-primary text-center" role="alert">
+						Data tidak ditemukan! <span><i class="fa fa-error"></i></span>
+					</div> 
+					</td></tr>`
 				);
 			}
 		},
@@ -155,7 +165,7 @@ $("#add_rencana").click(function () {
 	$("#get_form_rencana")[0].reset();
 	$("#get_id").val("");
 
-	$("#action").val("add");
+	$("#action").val("tambah");
 	$("#modal-rencana").modal("show");
 });
 
@@ -169,59 +179,81 @@ $("#btn-search").on("click", function () {
 	$("#data_rows").html("");
 	var tgl_mulai = $('#input-search-dari').val();
 	var tgl_sampai = $('#input-search-sampai').val();
-	search_data(tgl_mulai, tgl_sampai);
+
+	if (tgl_mulai == '' || tgl_sampai == '') {
+		swal.fire("Required", "Tanggal pencarian tidak boleh kosong, silahkan isi kembali.", "info");
+	} else {
+		search_data(tgl_mulai, tgl_sampai);
+	}
+
 });
 
 // menambah rencana
 $("#save_rencana").click(function () {
-	cek_ro_tro();
 	var action = $("#action").val();
+	var boolCek = $("#cek_sent_date").val();
+	var boolValue;
+	if (boolCek == 'true') {
+		boolValue = true;
+	} else {
+		boolValue = false;
+	}
+	// mengecek RO dan TRO
+	var ro = $("#get_ro").val();
+	var tro = $("#get_tro").val();
 
 	var data = {
 		id: $("#get_id").val(),
 		scheduleTypeId: {
 			id: $("#get_schedule_type").val()
 		},
-		scheduleCode: $("#get_schedule_code").val(),
-		scheduleDate: $("#get_tgl_rencana").val(),
-		time: $("#get_jam_rencana").val(),
 		ro: {
 			id: $("#get_ro").val()
 		},
 		tro: {
 			id: $("#get_tro").val()
 		},
+		scheduleCode: $("#get_schedule_code").val(),
+		scheduleDate: $("#get_tgl_rencana").val(),
+		time: $("#get_jam_rencana").val(),
 		location: $("#get_lokasi").val(),
 		otherRoTro: $("#get_othertro").val(),
 		notes: $("#get_notes").val(),
-		isAutomaticMail: $("#cek_sent_date").val(),
+		isAuto: boolValue,
 		sentDate: $("#get_sent_date").val(),
 	}
-
-	if (action == "add") {
+	if (action == "tambah") {
 		type = "post";
-	} else if (action == "edit") {
+	} else if (action == "ubah") {
 		type = "put";
 	}
+	if (ro == tro) {
+		Swal.fire(
+			"",
+			"Ro dan TRO tidak boleh memiliki jadwal yang sama.",
+			"info"
+		);
+	} else {
 
-	$.ajax({
-		url: "/api/rencana",
-		type: type,
-		contentType: "application/json",
-		data: JSON.stringify(data),
-		success: function (result) {
-			$("#get_form_rencana")[0].reset();
-			get_all_rencana();
-			Toast.fire({
-				icon: 'success',
-				title: "Data berhasil di" + action + "."
-			})
-			$("#modal-rencana").modal("hide");
-		},
-		error: function () {
-			Swal.fire("", "Failed to " + action + " data", "error");
-		}
-	});
+		$.ajax({
+			url: "/api/rencana",
+			type: type,
+			contentType: "application/json",
+			data: JSON.stringify(data),
+			success: function (result) {
+				$("#get_form_rencana")[0].reset();
+				get_all_rencana();
+				Toast.fire({
+					icon: 'success',
+					title: "Data berhasil di" + action + "."
+				})
+				$("#modal-rencana").modal("hide");
+			},
+			error: function () {
+				Swal.fire("", "Failed to " + action + " data", "error");
+			}
+		});
+	}
 });
 
 
@@ -265,7 +297,17 @@ function hapus(id) {
 
 // get data by id rencana 
 function get_data_byid(id, action) {
+
 	$("#action").val(action);
+	if (action == "detail") {
+		$(".modal-judul").text("Detail Rencana");
+		$(".get_rencana").attr("disabled", true);
+
+	} else {
+		$(".modal-judul").text("Ubah Rencana");
+		$(".get_rencana").attr("disabled", false);
+		$(".x-hide").show();
+	}
 
 	$.ajax({
 		url: "/api/rencana/" + id,
@@ -286,19 +328,7 @@ function get_data_byid(id, action) {
 			$("#get_othertro").val(rencana.otherRoTro);
 			$("#get_notes").val(rencana.notes);
 			$("#get_sent_date").val(rencana.sentDate)
-			$("#is_auto").val(result.isAutomaticMail)
-
-
-			// $(".modal-judul").text("");
-
-			if (action == "detail") {
-				$(".modal-judul").text("Detail Rencana");
-				$(".get_rencana").attr("disabled", true);
-				$(".x-hide").hide();
-			} else {
-				$(".modal-judul").text("Ubah Rencana");
-				$(".get_rencana").attr("disabled", false);
-			}
+			$("#is_auto").val(rencana.isAutomaticMail)
 			$("#modal-rencana").modal("show");
 		},
 		error: function () {
@@ -379,29 +409,16 @@ function get_tro_isero_true(troId) {
 	});
 }
 
-// mengecek RO dan TRO tidak boleh memiliki jadwal yang sama
-function cek_ro_tro() {
-	var ro = $("#get_ro").val();
-	var tro = $("#get_tro").val();
-	if (ro === tro) {
-		Swal.fire(
-			"",
-			"Ro dan TRO tidak boleh memiliki jadwal yang sama.",
-			"info"
-		);
-	}
-}
-
 $('#cek_sent_date').click(function () {
 	if ($('#cek_sent_date').is(':checked')) {
-		$("#cek_sent_date").val("true")
+		$("#cek_sent_date").val('true')
 		$("#get_sent_date").attr("disabled", false);
 		$("#save_rencana").text("Simpan");
 	} else {
 		$("#save_rencana").text("Simpan & Kirim");
 		$("#get_sent_date").val("");
 		$("#get_sent_date").attr("disabled", true);
-		$("#cek_sent_date").val("false")
+		$("#cek_sent_date").val('false')
 	}
 });
 
@@ -434,10 +451,15 @@ function search_data(tgl_mulai, tgl_sampai) {
 		type: "get",
 		contentType: "application/json",
 		success: function (Data) {
-
 			$("#data_rows").html("");
+			var x;
 			if (Data.length > 0) {
 				for (let i = 0; i < Data.length; i++) {
+					if (Data[i].isAutomaticMail == true) {
+						x = "Otomatis";
+					} else {
+						x = "Manual";
+					}
 					$("#data_rows").append(
 
 						`
@@ -451,13 +473,13 @@ function search_data(tgl_mulai, tgl_sampai) {
 													<p class="">RO      :${Data[i].ro.biodataId.fullName}</p>
 													<p class="">TRO     : ${Data[i].tro.biodataId.fullName}</p>
 													<p class="">Location     : ${Data[i].location}</p>
-													<p class = "" id = "out-mode">Mode   : <p id="sent"></p> </p>
+													<p class = "">${x} </p>
 													<p class="">Jenis Jadwal  : ${Data[i].scheduleTypeId.name}</p>
 												</div>
 												
 												<div class="col-sm">
 												 <h5 class="">
-                          <a onclick="get_data_byid(${Data[i].id},'edit')"  class="mr-2 " data-toggle="modal" data-target="#modal-rencana" href="#"
+                          <a onclick="get_data_byid(${Data[i].id},'ubah')"  class="mr-2 " data-toggle="modal" data-target="#modal-rencana" href="#"
                               id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
                           <a onclick="hapus(${Data[i].id})"  class="mr-2" data-toggle="modal" data-target="" href="#"
                               id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
@@ -474,8 +496,8 @@ function search_data(tgl_mulai, tgl_sampai) {
 			} else {
 				$("#data_rows").html(
 					`<tr> <td colspan="4">
-					<div class="alert alert-danger" role="alert">
-						Data tidak ditemukan!
+					<div class="alert alert-primary text-center" role="alert">
+						Data tidak ditemukan! <span><i class="fa fa-error"></i></span>
 					</div> 
 					</td></tr>`
 				);
@@ -542,7 +564,7 @@ function sorting_ascending() {
 	});
 };
 
-$('#page_sorting2').on('click', function () {
+$('#sort-data2').on('click', function () {
 	var banyakdata = $("#show-info").text();
 	paginate_data(0, banyakdata, 'id', 'desc');
 	$('#page_sorting1').show();
@@ -606,16 +628,29 @@ function paginate_data(page, size, sortby, orderby) {
 		type: 'get',
 		contentType: 'application/json',
 		success: function (pagination) {
+			console.log(pagination)
 			$("#total-data").text(pagination.totalElements);
 			$("#total-page").text(pagination.size);
 			$("#show-info").text(pagination.size);
 			$("#total-size").text(pagination.totalPages);
-			// $("#total-ke").text(pagination.totalElements);
+			$("#total-ke").text(pagination.pageable.pageNumber);
+			$("#count-page").val(pagination.pageable.pageNumber);
+			$("#count-first").val(pagination.first);
+			$("#count-last").val(pagination.last);
 
 			var pagination = pagination.content;
 			$("#data_rows").html("");
+			console.log(pagination)
+			var x;
 			if (pagination.length > 0) {
 				for (let i = 0; i < pagination.length; i++) {
+					var y = new Boolean(pagination[i].isAutomaticMail);
+					alert(y)
+					if (y == 'true') {
+						x = "Otomatis";
+					} else {
+						x = "Manual";
+					}
 					$("#data_rows").append(
 						`
 												<tr>
@@ -628,13 +663,13 @@ function paginate_data(page, size, sortby, orderby) {
 													<p>RO      :${pagination[i].ro.biodataId.fullName} <br>
 													TRO     : ${pagination[i].tro.biodataId.fullName}<br>
 													Lokasi     : ${pagination[i].location} <br>
-													Mode     : ${pagination[i].isAutomaticMail} <br>
+													Mode     : ${x} <br>
 													Jenis Jadwal  : ${pagination[i].scheduleTypeId.name}</p>
 												</div>
 												
 												<div class="col-sm">
 												 <h5 class="">
-                          <a onclick="get_data_byid(${pagination[i].id},'edit')"  class="mr-2 " data-toggle="modal" data-target="#modal-rencana" href="#"
+                          <a onclick="get_data_byid(${pagination[i].id},'ubah')"  class="mr-2 " data-toggle="modal" data-target="#modal-rencana" href="#"
                               id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
                           <a onclick="hapus(${pagination[i].id})"  class="mr-2" data-toggle="modal" data-target="" href="#"
                               id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
@@ -650,7 +685,11 @@ function paginate_data(page, size, sortby, orderby) {
 				}
 			} else {
 				$("#data_rows").html(
-					`<tr> <td colspan="4" style="text-align:center"><i>Data tidak ditemukan...</i> </td></tr>`
+					`<tr> <td colspan="4">
+					<div class="alert alert-primary text-center" role="alert">
+						Data tidak ditemukan! <span><i class="fa fa-error"></i></span>
+					</div> 
+					</td></tr>`
 				);
 			}
 		}
@@ -661,23 +700,74 @@ function paginate_data(page, size, sortby, orderby) {
 
 // start menentukan banyak data perpage
 $('#data-show-10').on('click', function () {
-	paginate_data(0, 5, 'id', 'asc');
+	$("#prev").attr('disabled', true);
+	$("#next").attr('disabled', false);
+	paginate_data(0, 2, 'id', 'asc');
 });
 
 $('#data-show-20').on('click', function () {
-	paginate_data(0, 7, 'id', 'asc');
+	$("#prev").attr('disabled', true);
+	$("#next").attr('disabled', false);
+	paginate_data(0, 3, 'id', 'asc');
 });
 
 $('#data-show-30').on('click', function () {
+	$("#prev").attr('disabled', true);
+	$("#next").attr('disabled', false);
 	paginate_data(0, 30, 'id', 'asc');
 });
 
 $('#data-show-40').on('click', function () {
+	$("#prev").attr('disabled', true);
+	$("#next").attr('disabled', false);
 	paginate_data(0, 40, 'id', 'asc');
 });
 
 $('#data-show-50').on('click', function () {
+	$("#prev").attr('disabled', true);
+	$("#next").attr('disabled', false);
 	paginate_data(0, 50, 'id', 'asc');
 });
-
 //ending menentukan data perpage
+
+
+//previous and next pabination
+$('#prev').on('click', function () {
+	var cekAwal = $("#count-first").val();
+	var banyakdata = $("#show-info").text();
+	var page = parseInt($('#count-page').val());
+
+	if (cekAwal == "true") {
+		$("#prev").attr("disabled", true);
+		$("#next").attr("disabled", false);
+	}
+
+	if (page == 0) {
+		page = 0;
+	} else {
+		page = page - 1;
+	}
+	paginate_data(page, banyakdata, 'id', 'asc');
+	$("#count-first").val('');
+	$("#count-last").val('false');
+	$("#next").attr('disabled', false);
+});
+
+$('#next').on('click', function () {
+	var cekAkhir = $("#count-last").val();
+	var banyakdata = $("#show-info").text();
+	var page = parseInt($('#count-page').val());
+
+	if (cekAkhir == "true") {
+		$("#next").attr("disabled", true);
+		$("#prev").attr('disabled', false);
+	}
+	if (page >= 0) {
+		page = page + 1;
+		paginate_data(page, banyakdata, 'id', 'asc');
+		$("#count-last").val('');
+		$("#count-first").val('false');
+		$("#prev").attr('disabled', false);
+	}
+});
+// ending next dan previous function 

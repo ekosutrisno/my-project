@@ -1,13 +1,13 @@
-package com.xsis.xsis.services.vacancy_pendidikan_resourceproject.implementation;
+package com.xsis.xsis.services.implementation;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.xsis.xsis.dto.vacancy_pendidikan_resourceproject.ResourceProDto;
-import com.xsis.xsis.model.vacancy_pendidikan_resourceproject.ResourceProject;
-import com.xsis.xsis.repository.vacancy_pendidikan_resourceproject.ResourceProjectRepository;
-import com.xsis.xsis.services.vacancy_pendidikan_resourceproject.ResourceProjectService;
+import com.xsis.xsis.dto.ResourceProDto;
+import com.xsis.xsis.model.ResourceProject;
+import com.xsis.xsis.repository.ResourceProjectRepository;
+import com.xsis.xsis.services.ResourceProjectService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

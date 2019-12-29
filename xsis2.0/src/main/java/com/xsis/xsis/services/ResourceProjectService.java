@@ -1,10 +1,10 @@
-package com.xsis.xsis.services.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.services;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.xsis.xsis.dto.vacancy_pendidikan_resourceproject.ResourceProDto;
-import com.xsis.xsis.model.vacancy_pendidikan_resourceproject.ResourceProject;
+import com.xsis.xsis.dto.ResourceProDto;
+import com.xsis.xsis.model.ResourceProject;
 
 import org.springframework.data.repository.query.Param;
 

@@ -1,11 +1,11 @@
-package com.xsis.xsis.model.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.model;
 
 import java.util.Date;
 
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.xsis.xsis.dto.vacancy_pendidikan_resourceproject.ResourceProDto;
+import com.xsis.xsis.dto.ResourceProDto;
 import com.xsis.xsis.models.common.CommonEntity;
 
 @SqlResultSetMapping(name = "resourceProjectMapping", classes = {
