@@ -2,12 +2,20 @@ $(() => {
    get_all_data();
    get_marriage_year();
 
-   var status = $('#get_marital_status').val();
-   if (status == 'Single') {
-      $("#get_marriage_year").attr('disabled', true);
-   }
-
 });
+
+
+$('#get_marital_status').change(function () {
+   var x = $('#get_marital_status').val()
+   if (x == 1) {
+      $('.year_marriage').attr('disabled', true);
+   } else {
+      $('.year_marriage').attr('disabled', false);
+   }
+})
+
+
+
 
 function get_religion(relId) {
    $.ajax({
@@ -326,6 +334,21 @@ $("#save_button").click(function () {
    var maritalStatus = $("#get_marital_status").val();
    var identityType = $("#get_type_identity").val();
    var identityNo = $("#get_no_indentity").val();
+   var hight = $("#get_hight").val();
+   var weight = $("#get_weight").val();
+   var nationality = $("#get_nationality").val();
+   var address1 = $("#get_address1").val();
+   var address2 = $("#get_address2").val();
+   var rt1 = $("#get_rt1").val();
+   var rt2 = $("#get_rt2").val();
+   var rw1 = $("#get_rw1").val();
+   var rw2 = $("#get_rw2").val();
+   var kelurahan1 = $("#get_kelurahan1").val();
+   var kelurahan2 = $("#get_kelurahan2").val();
+   var kecamatan1 = $("#get_kecamatan1").val();
+   var kecamatan2 = $("#get_kecamatan2").val();
+   var region1 = $("#get_region1").val();
+   var region2 = $("#get_region2").val();
    // ending inputan
 
    if (action == "add") {
@@ -346,6 +369,12 @@ $("#save_button").click(function () {
       swal.fire("Penting", "Anda belum memilih jenis kelamin.", "question");
    } else if (religion == "" || null) {
       swal.fire("Penting", "Anda belum memilih Agama.", "question");
+   } else if (hight == "" || null) {
+      swal.fire("Required", "Anda belum mengisi field Tinggi badan.", "question");
+   } else if (weight == "" || null) {
+      swal.fire("Required", "Anda belum mengisi field berat badan.", "question");
+   } else if (nationality == "" || null) {
+      swal.fire("Required", "Anda belum mengisi Kewarganegaraan Anda.", "question");
    } else if (identityType == "" || null) {
       swal.fire("Penting", "Anda belum memilih tipe identitas.", "question");
    } else if (email == "" || null) {
@@ -356,11 +385,38 @@ $("#save_button").click(function () {
       swal.fire("Required", "Pastikan nomor HP Orang tua telah diisi.", "info");
    } else if (childSequence > howManyBrothers) {
       swal.fire("Penting", "Urutan kelahiran tidak boleh lebih dari jumlah saudara", "info");
+   } else if (childSequence == "" || null) {
+      swal.fire("Required", "Field anak ke belum diisi.", "info");
+   } else if (howManyBrothers == "" || null) {
+      swal.fire("Required", "Banyak saudara anda belum diisi.", "info");
    } else if (maritalStatus == "" || null) {
       swal.fire("Penting", "Status pernikahanmu?", "question");
-   }
-   else if (validateEmail(email) == false) {
+   } else if (validateEmail(email) == false) {
       swal.fire("Fatal", "Email yang anda masukkan tidak valid", "warning");
+   } else if (address1 == "" || null) {
+      swal.fire("Required", "Anda belum mengisi alamat asal.", "question");
+   } else if (address2 == "" || null) {
+      swal.fire("Required", "Anda belum mengisi alamat Domisili.", "question");
+   } else if (rt1 == "" || null) {
+      swal.fire("Required", "Anda belum mengisi Nomor Rt.", "question");
+   } else if (rt2 == "" || null) {
+      swal.fire("Required", "Anda belum mengisi Nomor Rt domisili.", "question");
+   } else if (rw1 == "" || null) {
+      swal.fire("Required", "Anda belum mengisi Nomor rw.", "question");
+   } else if (rw2 == "" || null) {
+      swal.fire("Required", "Anda belum mengisi Nomor rw domisili.", "question");
+   } else if (kelurahan1 == "" || null) {
+      swal.fire("Required", "Anda belum mengisi kelurahan.", "question");
+   } else if (kelurahan2 == "" || null) {
+      swal.fire("Required", "Anda belum mengisi kelurahan Domisili.", "question");
+   } else if (kecamatan1 == "" || null) {
+      swal.fire("Required", "Anda belum mengisi kecamatan.", "question");
+   } else if (kecamatan2 == "" || null) {
+      swal.fire("Required", "Anda belum mengisi kecamatan Domisili.", "question");
+   } else if (region1 == "" || null) {
+      swal.fire("Required", "Anda belum mengisi kecamatan.", "question");
+   } else if (region2 == "" || null) {
+      swal.fire("Required", "Anda belum mengisi kecamatan Domisili.", "question");
    } else {
       // cek email-no identitas-no hp
       $.ajax({
@@ -528,49 +584,49 @@ function detailData(id) {
          if (gend == true) {
             kelamin = "Laki-laki";
          } else {
-            kelamin = "Laki-laki";
+            kelamin = "Perempuan";
          }
 
          $("#biodata-rows").html(`
          <tr>
             <td>Nama Lengkap</td>
-            <td>: ${result.fullName}</td>
+            <td>:    ${result.fullName}</td>
          </tr>
             <tr>
                <td>Nama Panggilan</td>
-               <td>:${result.nickName}</td>
+               <td>:    ${result.nickName}</td>
             </tr>
             <tr>
                <td>Kontak</td>
-               <td>:${result.phoneNumber1}</td>
+               <td>:   ${result.email} / ${result.phoneNumber1}</td>
             </tr>
             <tr>
                <td>Tempat, Tanggal Lahir</td>
-               <td>:${result.pob}, ${result.dob}</td>
+               <td>:    ${result.pob}, ${result.dob}</td>
             </tr>
             <tr>
                <td>Jenis Kelamin, Tinggi(cm), Berat(Kg)</td>
-               <td>:${kelamin}, ${result.hight}, ${result.weight}</td>
+               <td>:    ${kelamin}, ${result.hight},  ${result.weight}   </td>
             </tr>
             <tr>
                <td>Agama</td>
-               <td>:${result.religion.name}</td>
+               <td>:    ${result.religion.name}</td>
             </tr>
             <tr>
                <td>Kewarganegaraan, Suku Bangsa</td>
-               <td>:${result.nationality}, ${result.ethnic}</td>
+               <td>:    ${result.nationality}, ${result.ethnic}</td>
             </tr>
             <tr>
                <td>Kegemaran / Hobi</td>
-               <td>:${result.hobby}</td>
+               <td>:    ${result.hobby}</td>
             </tr>
             <tr>
                <td>Jenis & Nomor Identitas</td>
-               <td>:${result.identityType.name} & ${result.identityNo}</td>
+               <td>:    ${result.identityType.name} - ${result.identityNo}</td>
             </tr>
             <tr>
                <td>Status & Tahun Pernikahan</td>
-               <td>:${result.maritalStatus.name} & ${result.marriageYear}</td>
+               <td>:    ${result.maritalStatus.name} - ${result.marriageYear}</td>
             </tr>
          
          `);
