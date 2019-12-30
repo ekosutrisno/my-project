@@ -1,6 +1,12 @@
 $(() => {
    get_all_data();
    get_marriage_year();
+
+   var status = $('#get_marital_status').val();
+   if (status == 'Single') {
+      $("#get_marriage_year").attr('disabled', true);
+   }
+
 });
 
 function get_religion(relId) {
@@ -112,7 +118,7 @@ function get_all_data() {
                               id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
                           <a onclick="hapus(${result[i].id})"  class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
                               id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                          <a onclick="get_data_byid(${result[i].id},'detail')"  class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
+                          <a onclick="detailData(${result[i].id})"  class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
                               id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
                         </h5>
                         
@@ -312,70 +318,30 @@ $("#save_button").click(function () {
    var gender = $("#get_gender").val();
    var email = $("#get_email").val();
    var phoneNumber1 = $("#get_no_hp1").val();
+   var phoneNumber1 = $("#get_no_hp1").val();
    var parentPhoneNumber = $("#get_parent_telphone").val();
-   // var childSequence = $("#get_child_secuence").val();
-   // var howManyBrothers = $("#get_how_many_brother").val();
-
+   var childSequence = $("#get_child_secuence").val();
+   var howManyBrothers = $("#get_how_many_brother").val();
    var religion = $("#get_religion").val();
    var maritalStatus = $("#get_marital_status").val();
    var identityType = $("#get_type_identity").val();
+   var identityNo = $("#get_no_indentity").val();
    // ending inputan
-   function cek_email() {
-      $.ajax({
-         url: "/api/biodata-rest/",
-         type: "get",
-         contentType: "application/json",
-         success: function (cek) {
-            if (cek.length > 0) {
-               for (let i = 0; i < cek.length; i++) {
-                  if (email == cek[i].email) {
-                     swal.fire(
-                        "Email" + cek[i].email + "telah digunakan",
-                        "warning"
-                     );
-                  }
-               }
-            }
-         }
-      });
-   }
-
-   function cek_nohp() {
-      $.ajax({
-         url: "/api/biodata-rest/",
-         type: "get",
-         contentType: "application/json",
-         success: function (cek) {
-            if (cek.length > 0) {
-               for (let i = 0; i < cek.length; i++) {
-                  if (phoneNumber1 == cek[i].phoneNumber1) {
-                     swal.fire(
-                        "Email" + cek[i].email + "telah digunakan",
-                        "warning"
-                     );
-                  }
-               }
-            }
-         }
-      });
-   }
 
    if (action == "add") {
       type = "post";
-      cek_email();
-      cek_nohp();
    } else if (action == "edit") {
       type = "put";
    }
 
    if (fullName == "" || null) {
-      swal.fire("Penting", "Mohon isi nama lengkap anda", "warning");
+      swal.fire("Required", "Mohon isi nama lengkap anda", "info");
    } else if (nickName == "" || null) {
-      swal.fire("Penting", "Mohon isi nama Panggilan anda", "warning");
+      swal.fire("Required", "Mohon isi nama Panggilan anda", "info");
    } else if (pob == "" || null) {
-      swal.fire("Penting", "Mohon isi nama Tempat Lahir anda", "warning");
+      swal.fire("Required", "Mohon isi nama Tempat Lahir anda", "info");
    } else if (dob == "" || null) {
-      swal.fire("Penting", "Mohon isi nama Tanggal Lahir anda", "warning");
+      swal.fire("Penting", "Mohon isi nama Tanggal Lahir anda", "question");
    } else if (gender == "" || null) {
       swal.fire("Penting", "Anda belum memilih jenis kelamin.", "question");
    } else if (religion == "" || null) {
@@ -383,33 +349,97 @@ $("#save_button").click(function () {
    } else if (identityType == "" || null) {
       swal.fire("Penting", "Anda belum memilih tipe identitas.", "question");
    } else if (email == "" || null) {
-      swal.fire("Penting", "Pastikan email telah diisi.", "info");
+      swal.fire("Required", "Pastikan email telah diisi.", "info");
    } else if (phoneNumber1 == "" || null) {
-      swal.fire("Penting", "Pastikan email telah diisi.", "info");
+      swal.fire("Required", "Pastikan nomor HP kamu telah diisi.", "info");
    } else if (parentPhoneNumber == "" || null) {
-      swal.fire("Penting", "Pastikan email telah diisi.", "info");
+      swal.fire("Required", "Pastikan nomor HP Orang tua telah diisi.", "info");
+   } else if (childSequence > howManyBrothers) {
+      swal.fire("Penting", "Urutan kelahiran tidak boleh lebih dari jumlah saudara", "info");
    } else if (maritalStatus == "" || null) {
       swal.fire("Penting", "Status pernikahanmu?", "question");
+   }
+   else if (validateEmail(email) == false) {
+      swal.fire("Fatal", "Email yang anda masukkan tidak valid", "warning");
    } else {
+      // cek email-no identitas-no hp
       $.ajax({
-         url: "/api/biodata-rest",
-         type: type,
+         url: "/api/biodata-rest/",
+         type: "get",
          contentType: "application/json",
-         data: JSON.stringify(data),
-         success: function (result) {
-            $("#get_form_biodata")[0].reset();
-            get_all_data();
-            Toast.fire({
-               icon: 'success',
-               title: "Data berhasil di" + action + "."
-            })
-            $("#modal-biodata").modal("hide");
-         },
-         error: function () {
-            Swal.fire("", "Failed to " + action + " data", "error");
+         success: function (cek) {
+            if (cek.length > 0) {
+               var cek_eml = false;
+               var cek_no_idn = false;
+               var cek_no_hp = false;
+
+               for (let i = 0; i < cek.length; i++) {
+                  if (email == cek[i].email) {
+                     cek_eml = true;
+                  }
+                  if (identityNo == cek[i].identityNo) {
+                     cek_no_idn = true;
+                  }
+                  if (phoneNumber1 == cek[i].phoneNumber1) {
+                     cek_no_hp = true;
+                  }
+               }
+
+               if (type == 'put') {
+                  //save
+                  $.ajax({
+                     url: "/api/biodata-rest",
+                     type: type,
+                     contentType: "application/json",
+                     data: JSON.stringify(data),
+                     success: function (result) {
+                        $("#get_form_biodata")[0].reset();
+                        get_all_data();
+                        Toast.fire({
+                           icon: 'success',
+                           title: "Data berhasil di" + action + "."
+                        })
+                        $("#modal-biodata").modal("hide");
+                     },
+                     error: function () {
+                        Swal.fire("", "Failed to " + action + " data", "error");
+                     }
+                  });
+               } else {
+
+                  if (cek_eml == true) {
+                     swal.fire("Forbidden", "Email telah digunakan.", "warning");
+                  } else if (cek_no_idn == true) {
+                     swal.fire("Forbidden", "Nomor Identitas tidak boleh sama.", "warning");
+                  } else if (cek_no_hp == true) {
+                     swal.fire("Forbidden", "Nomor HP anda tidak boleh sama.", "warning");
+                  } else {
+
+                     //save
+                     $.ajax({
+                        url: "/api/biodata-rest",
+                        type: type,
+                        contentType: "application/json",
+                        data: JSON.stringify(data),
+                        success: function (result) {
+                           $("#get_form_biodata")[0].reset();
+                           get_all_data();
+                           Toast.fire({
+                              icon: 'success',
+                              title: "Data berhasil di" + action + "."
+                           })
+                           $("#modal-biodata").modal("hide");
+                        },
+                        error: function () {
+                           Swal.fire("", "Failed to " + action + " data", "error");
+                        }
+                     });
+                  };
+               }
+            };
          }
       });
-   }
+   };
 });
 
 function hapus(id) {
@@ -473,3 +503,90 @@ const Toast = Swal.mixin({
       toast.addEventListener('mouseleave', Swal.resumeTimer)
    }
 });
+
+// validasi inputan email 
+function validateEmail(em) {
+   var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+   return re.test(em);
+}
+
+// get detail biodata
+function detailData(id) {
+   $.ajax({
+      url: "/api/biodata-rest/" + id,
+      type: "get",
+      contentType: "application/json",
+      success: function (result) {
+         $("#get_form_biodata")[0].reset();
+         get_marital(result.maritalStatus.id);
+         get_religion(result.religion.id);
+         get_identitas(result.identityType.id);
+         $("#get_id").val(result.id);
+
+         var gend = result.gender;
+         var kelamin;
+         if (gend == true) {
+            kelamin = "Laki-laki";
+         } else {
+            kelamin = "Laki-laki";
+         }
+
+         $("#biodata-rows").html(`
+         <tr>
+            <td>Nama Lengkap</td>
+            <td>: ${result.fullName}</td>
+         </tr>
+            <tr>
+               <td>Nama Panggilan</td>
+               <td>:${result.nickName}</td>
+            </tr>
+            <tr>
+               <td>Kontak</td>
+               <td>:${result.phoneNumber1}</td>
+            </tr>
+            <tr>
+               <td>Tempat, Tanggal Lahir</td>
+               <td>:${result.pob}, ${result.dob}</td>
+            </tr>
+            <tr>
+               <td>Jenis Kelamin, Tinggi(cm), Berat(Kg)</td>
+               <td>:${kelamin}, ${result.hight}, ${result.weight}</td>
+            </tr>
+            <tr>
+               <td>Agama</td>
+               <td>:${result.religion.name}</td>
+            </tr>
+            <tr>
+               <td>Kewarganegaraan, Suku Bangsa</td>
+               <td>:${result.nationality}, ${result.ethnic}</td>
+            </tr>
+            <tr>
+               <td>Kegemaran / Hobi</td>
+               <td>:${result.hobby}</td>
+            </tr>
+            <tr>
+               <td>Jenis & Nomor Identitas</td>
+               <td>:${result.identityType.name} & ${result.identityNo}</td>
+            </tr>
+            <tr>
+               <td>Status & Tahun Pernikahan</td>
+               <td>:${result.maritalStatus.name} & ${result.marriageYear}</td>
+            </tr>
+         
+         `);
+
+         $("#detailBiodata").modal("show");
+      },
+
+      error: function () {
+         swal.fire("", "Failed to fetch the data", "error");
+      }
+   });
+};
+
+// get edit dengan modal full fitur 
+function get_edit() {
+   $("#detailBiodata").modal("hide");
+   var id = $("#get_id").val();
+   get_data_byid(id, 'edit');
+}

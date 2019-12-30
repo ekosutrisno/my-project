@@ -26,7 +26,8 @@ function get_all_rencana() {
 			var x;
 			if (result.length > 0) {
 				for (let i = 0; i < result.length; i++) {
-					if (result[i].isAutomaticMail == true) {
+					var y = result[i].automaticMail;
+					if (y == true) {
 						x = "Otomatis";
 					} else {
 						x = "Manual";
@@ -188,7 +189,7 @@ $("#btn-search").on("click", function () {
 
 });
 
-// menambah rencana
+// meyimpan hasil tambah dan edit data rencana
 $("#save_rencana").click(function () {
 	var action = $("#action").val();
 	var boolCek = $("#cek_sent_date").val();
@@ -201,6 +202,9 @@ $("#save_rencana").click(function () {
 	// mengecek RO dan TRO
 	var ro = $("#get_ro").val();
 	var tro = $("#get_tro").val();
+	var sch = $("#get_schedule_type").val();
+	var schDate = $("#get_tgl_rencana").val();
+	var schTime = $("#get_jam_rencana").val();
 
 	var data = {
 		id: $("#get_id").val(),
@@ -222,19 +226,60 @@ $("#save_rencana").click(function () {
 		isAuto: boolValue,
 		sentDate: $("#get_sent_date").val(),
 	}
+
 	if (action == "tambah") {
 		type = "post";
 	} else if (action == "ubah") {
 		type = "put";
 	}
-	if (ro == tro) {
+
+	var emp1 = $('#e1').is(':checked');
+	var emp2 = $('#e2').is(':checked');
+	var emp3 = $('#e3').is(':checked');
+
+	if (schDate == '') {
+		Swal.fire(
+			"",
+			"Anda belum memilih Tanggal perencannaan.",
+			"question"
+		);
+	} else if (schTime == '') {
+		Swal.fire(
+			"",
+			"Anda belum mengisi waktu perencanaan.",
+			"question"
+		);
+	} else if (ro == '') {
+		Swal.fire(
+			"",
+			"Anda belum memilih nama Recruitment Officer.",
+			"info"
+		);
+	} else if (tro == '') {
+		Swal.fire(
+			"",
+			"Anda belum memilih nama Technical Recruitment Officer.",
+			"info"
+		);
+	} else if (ro == tro) {
 		Swal.fire(
 			"",
 			"Ro dan TRO tidak boleh memiliki jadwal yang sama.",
 			"info"
 		);
+	} else if (sch == '') {
+		Swal.fire(
+			"",
+			"Anda belum memilih jenis Schedule.",
+			"info"
+		);
+	} else if (!emp1 && !emp2 && !emp3) {
+		Swal.fire(
+			"",
+			"Anda belum memilih pelamar.",
+			"info"
+		);
 	} else {
-
 		$.ajax({
 			url: "/api/rencana",
 			type: type,
@@ -422,15 +467,6 @@ $('#cek_sent_date').click(function () {
 	}
 });
 
-function ouput_mode() {
-	var x = $("#cek_sent_date").val();
-	if (x == true) {
-		$("#sent").val("Otomatis");
-	} else {
-		$("#sent").val("Manual");
-	}
-};
-
 const Toast = Swal.mixin({
 	toast: true,
 	position: 'bottom-end',
@@ -455,7 +491,8 @@ function search_data(tgl_mulai, tgl_sampai) {
 			var x;
 			if (Data.length > 0) {
 				for (let i = 0; i < Data.length; i++) {
-					if (Data[i].isAutomaticMail == true) {
+					var y = Data[i].automaticMail;
+					if (y == true) {
 						x = "Otomatis";
 					} else {
 						x = "Manual";
@@ -473,7 +510,7 @@ function search_data(tgl_mulai, tgl_sampai) {
 													<p class="">RO      :${Data[i].ro.biodataId.fullName}</p>
 													<p class="">TRO     : ${Data[i].tro.biodataId.fullName}</p>
 													<p class="">Location     : ${Data[i].location}</p>
-													<p class = "">${x} </p>
+													<p class ="">Mode: ${x} </p>
 													<p class="">Jenis Jadwal  : ${Data[i].scheduleTypeId.name}</p>
 												</div>
 												
@@ -514,112 +551,12 @@ $('#sort-data1').on('click', function () {
 	$('#page_sorting1').hide();
 });
 
-function sorting_ascending() {
-	$.ajax({
-		url: "api/rencana/asc",
-		type: 'get',
-		contentType: 'application/json',
-		success: function (asc) {
-			$("#data_rows").html("");
-			if (asc.length > 0) {
-				for (let i = 0; i < asc.length; i++) {
-					$("#data_rows").append(
-						`
-												<tr>
-												<td>
-											<div class="row font-weight-bold">
-												<div class="col-sm">${asc[i].scheduleCode}</div>
-												<div class="col-sm"><h5>${asc[i].scheduleDate}, ${asc[i].time}</h5></div>
-												
-												<div class="col-sm">
-													<p class="">RO      :${asc[i].ro.biodataId.fullName}</p>
-													<p class="">TRO     : ${asc[i].tro.biodataId.fullName}</p>
-													<p class="">Location     : ${asc[i].location}</p>
-													<p class = "" id = "out-mode">Mode   : <p id="sent"></p> </p>
-													<p class="">Jenis Jadwal  : ${asc[i].scheduleTypeId.name}</p>
-													</div>
-													
-												<div class="col-sm">
-												<h5 class="">
-                          <a onclick="get_data_byid(${asc[i].id},'edit')"  class="mr-2 " data-toggle="modal" data-target="#modal-rencana" href="#"
-                              id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
-															<a onclick="hapus(${asc[i].id})"  class="mr-2" data-toggle="modal" data-target="" href="#"
-                              id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                          <a onclick="get_data_byid(${asc[i].id},'detail')"  class="mr-2" data-toggle="modal" data-target="#modal-rencana" href="#"
-                              id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
-															</h5>
-															</div>
-
-											</div>
-											</td>
-                       </tr> 
-											 `);
-				}
-			} else {
-				$("#data_rows").html(
-					`<tr> <td colspan="4" style="text-align:center"><i>Data tidak ditemukan...</i> </td></tr>`
-				);
-			}
-		}
-	});
-};
-
 $('#sort-data2').on('click', function () {
 	var banyakdata = $("#show-info").text();
 	paginate_data(0, banyakdata, 'id', 'desc');
 	$('#page_sorting1').show();
 	$('#page_sorting2').hide();
 });
-// sorting descending data 
-function sorting_descending() {
-	$.ajax({
-		url: "api/rencana/desc",
-		type: 'get',
-		contentType: 'application/json',
-		success: function (asc) {
-			$("#data_rows").html("");
-			if (asc.length > 0) {
-				for (let i = 0; i < asc.length; i++) {
-					$("#data_rows").append(
-						`
-												<tr>
-												<td>
-											<div class="row font-weight-bold">
-												<div class="col-sm">${asc[i].scheduleCode}</div>
-												<div class="col-sm"><h5>${asc[i].scheduleDate}, ${asc[i].time}</h5></div>
-												
-												<div class="col-sm">
-													<p class="">RO      :${asc[i].ro.biodataId.fullName}</p>
-													<p class="">TRO     : ${asc[i].tro.biodataId.fullName}</p>
-													<p class="">Location     : ${asc[i].location}</p>
-													<p class = "" id = "out-mode">Mode   : <p id="sent"></p> </p>
-													<p class="">Jenis Jadwal  : ${asc[i].scheduleTypeId.name}</p>
-												</div>
-												
-												<div class="col-sm">
-												 <h5 class="">
-                          <a onclick="get_data_byid(${asc[i].id},'edit')"  class="mr-2 " data-toggle="modal" data-target="#modal-rencana" href="#"
-                              id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                          <a onclick="hapus(${asc[i].id})"  class="mr-2" data-toggle="modal" data-target="" href="#"
-                              id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                          <a onclick="get_data_byid(${asc[i].id},'detail')"  class="mr-2" data-toggle="modal" data-target="#modal-rencana" href="#"
-                              id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
-                        </h5>
-												</div>
-
-											</div>
-											</td>
-                       </tr> 
-											 `);
-				}
-			} else {
-				$("#data_rows").html(
-					`<tr> <td colspan="4" style="text-align:center"><i>Data tidak ditemukan...</i> </td></tr>`
-				);
-			}
-		}
-	});
-};
 
 // paginate data
 function paginate_data(page, size, sortby, orderby) {
@@ -628,7 +565,6 @@ function paginate_data(page, size, sortby, orderby) {
 		type: 'get',
 		contentType: 'application/json',
 		success: function (pagination) {
-			console.log(pagination)
 			$("#total-data").text(pagination.totalElements);
 			$("#total-page").text(pagination.size);
 			$("#show-info").text(pagination.size);
@@ -640,13 +576,11 @@ function paginate_data(page, size, sortby, orderby) {
 
 			var pagination = pagination.content;
 			$("#data_rows").html("");
-			console.log(pagination)
 			var x;
 			if (pagination.length > 0) {
 				for (let i = 0; i < pagination.length; i++) {
-					var y = new Boolean(pagination[i].isAutomaticMail);
-					alert(y)
-					if (y == 'true') {
+					var y = pagination[i].automaticMail;
+					if (y == true) {
 						x = "Otomatis";
 					} else {
 						x = "Manual";
@@ -695,8 +629,6 @@ function paginate_data(page, size, sortby, orderby) {
 		}
 	});
 };
-
-
 
 // start menentukan banyak data perpage
 $('#data-show-10').on('click', function () {
@@ -770,4 +702,4 @@ $('#next').on('click', function () {
 		$("#prev").attr('disabled', false);
 	}
 });
-// ending next dan previous function 
+// ending next dan previous function

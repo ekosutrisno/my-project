@@ -31,7 +31,7 @@ public class RencanaEntity extends CommonEntity {
     @Column(name = " schedule_code", length = 20)
     private String scheduleCode;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+07:00")
     @Column(name = " schedule_date")
     private Date scheduleDate;
 

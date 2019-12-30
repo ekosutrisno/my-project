@@ -31,7 +31,7 @@
   </div>
 
   <!-- Modal untuk menampilkna cuy..tinggal modif aja isinya sesuai kebutuhan -->
-  <div class="modal fade" id="modal-biodata">
+  <div class="modal fade" id="modal-biodata" style="overflow-y:auto;">
     <div class="modal-dialog  modal-lg">
       <div class="modal-content">
         <div class="modal-header text-white" style="background-color: #000066;">
@@ -40,49 +40,6 @@
             <span class="text-white" aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body p-4">
-
-          <!-- <div class="row"> -->
-          <!-- <div class="col-3">
-              <div class="list-group" id="list-tab" role="tablist">
-
-                <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list"
-                  href="#list-profile" role="tab" aria-controls="profile">Profile</a>
-                <a class="list-group-item list-group-item-action" id="list-biodata-list" data-toggle="list"
-                  href="#list-biodata" role="tab" aria-controls="biodata">Biodata</a>
-                <a class="list-group-item list-group-item-action" id="list-pengalaman-list" data-toggle="list"
-                  href="#list-pengalaman" role="tab" aria-controls="pengalaman">Pengalaman Kerja</a>
-                <a class="list-group-item list-group-item-action" id="list-pendidikan-list" data-toggle="list"
-                  href="#list-pendidikan" role="tab" aria-controls="pendidikan">pendidikan </a>
-                <a class="list-group-item list-group-item-action" id="list-pelatihan-list" data-toggle="list"
-                  href="#list-pelatihan" role="tab" aria-controls="pelatihan">Pelatihan </a>
-                <a class="list-group-item list-group-item-action" id="list-sertifikasi-list" data-toggle="list"
-                  href="#list-sertifikasi" role="tab" aria-controls="sertifikasi">Sertifikasi </a>
-                <a class="list-group-item list-group-item-action" id="list-sumber-list" data-toggle="list"
-                  href="#list-sumber" role="tab" aria-controls="sumber">Sumber Lowongan Kerja </a>
-                <a class="list-group-item list-group-item-action" id="list-organisasi-list" data-toggle="list"
-                  href="#list-organisasi" role="tab" aria-controls="organisasi">Organisasi </a>
-                <a class="list-group-item list-group-item-action" id="list-keluarga-list" data-toggle="list"
-                  href="#list-keluarga" role="tab" aria-controls="keluarga">Keluarga </a>
-                <a class="list-group-item list-group-item-action" id="list-keahlian-list" data-toggle="list"
-                  href="#list-keahlian" role="tab" aria-controls="keahlian">Keahlian </a>
-                <a class="list-group-item list-group-item-action" id="list-lainlain-list" data-toggle="list"
-                  href="#list-lainlain" role="tab" aria-controls="lainlain">Lain-lain </a>
-                <a class="list-group-item list-group-item-action" id="list-document-list" data-toggle="list"
-                  href="#list-document" role="tab" aria-controls="document">Document </a>
-                <a class="list-group-item list-group-item-action" id="list-catatan-list" data-toggle="list"
-                  href="#list-catatan" role="tab" aria-controls="catatan">Catatan </a>
-                <a class="list-group-item list-group-item-action" id="list-activasi-list" data-toggle="list"
-                  href="#list-activasi" role="tab" aria-controls="activasi">Aktivasi Akun </a>
-                <a class="list-group-item list-group-item-action" id="list-lihattes-list" data-toggle="list"
-                  href="#list-lihattes" role="tab" aria-controls="lihattes">Lihat Tes </a>
-                <a class="list-group-item list-group-item-action" id="list-hasiltes-list" data-toggle="list"
-                  href="#list-hasiltes" role="tab" aria-controls="hasiltes">Hasil Tes </a>
-
-              </div>
-            </div> -->
-          <!-- <div class="col-9 p-3">
-              <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade" id="list-biodata" role="tabpanel" aria-labelledby="list-biodata-list"> -->
           <input type="hidden" id="action" value="">
           <form id="get_form_biodata" class="needs-validation">
             <input type="hidden" id="get_id" name="id">
@@ -423,8 +380,6 @@
                 </div>
               </div>
             </div>
-
-
           </form>
           <!-- </div>
       </div>
@@ -442,6 +397,123 @@
     <!-- /.modal-dialog -->
   </div>
   <!-- /.modal -->
+
+  <!-- menampilkan detail biodata -->
+
+  <div class="modal fade" id="detailBiodata" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true" style="overflow-y:auto;">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Detail Pelamar</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="sidebar-nav">
+                <div class="navbar navbar-default" role="navigation">
+                  <div class="navbar-collapse sidebar-navbar-collapse">
+                    <div class="list-group" id="list-tab" role="tablist">
+                      <a class="list-group-item list-group-item-action active" id="list-profile-list" data-toggle="list"
+                        href="#list-profile" role="tab" aria-controls="profile">Profile</a>
+                      <a class="list-group-item list-group-item-action" id="list-biodata-list" data-toggle="list"
+                        href="#list-biodata" role="tab" aria-controls="biodata">Biodata</a>
+                      <a class="list-group-item list-group-item-action" id="list-pengalaman-kerja-list"
+                        data-toggle="list" href="#list-pengalaman-kerja" role="tab"
+                        aria-controls="pengalaman-kerja">Pengalamann Kerja</a>
+                      <a class="list-group-item list-group-item-action" id="list-pendidikan-list" data-toggle="list"
+                        href="#list-pendidikan" role="tab" aria-controls="pendidikan">Pendidikan</a>
+                      <a class="list-group-item list-group-item-action" id="list-pelatihan-list" data-toggle="list"
+                        href="#list-pelatihan" role="tab" aria-controls="pelatihan">Pelatihan</a>
+                      <a class="list-group-item list-group-item-action" id="list-sertifikasi-list" data-toggle="list"
+                        href="#list-sertifikasi" role="tab" aria-controls="sertifikasi">Sertifikasi</a>
+                      <a class="list-group-item list-group-item-action" id="list-sumber-lowongan-kerja-list"
+                        data-toggle="list" href="#list-sumber-lowongan-kerja" role="tab"
+                        aria-controls="sumber-lowongan-kerja">Sumber Lowongan Kerja</a>
+                      <a class="list-group-item list-group-item-action" id="list-organisasi-list" data-toggle="list"
+                        href="#list-organisasi" role="tab" aria-controls="organisasi">Organisasi</a>
+                      <a class="list-group-item list-group-item-action" id="list-keluarga-list" data-toggle="list"
+                        href="#list-keluarga" role="tab" aria-controls="keluarga">Keluarga</a>
+                      <a class="list-group-item list-group-item-action" id="list-keahlian-list" data-toggle="list"
+                        href="#list-keahlian" role="tab" aria-controls="keahlian">Keahlian</a>
+                      <a class="list-group-item list-group-item-action" id="list-lain-lain-list" data-toggle="list"
+                        href="#list-lain-lain" role="tab" aria-controls="lain-lain">Lain - Lain</a>
+                      <a class="list-group-item list-group-item-action" id="list-dokumen-list" data-toggle="list"
+                        href="#list-dokumen" role="tab" aria-controls="dokumen">Dokumen</a>
+                      <a class="list-group-item list-group-item-action" id="list-catatan-list" data-toggle="list"
+                        href="#list-catatan" role="tab" aria-controls="catatan">Catatan</a>
+                      <a class="list-group-item list-group-item-action" id="list-aktivasi-akun-list" data-toggle="list"
+                        href="#list-aktivasi-akun" role="tab" aria-controls="aktivasi-akun">Aktivasi Akun</a>
+                      <a class="list-group-item list-group-item-action" id="list-lihat-tes-list" data-toggle="list"
+                        href="#list-lihat-tes" role="tab" aria-controls="lihat-tes">Lihat Tes</a>
+                      <a class="list-group-item list-group-item-action" id="list-hasil-tes-list" data-toggle="list"
+                        href="#list-hasil-tes" role="tab" aria-controls="hasil-tes">Hasil Tes</a>
+                    </div>
+                  </div>
+                  <!--/.nav-collapse -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-9">
+              <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="list-profile" role="tabpanel"
+                  aria-labelledby="list-profile-list">...</div>
+                <div class="tab-pane fade show" id="list-biodata" role="tabpanel" aria-labelledby="list-biodata-list">
+                  <h4 class="font-weight-bold">Biodata <a data-toggle="modal" data-target="#addModal" href="#"
+                      onclick="get_edit()" id="showEdit"><i class="fa fa-edit" aria-hidden="true"></i></a></h4>
+                  <hr>
+                  <div class="card">
+                    <div class="card-block">
+                      <table class="table table-striped font-weight-bold">
+                        <thead>
+                          <tr class="text-center">
+                          </tr>
+                        </thead>
+                        <tbody id="biodata-rows">
+                          <!-- mengisi data pelamara  -->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="list-pendidikan" role="tabpanel" aria-labelledby="list-pendidikan-list">
+                  <h4>Pendidikan <a data-toggle="modal" data-target="#addModal" href="#" id="showAddData"><i
+                        class="fa fa-plus-circle" aria-hidden="true"></i></a></h4>
+                  <div class="card">
+                    <div class="card-block">
+                      <table class="table table-hover">
+                        <thead>
+                          <tr class="text-center">
+                            <th scope="col">SEKOLAH/INSTANSI</th>
+                            <th scope="col">JENJANG</th>
+                            <th scope="col">PERIODE</th>
+                            <th scope="col">JURUSAN</th>
+                            <th scope="col">IPK</th>
+                            <th scope="col">#</th>
+                          </tr>
+                        </thead>
+                        <tbody id="tbEducation">
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="modal-body">
+                      <!-- Content will be loaded here...  -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ending menampilkan detail data  -->
+
 
 </th:block>
 
