@@ -634,13 +634,13 @@ function paginate_data(page, size, sortby, orderby) {
 $('#data-show-10').on('click', function () {
 	$("#prev").attr('disabled', true);
 	$("#next").attr('disabled', false);
-	paginate_data(0, 2, 'id', 'asc');
+	paginate_data(0, 10, 'id', 'asc');
 });
 
 $('#data-show-20').on('click', function () {
 	$("#prev").attr('disabled', true);
 	$("#next").attr('disabled', false);
-	paginate_data(0, 3, 'id', 'asc');
+	paginate_data(0, 20, 'id', 'asc');
 });
 
 $('#data-show-30').on('click', function () {

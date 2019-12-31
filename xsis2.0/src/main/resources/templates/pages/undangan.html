@@ -8,7 +8,8 @@
 					<div class="card-block p-4">
 						<div class="row">
 							<div class="col">
-								<h3 class="font-weight-bold">Undangan <label class="badge badge-primary" id="show-info">10</label>
+								<h3 class="font-weight-bold">Undangan <label class="badge badge-primary"
+										id="show-info">10</label>
 								</h3>
 							</div>
 							<div class="col">
@@ -19,8 +20,9 @@
 									<a class="mr-2" data-toggle="modal" data-target="" href="#" id="page_sorting2"><i
 											class="fa fa-sort-alpha-up-alt" aria-hidden="true" id="sort-data2"></i></a>
 
-									<a class="mr-2" data-toggle="dropdown" data-target="" data-display="static" href="" id="page_show"><i
-											class="fa fa-list" aria-hidden="true" aria-haspopup="true" aria-expanded="false"></i></a>
+									<a class="mr-2" data-toggle="dropdown" data-target="" data-display="static" href=""
+										id="page_show"><i class="fa fa-list" aria-hidden="true" aria-haspopup="true"
+											aria-expanded="false"></i></a>
 									<div class="dropdown-menu dropdown-menu-lg-right">
 										<a id="data-show-10" class="dropdown-item" type="button">10 Data Per Page</a>
 										<a id="data-show-20" class="dropdown-item" type="button">20 Data Per Page</a>
@@ -46,7 +48,8 @@
 												<i class="far fa-user"></i>
 											</span>
 										</div>
-										<input type="text" class="form-control" id="input-search-pelamar" required autocomplete="off">
+										<input type="text" class="form-control" id="input-search-pelamar" required
+											autocomplete="off">
 									</div>
 									<!-- /.input group -->
 								</div>
@@ -56,7 +59,8 @@
 								<div class="form-group">
 									<label class="text-white">action</label>
 									<div class="input-group">
-										<button id="btn-search" class="btn btn-primary mr-2"><i class="fa fa-search"></i></button>
+										<button id="btn-search" class="btn btn-primary mr-2"><i
+												class="fa fa-search"></i></button>
 										<button id="btn-reset" class="btn btn-primary">Reset</button>
 									</div>
 									<!-- /.input group -->
@@ -109,7 +113,8 @@
 								<nav aria-label="Page navigation example">
 									<ul class="pagination justify-content-end mr-2">
 										<li class="page-item"><button class="page-link" id="prev">Previous</button></li>
-										<li class="page-item"><button class="page-link diasabled" href="" id="next">Next</button></li>
+										<li class="page-item"><button class="page-link diasabled" href=""
+												id="next">Next</button></li>
 									</ul>
 								</nav>
 							</div>
@@ -150,7 +155,8 @@
 												<i class="far fa-calendar-alt"></i>
 											</span>
 										</div>
-										<input type="text" class="form-control" id="get_tgl_undangan" name="scheduleDate" required>
+										<input type="text" class="form-control" id="get_tgl_undangan"
+											name="scheduleDate" required>
 									</div>
 									<!-- /.input group -->
 								</div>
@@ -164,8 +170,8 @@
 												<i class="fa fa-clock"></i>
 											</span>
 										</div>
-										<input type="text" class="form-control" id="get_jam_undangan" name="time" required
-											autocomplete="off">
+										<input type="text" class="form-control" id="get_jam_undangan" name="time"
+											required autocomplete="off">
 									</div>
 									<!-- /.input group -->
 								</div>
@@ -186,7 +192,8 @@
 								<div class="col-sm">
 									<div class="form-group">
 										<label for="get_schedule_type">Jenis Jadwal*</label>
-										<select class="form-control get_undangan" id="get_schedule_type" name="scheduleTypeId" required>
+										<select class="form-control get_undangan" id="get_schedule_type"
+											name="scheduleTypeId" required>
 											<!-- diisi dari database master -->
 										</select>
 									</div>
@@ -218,13 +225,15 @@
 							<div class="col-sm">
 								<div class="form-group">
 									<label for="get_othertro">RO / TRO Lain</label>
-									<input type="text" name="otherRoTro" id="get_othertro" class="form-control get_undangan">
+									<input type="text" name="otherRoTro" id="get_othertro"
+										class="form-control get_undangan">
 								</div>
 							</div>
 							<div class="col-sm">
 								<div class="form-group">
 									<label for="get_lokasi">Location</label>
-									<input type="text" name="location" id="get_lokasi" class="form-control get_undangan">
+									<input type="text" name="location" id="get_lokasi"
+										class="form-control get_undangan">
 									<div class="invalid-feedback">
 										Please provide a valid city.
 									</div>
@@ -242,8 +251,8 @@
 						</div>
 				</div> <!-- /.modal-body -->
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary get_rencana x-hide" id="save_rencana">Simpan & Kirim
+					<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+					<button type="button" class="btn btn-primary get_undangan x-hide" id="save_undangan">Simpan
 					</button>
 				</div> <!-- /.modal-footer -->
 				</form>

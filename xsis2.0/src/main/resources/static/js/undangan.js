@@ -1,7 +1,6 @@
 $(() => {
   get_all_rencana();
   $('#page_sorting2').hide();
-  $("#get_sent_date").attr("disabled", true);
 });
 
 
@@ -10,7 +9,7 @@ function get_all_rencana() {
     `<tr> <td colspan="4" style="text-align:center"><i>Loading...</i> </td></td></tr>`
   );
   $.ajax({
-    url: "api/rencana/paging?size=10&page=0",
+    url: "api/undangan?size=10&page=0",
     type: "get",
     contentType: "application/json",
     success: function (result) {
@@ -24,31 +23,18 @@ function get_all_rencana() {
 
       var result = result.content;
       $("#data_rows").html("");
-      var x;
       if (result.length > 0) {
         for (let i = 0; i < result.length; i++) {
-          var y = result[i].automaticMail;
-          if (y == true) {
-            x = "Otomatis";
-          } else {
-            x = "Manual";
-          }
           $("#data_rows").append(
 
             `	<tr>
 								<td>
 											<div class="row font-weight-bold">
-												<div class="col-sm">${result[i].scheduleCode}</div>
-												<div class="col-sm"><h5>${result[i].scheduleDate}, ${result[i].time}</h5></div>
-												
-												<div class="col-sm">
-													<p>RO      :${result[i].ro.biodataId.fullName} <br>
-													TRO     : ${result[i].tro.biodataId.fullName}<br>
-													Lokasi     : ${result[i].location} <br>
-													Mode     : ${x} <br>
-													Jenis Jadwal  : ${result[i].scheduleTypeId.name}</p>
-												</div>
-												
+												<div class="col-sm">${result[i].invitationCode}</div>
+												<div class="col-sm">${result[i].ro.biodataId.fullName}</div>
+												<div class="col-sm">${result[i].location}</div>
+									
+                        <div class="col-sm"><h5>${result[i].invitationDate}, ${result[i].time}</h5></div>
 												<div class="col-sm">
                          <h5 class="">
                           <a onclick="get_data_byid(${result[i].id},'detail')"  class="mr-2" data-toggle="modal" data-target="#modal-rencana" href="#"
@@ -135,7 +121,7 @@ $("#btn-reset").on("click", function () {
 // fungsi menccari data
 $("#btn-search").on("click", function () {
   $("#data_rows").html("");
-  var pelamar = $('#input-search-dari').val();
+  var pelamar = $('#input-search-pelamar').val();
 
   if (pelamar == '') {
     swal.fire("Required", "pelamar tidak boleh kosong, silahkan isi kembali.", "info");
@@ -161,7 +147,7 @@ function hapus(id) {
   }).then(result => {
     if (result.value) {
       $.ajax({
-        url: "/api/rencana/" + id,
+        url: "/api/undangan/" + id,
         type: "delete",
         contentType: "application/json",
         data: JSON.stringify(data),
@@ -189,36 +175,34 @@ function get_data_byid(id, action) {
 
   $("#action").val(action);
   if (action == "detail") {
-    $(".modal-judul").text("Detail Rencana");
+    $(".modal-judul").text("Detail Undangan");
     $(".get_rencana").attr("disabled", true);
-
   } else {
-    $(".modal-judul").text("Ubah Rencana");
+    $(".modal-judul").text("Ubah Jadwal Undangan");
     $(".get_rencana").attr("disabled", false);
     $(".x-hide").show();
   }
 
   $.ajax({
-    url: "/api/rencana/" + id,
+    url: "/api/undangan/" + id,
     type: "get",
     contentType: "application/json",
     success: function (rencana) {
-
-      $("#get_form_rencana")[0].reset();
+      $("#get_form_undangan")[0].reset();
 
       get_ro_isero_true(rencana.ro.biodataId.id);
       get_tro_isero_true(rencana.tro.biodataId.id);
       get_typeschedule(rencana.scheduleTypeId.id);
       $("#get_id").val(rencana.id);
-      $("#get_schedule_code").val(rencana.scheduleCode);
-      $("#get_tgl_rencana").val(rencana.scheduleDate);
-      $("#get_jam_rencana").val(rencana.time);
+      $("#get_schedule_code").val(rencana.invitationCode);
+      $("#get_tgl_undangan").val(rencana.invitationDate);
+      $("#get_jam_undangan").val(rencana.time);
       $("#get_lokasi").val(rencana.location);
       $("#get_othertro").val(rencana.otherRoTro);
       $("#get_notes").val(rencana.notes);
       $("#get_sent_date").val(rencana.sentDate)
       $("#is_auto").val(rencana.isAutomaticMail)
-      $("#modal-rencana").modal("show");
+      $("#modal-undangan").modal("show");
     },
     error: function () {
       swal.fire("", "Failed to fetch the data", "error");
@@ -299,8 +283,6 @@ function get_tro_isero_true(troId) {
   });
 }
 
-
-
 const Toast = Swal.mixin({
   toast: true,
   position: 'bottom-end',
@@ -331,7 +313,7 @@ $('#sort-data2').on('click', function () {
 // paginate data
 function paginate_data(page, size, sortby, orderby) {
   $.ajax({
-    url: "api/rencana/paging?page=" + page + "&size=" + size + "&sort=" + sortby + "," + orderby,
+    url: "api/undangan?page=" + page + "&size=" + size + "&sort=" + sortby + "," + orderby,
     type: 'get',
     contentType: 'application/json',
     success: function (pagination) {
@@ -346,45 +328,32 @@ function paginate_data(page, size, sortby, orderby) {
 
       var pagination = pagination.content;
       $("#data_rows").html("");
-      var x;
       if (pagination.length > 0) {
         for (let i = 0; i < pagination.length; i++) {
-          var y = pagination[i].automaticMail;
-          if (y == true) {
-            x = "Otomatis";
-          } else {
-            x = "Manual";
-          }
           $("#data_rows").append(
-            `
-												<tr>
-												<td>
+
+            `	<tr>
+								<td>
 											<div class="row font-weight-bold">
-												<div class="col-sm">${pagination[i].scheduleCode}</div>
-												<div class="col-sm"><h5>${pagination[i].scheduleDate}, ${pagination[i].time}</h5></div>
-												
+												<div class="col-sm">${pagination[i].invitationCode}</div>
+												<div class="col-sm">${pagination[i].ro.biodataId.fullName}</div>
+												<div class="col-sm">${pagination[i].location}</div>
+									
+                        <div class="col-sm"><h5>${pagination[i].invitationDate}, ${pagination[i].time}</h5></div>
 												<div class="col-sm">
-													<p>RO      :${pagination[i].ro.biodataId.fullName} <br>
-													TRO     : ${pagination[i].tro.biodataId.fullName}<br>
-													Lokasi     : ${pagination[i].location} <br>
-													Mode     : ${x} <br>
-													Jenis Jadwal  : ${pagination[i].scheduleTypeId.name}</p>
-												</div>
-												
-												<div class="col-sm">
-												 <h5 class="">
+                         <h5 class="">
+                          <a onclick="get_data_byid(${pagination[i].id},'detail')"  class="mr-2" data-toggle="modal" data-target="#modal-rencana" href="#"
+                              id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
                           <a onclick="get_data_byid(${pagination[i].id},'ubah')"  class="mr-2 " data-toggle="modal" data-target="#modal-rencana" href="#"
                               id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
                           <a onclick="hapus(${pagination[i].id})"  class="mr-2" data-toggle="modal" data-target="" href="#"
                               id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                          <a onclick="get_data_byid(${pagination[i].id},'detail')"  class="mr-2" data-toggle="modal" data-target="#modal-rencana" href="#"
-                              id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
+                         
                         </h5>
 												</div>
-
 											</div>
-											</td>
-                       </tr> 
+								</td>
+              </tr> 
 											 `);
         }
       } else {
@@ -411,7 +380,7 @@ $('#data-show-10').on('click', function () {
 $('#data-show-20').on('click', function () {
   $("#prev").attr('disabled', true);
   $("#next").attr('disabled', false);
-  paginate_data(0, 3, 'id', 'asc');
+  paginate_data(0, 20, 'id', 'asc');
 });
 
 $('#data-show-30').on('click', function () {
@@ -474,3 +443,96 @@ $('#next').on('click', function () {
   }
 });
 // ending next dan previous function
+
+// meyimpan hasil tambah dan edit data rencana
+$("#save_undangan").click(function () {
+  var action = $("#action").val();
+  // mengecek RO dan TRO
+  var ro = $("#get_ro").val();
+  var tro = $("#get_tro").val();
+  var sch = $("#get_schedule_type").val();
+  var schDate = $("#get_tgl_undangan").val();
+  var schTime = $("#get_jam_undangan").val();
+
+  var data = {
+    id: $("#get_id").val(),
+    scheduleTypeId: {
+      id: $("#get_schedule_type").val()
+    },
+    ro: {
+      id: $("#get_ro").val()
+    },
+    tro: {
+      id: $("#get_tro").val()
+    },
+    invitationCode: $("#get_schedule_code").val(),
+    invitationDate: $("#get_tgl_undangan").val(),
+    time: $("#get_jam_undangan").val(),
+    location: $("#get_lokasi").val(),
+    otherRoTro: $("#get_othertro").val(),
+    notes: $("#get_notes").val()
+  }
+
+  if (action == "tambah") {
+    type = "post";
+  } else if (action == "ubah") {
+    type = "put";
+  }
+
+  if (schDate == '') {
+    Swal.fire(
+      "",
+      "Anda belum memilih Tanggal perencannaan.",
+      "question"
+    );
+  } else if (schTime == '') {
+    Swal.fire(
+      "",
+      "Anda belum mengisi waktu perencanaan.",
+      "question"
+    );
+  } else if (ro == '') {
+    Swal.fire(
+      "",
+      "Anda belum memilih nama Recruitment Officer.",
+      "info"
+    );
+  } else if (tro == '') {
+    Swal.fire(
+      "",
+      "Anda belum memilih nama Technical Recruitment Officer.",
+      "info"
+    );
+  } else if (ro == tro) {
+    Swal.fire(
+      "",
+      "Ro dan TRO tidak boleh memiliki jadwal yang sama.",
+      "info"
+    );
+  } else if (sch == '') {
+    Swal.fire(
+      "",
+      "Anda belum memilih jenis Schedule.",
+      "info"
+    );
+  } else {
+    $.ajax({
+      url: "/api/undangan",
+      type: type,
+      contentType: "application/json",
+      data: JSON.stringify(data),
+      success: function (result) {
+        $("#get_form_undangan")[0].reset();
+        get_all_rencana();
+        Toast.fire({
+          icon: 'success',
+          title: "Data berhasil di" + action + "."
+        })
+        $("#modal-undangan").modal("hide");
+      },
+      error: function () {
+        Swal.fire("", "Failed to " + action + " data", "error");
+      }
+    });
+  }
+});

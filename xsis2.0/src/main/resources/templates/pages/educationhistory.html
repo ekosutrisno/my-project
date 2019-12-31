@@ -4,7 +4,8 @@
     <div class="bottom p-4">
         <div class="col">
             <div class="container-fluid">
-                <button class="btn btn-success mb-2 mt-2" data-toggle="modal" data-target="#addData"> New Education
+                <h2 class="font-weight-bold">Riwayat Pendidikan</h2>
+                <button class="btn btn-primary mt-2 mb-4" data-toggle="modal" data-target="#addData"> New Education
                 </button>
                 <div class="card">
                     <div class="card-block">
@@ -224,7 +225,7 @@
                         var markup = "<tr class='text-left'><td>" + data.schoolName +
                             "</td><td>" + data.name + "</td><td>" + data.entryYear + " s.d " +
                             data.graduationYear + "</td><td>" + data.major + "</td><td>" + data
-                            .gpa + "</td><td class='align-middle text-center'>" + actions +
+                                .gpa + "</td><td class='align-middle text-center'>" + actions +
                             "</td></tr>"
                         $('#tbEducation').append(markup)
                     })

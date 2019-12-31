@@ -91,7 +91,6 @@ public class RencanaService implements IRencanaService {
 		rencanaDetail.setScheduleCode(rencanaEntity.getScheduleCode());
 		rencanaDetail.setScheduleDate(rencanaEntity.getScheduleDate());
 		rencanaDetail.setTime(rencanaEntity.getTime());
-		rencanaDetail.setTime(rencanaEntity.getTime());
 		rencanaDetail.setRo(rencanaEntity.getRo());
 		rencanaDetail.setTro(rencanaEntity.getTro());
 		rencanaDetail.setScheduleTypeId(rencanaEntity.getScheduleTypeId());
