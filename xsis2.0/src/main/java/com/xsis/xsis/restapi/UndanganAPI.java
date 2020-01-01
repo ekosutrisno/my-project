@@ -1,5 +1,6 @@
 package com.xsis.xsis.restapi;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.xsis.xsis.dto.UndanganDto;
@@ -46,6 +47,11 @@ public class UndanganAPI {
             return new ResponseEntity<>(optReg.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/search")
+    public List<UndanganEntity> getSearchDataByName(@RequestParam(name = "name") String name) {
+        return undanganService.searchDataByName(name);
     }
 
     @PostMapping

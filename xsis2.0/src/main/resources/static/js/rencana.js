@@ -173,6 +173,9 @@ $("#add_rencana").click(function () {
 //menghapus inputan
 $("#btn-reset").on("click", function () {
 	$("#input-search-dari, #input-search-sampai").val("");
+	// var emp1 = $('#e1').is(':checked');
+	// alert(emp1)
+	kirim_data()
 });
 
 // fungsi menccari data
@@ -286,13 +289,15 @@ $("#save_rencana").click(function () {
 			contentType: "application/json",
 			data: JSON.stringify(data),
 			success: function (result) {
-				$("#get_form_rencana")[0].reset();
 				get_all_rencana();
 				Toast.fire({
 					icon: 'success',
 					title: "Data berhasil di" + action + "."
 				})
 				$("#modal-rencana").modal("hide");
+				kirim_data();
+				$("#get_form_rencana")[0].reset();
+
 			},
 			error: function () {
 				Swal.fire("", "Failed to " + action + " data", "error");
@@ -347,7 +352,7 @@ function get_data_byid(id, action) {
 	if (action == "detail") {
 		$(".modal-judul").text("Detail Rencana");
 		$(".get_rencana").attr("disabled", true);
-
+		$(".x-hide").hide();
 	} else {
 		$(".modal-judul").text("Ubah Rencana");
 		$(".get_rencana").attr("disabled", false);
@@ -394,6 +399,7 @@ function get_typeschedule(scheduleId) {
 			for (var i = 0; i < sch.length; i++) {
 				if (scheduleId == sch[i].id) {
 					optValue += `<option value="${sch[i].id}" selected="selected">${sch[i].name}</option>`;
+
 				} else {
 					optValue += `<option value="${sch[i].id}">${sch[i].name}</option>`;
 				}
@@ -420,6 +426,7 @@ function get_ro_isero_true(roId) {
 					optValue += `<option value="${ro[i].biodataId.id}" selected="selected">${ro[i].biodataId.fullName}</option>`;
 				} else {
 					optValue += `<option value="${ro[i].biodataId.id}">${ro[i].biodataId.fullName}</option>`;
+
 				}
 			}
 			$("#get_ro").html(optValue);
@@ -703,3 +710,563 @@ $('#next').on('click', function () {
 	}
 });
 // ending next dan previous function
+
+//function mengirim ke email pelamar
+function kirim_data() {
+	var e1 = $('#e1').is(':checked');
+	var e2 = $('#e2').is(':checked');
+	var e3 = $('#e3').is(':checked');
+	var plmr = '';
+
+	if (e1 == true) {
+		plmr = $('.e1').text();
+	} else if (e2 == true) {
+		plmr = $('.e2').text();
+	} else if (e3 == true) {
+		plmr = $('.e3').text();
+	}
+
+	var roff = $("#get_ro").val();
+	var ro = '';
+	if (roff == 1) {
+		ro = 'Dwi Lisyanti, S.Pd';
+	} else if (roff == 2) {
+		ro = 'Alfia Husna, S.Si';
+	} else if (roff == 3) {
+		ro = 'Ario Bimo, S.Si'
+	} else if (roff == 4) {
+		ro = 'Muhammad Fathan'
+	} else if (roff == 6) {
+		ro = 'Eko Sutrisno, S.Pd'
+	}
+
+	var emp1 = $('#e1').is(':checked');
+	var emp2 = $('#e2').is(':checked');
+	var emp3 = $('#e3').is(':checked');
+	var penerima = '';
+
+	if (emp1 == true) {
+		penerima = 'ekosutrisno801@gmail.com';
+	} else if (emp2 == true) {
+		penerima = 'ekosutrisno801@yahoo.com';
+	} else if (emp3 == true) {
+		penerima = 'sutrisnoeko801@gmail.com';
+	}
+
+	var judul = '';
+	var namaro = $('#get_schedule_type').val();
+	if (namaro == 1) {
+		judul = 'Softskill';
+	} else if (namaro == 2) {
+		judul = 'Training';
+	} else if (namaro == 3) {
+		judul = 'Hiring';
+	} else if (namaro == 4) {
+		judul = 'Mini Project';
+	} else if (namaro == 5) {
+		judul = 'Filtering';
+	} else if (namaro == 6) {
+		judul = 'Kickoff Bootcamp';
+	} else if (namaro == 7) {
+		judul = 'Palcement';
+	} else if (namaro == 8) {
+		judul = 'Interview';
+	}
+
+
+	var nm = plmr;
+	var tg = $("#get_tgl_rencana").val();
+	var jm = $("#get_jam_rencana").val();
+	var tm = $("#get_lokasi").val();
+	var jd = judul;
+	var ro = ro;
+
+	var html = `
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="format-detection" content="date=no" />
+	<meta name="format-detection" content="address=no" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>Email Template</title>
+
+
+	<style type="text/css" media="screen">
+		/* Linked Styles */
+		body {
+			padding: 0 !important;
+			margin: 0 !important;
+			display: block !important;
+			min-width: 100% !important;
+			width: 100% !important;
+			background: #ffffff;
+			-webkit-text-size-adjust: none
+		}
+
+		a {
+			color: #4bb182;
+			text-decoration: none
+		}
+
+		p {
+			padding: 0 !important;
+			margin: 0 !important
+		}
+
+		img {
+			-ms-interpolation-mode: bicubic;
+			/* Allow smoother rendering of resized image in Internet Explorer */
+		}
+
+		/* Mobile styles */
+		@media only screen and (max-device-width: 480px),
+		only screen and (max-width: 480px) {
+			div[class='mobile-br-1'] {
+				height: 1px !important;
+			}
+
+			div[class='mobile-br-1-b'] {
+				height: 1px !important;
+				background: #ffffff !important;
+				display: block !important;
+			}
+
+			div[class='mobile-br-5'] {
+				height: 5px !important;
+			}
+
+			div[class='mobile-br-10'] {
+				height: 10px !important;
+			}
+
+			div[class='mobile-br-15'] {
+				height: 15px !important;
+			}
+
+			div[class='mobile-br-20'] {
+				height: 20px !important;
+			}
+
+			div[class='mobile-br-30'] {
+				height: 30px !important;
+			}
+
+			th[class='m-td'],
+			td[class='m-td'],
+			div[class='hide-for-mobile'],
+			span[class='hide-for-mobile'] {
+				display: none !important;
+				width: 0 !important;
+				height: 0 !important;
+				font-size: 0 !important;
+				line-height: 0 !important;
+				min-height: 0 !important;
+			}
+
+			span[class='mobile-block'] {
+				display: block !important;
+			}
+
+			div[class='img-m-center'] {
+				text-align: center !important;
+			}
+
+			div[class='h2-white-m-center'],
+			div[class='text-white-m-center'],
+			div[class='text-white-r-m-center'],
+			div[class='h2-m-center'],
+			div[class='text-m-center'],
+			div[class='text-r-m-center'],
+			td[class='text-top'],
+			div[class='text-top'],
+			div[class='h6-m-center'],
+			div[class='text-m-center'],
+			div[class='text-top-date'],
+			div[class='text-white-top'],
+			td[class='text-white-top'],
+			td[class='text-white-top-r'],
+			div[class='text-white-top-r'] {
+				text-align: center !important;
+			}
+
+			div[class='fluid-img'] img,
+			td[class='fluid-img'] img {
+				width: 100% !important;
+				max-width: 100% !important;
+				height: auto !important;
+			}
+
+			table[class='mobile-shell'] {
+				width: 100% !important;
+				min-width: 100% !important;
+			}
+
+			table[class='center'] {
+				margin: 0 auto;
+			}
+
+			th[class='column-rtl'],
+			th[class='column-rtl2'],
+			th[class='column-top'],
+			th[class='column'] {
+				float: left !important;
+				width: 100% !important;
+				display: block !important;
+			}
+
+			td[class='td'] {
+				width: 100% !important;
+				min-width: 100% !important;
+			}
+
+			td[class='content-spacing'] {
+				width: 15px !important;
+			}
+
+			td[class='content-spacing2'] {
+				width: 10px !important;
+			}
+		}
+	</style>
+</head>
+
+<body class="body"
+	style="padding:0 !important; margin:0 !important; display:block !important; min-width:100% !important; width:100% !important; background:#ffffff; -webkit-text-size-adjust:none">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff">
+		<tr>
+			<td align="center" valign="top">
+				<!-- 3/ Header -->
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#4bb182">
+					<tr>
+						<td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="1"></td>
+						<td align="center">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer"
+								style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+								<tr>
+									<td height="20" class="spacer"
+										style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
+								</tr>
+							</table>
+
+							<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer"
+								style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+								<tr>
+									<td height="20" class="spacer"
+										style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
+								</tr>
+							</table>
+						</td>
+						<td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="1"></td>
+					</tr>
+				</table>
+				<!-- END 3/ Header -->
+				<!-- Section 4 -->
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#e6e6e6">
+					<tr>
+						<td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="1"></td>
+						<td align="center">
+							<table width="650" border="0" cellspacing="0" cellpadding="0" class="mobile-shell">
+								<tr>
+									<td class="td"
+										style="width:650px; min-width:650px; font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; Margin:0">
+										<table width="100%" border="0" cellspacing="0" cellpadding="0">
+											<tr>
+												<td>
+													<!-- Head -->
+													<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer"
+														style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+														<tr>
+															<td height="50" class="spacer"
+																style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+																&nbsp;</td>
+														</tr>
+													</table>
+
+													<table width="100%" border="0" cellspacing="0" cellpadding="0">
+														<tr>
+															<td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left"
+																width="50"></td>
+															<td>
+																<div class="h3-grey-center"
+																	style="color:#666666; font-family:Arial,sans-serif; font-size:26px; line-height:34px; text-align:center">
+																	Jadwal ` + jd + `</div>
+																<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer"
+																	style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+																	<tr>
+																		<td height="22" class="spacer"
+																			style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+																			&nbsp;</td>
+																	</tr>
+																</table>
+
+																<div class=""
+																	style="color:#777777; font-family:Arial,sans-serif; font-size:14px; line-height:20px; text-align:left">
+																	<p>
+																				<strong>Nama<span> : </span>	 ` + nm + `</strong> <br>
+																				<strong>Tanggal<span> : </span>	 ` + tg + `</strong><br>
+																				<strong>Jam<span> : </span>	 ` + jm + `</strong><br>
+																				<strong>Tempat<span> : </span>	 ` + tm + `</strong><br>
+																	</p>
+																</div>
+																<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer"
+																	style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+																	<tr>
+																		<td height="50" class="spacer"
+																			style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+																			&nbsp;</td>
+																	</tr>
+																</table>
+
+															</td>
+															<td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left"
+																width="50"></td>
+														</tr>
+													</table>
+													<!-- END Head -->
+
+													<!-- Articles -->
+													<!-- row 1 -->
+													<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff">
+														<tr>
+															<td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left"
+																width="10"></td>
+															<td>
+															</td>
+														</tr>
+													</table>
+
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+						<td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="1"></td>
+					</tr>
+				</table>
+				<!-- END Section 4 -->
+
+				<!-- Section 5 -->
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#4bb182">
+					<tr>
+						<td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="1"></td>
+						<td align="center">
+							<table width="650" border="0" cellspacing="0" cellpadding="0" class="mobile-shell">
+								<tr>
+									<td class="td"
+										style="width:650px; min-width:650px; font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; Margin:0">
+										<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer"
+											style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+											<tr>
+												<td height="50" class="spacer"
+													style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;
+												</td>
+											</tr>
+										</table>
+
+										<table width="100%" border="0" cellspacing="0" cellpadding="0">
+											<tr>
+												<td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="50">
+												</td>
+												<td>
+													<div class="h3-white-center"
+														style="color:#ffffff; font-family:Arial,sans-serif; font-size:26px; line-height:34px; text-align:center">
+														What Our Clients Say About Us</div>
+													<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer"
+														style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+														<tr>
+															<td height="22" class="spacer"
+																style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+																&nbsp;</td>
+														</tr>
+													</table>
+
+													<div class="text-white-center"
+														style="color:#ffffff; font-family:Arial,sans-serif; font-size:14px; line-height:20px; text-align:center">
+														<em>"Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+															mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus"</em></div>
+													<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer"
+														style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+														<tr>
+															<td height="40" class="spacer"
+																style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+																&nbsp;</td>
+														</tr>
+													</table>
+													<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer"
+														style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+														<tr>
+															<td height="20" class="spacer"
+																style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+																&nbsp;</td>
+														</tr>
+													</table>
+
+													<div class="h6-white-center"
+														style="color:#ffffff; font-family:Arial,sans-serif; font-size:16px; line-height:22px; text-align:center; font-weight:bold">
+														` + ro + `</div>
+													<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer"
+														style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+														<tr>
+															<td height="6" class="spacer"
+																style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+																&nbsp;</td>
+														</tr>
+													</table>
+
+													<div class="text-white-center"
+														style="color:#ffffff; font-family:Arial,sans-serif; font-size:14px; line-height:20px; text-align:center">
+														Recruitmen Officer</div>
+												</td>
+												<td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="50">
+												</td>
+											</tr>
+										</table>
+										<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer"
+											style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+											<tr>
+												<td height="50" class="spacer"
+													style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;
+												</td>
+											</tr>
+										</table>
+
+									</td>
+								</tr>
+							</table>
+						</td>
+						<td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="1"></td>
+					</tr>
+				</table>
+				<!-- END Section 5 -->
+
+
+				<!-- Footer -->
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f9f9f9">
+					<tr>
+						<td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="1"></td>
+						<td align="center">
+							<table width="650" border="0" cellspacing="0" cellpadding="0" class="mobile-shell">
+								<tr>
+									<td class="td"
+										style="width:650px; min-width:650px; font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; Margin:0">
+										<table width="100%" border="0" cellspacing="0" cellpadding="0">
+											<tr>
+												<td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="30">
+												</td>
+												<td>
+													<table width="100%" border="0" cellspacing="0" cellpadding="0">
+														<tr>
+															<!-- Column -->
+															<th class="column"
+																style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; Margin:0"
+																valign="bottom" width="266">
+																<table width="100%" border="0" cellspacing="0" cellpadding="0">
+																	<tr>
+																		<td>
+																			<div style="font-size:0pt; line-height:0pt;" class="mobile-br-20"></div>
+
+																			<div class="text-m-center"
+																				style="color:#777777; font-family:Arial,sans-serif; font-size:12px; line-height:20px; text-align:left">
+																				<p>Copyright &copy; 2020 Xsis Mitra Utama</p>
+																				</div>
+																			<div style="font-size:0pt; line-height:0pt;" class="mobile-br-15"></div>
+
+																		</td>
+																	</tr>
+																</table>
+															</th>
+															<!-- END Column -->
+															<!-- Column -->
+															<th class="column-top"
+																style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top; Margin:0">
+																<table width="100%" border="0" cellspacing="0" cellpadding="0">
+																	<tr>
+																		<td>
+																			<div class="text-r-m-center"
+																				style="color:#777777; font-family:Arial,sans-serif; font-size:12px; line-height:24px; text-align:right">
+																				<a href="#" target="_blank" class="link-grey2"
+																					style="color:#666666; text-decoration:none"><span class="link-grey2"
+																						style="color:#666666; text-decoration:none">Satrio Tower Lt. 25, Mega
+																						Kuningan 9000</span></a>,Jakarta
+																				<br />
+																				<a href="www.xsis.academy" target="_blank" class="link-grey2-u"
+																					style="color:#666666; text-decoration:underline"><span class="link-grey2-u"
+																						style="color:#666666; text-decoration:underline">www.xsis.academy</span></a>
+																				&nbsp; <a href="" target="_blank" class="link-grey2-u"
+																					style="color:#666666; text-decoration:underline"><span class="link-grey2-u"
+																						style="color:#666666; text-decoration:underline">xsisacademy@xsis.com</span></a>
+																				<br />
+																				Phone: <a href="tel:+1123456789" target="_blank" class="link-grey2"
+																					style="color:#666666; text-decoration:none"><span class="link-grey2"
+																						style="color:#666666; text-decoration:none">+1 (123) 456-789</span></a>
+																			</div>
+																		</td>
+																	</tr>
+																</table>
+															</th>
+															<!-- END Column -->
+														</tr>
+													</table>
+													<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer"
+														style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+														<tr>
+															<td height="40" class="spacer"
+																style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+																&nbsp;</td>
+														</tr>
+													</table>
+
+												</td>
+												<td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="30">
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+							<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#eeeeee">
+								<tr>
+									<td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="30"></td>
+
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				<!-- END Footer -->
+			</td>
+		</tr>
+	</table>
+</body>
+
+</html>
+`;
+
+
+	var data = {
+		penerima: penerima,
+		judul: judul,
+		konten: html
+	}
+	console.log(data)
+	$.ajax({
+		url: '/sendemail',
+		type: 'post',
+		contentType: 'application/json',
+		data: JSON.stringify(data),
+		success: function () {
+			Swal.fire("Sukses", "Email berhasil dikirim ke " + penerima, "success");
+		},
+		error: function () {
+			Swal.fire("Gagal", "Email gagal dikirim ke " + penerima, "error");
+		}
+	})
+};

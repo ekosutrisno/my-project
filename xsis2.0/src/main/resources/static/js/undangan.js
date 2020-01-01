@@ -131,6 +131,57 @@ $("#btn-search").on("click", function () {
 
 });
 
+//Function search
+function search_data(name) {
+  $.ajax({
+    url: "api/undangan/search?name=" + name,
+    type: "get",
+    contentType: "application/json",
+    success: function (data) {
+      $("#data_rows").html("");
+      if (data.length > 0) {
+        for (let i = 0; i < data.length; i++) {
+          $("#data_rows").append(
+
+            `	<tr>
+								<td>
+											<div class="row font-weight-bold">
+												<div class="col-sm">${data[i].invitationCode}</div>
+												<div class="col-sm">${data[i].ro.biodataId.fullName}</div>
+												<div class="col-sm">${data[i].location}</div>
+									
+                        <div class="col-sm"><h5>${data[i].invitationDate}, ${data[i].time}</h5></div>
+												<div class="col-sm">
+                         <h5 class="">
+                          <a onclick="get_data_byid(${data[i].id},'detail')"  class="mr-2" data-toggle="modal" data-target="#modal-rencana" href="#"
+                              id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
+                          <a onclick="get_data_byid(${data[i].id},'ubah')"  class="mr-2 " data-toggle="modal" data-target="#modal-rencana" href="#"
+                              id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                          <a onclick="hapus(${data[i].id})"  class="mr-2" data-toggle="modal" data-target="" href="#"
+                              id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                         
+                        </h5>
+												</div>
+											</div>
+								</td>
+              </tr> 
+											 `);
+        }
+      } else {
+        $("#data_rows").html(
+          `<tr> <td colspan="4">
+					<div class="alert alert-primary text-center" role="alert">
+						Data tidak ditemukan! <span><i class="fa fa-error"></i></span>
+					</div> 
+					</td></tr>`
+        );
+      }
+    }
+  });
+
+}
+
+
 // function hapus rencana /jadwal
 function hapus(id) {
   var data = {
@@ -176,10 +227,11 @@ function get_data_byid(id, action) {
   $("#action").val(action);
   if (action == "detail") {
     $(".modal-judul").text("Detail Undangan");
-    $(".get_rencana").attr("disabled", true);
+    $(".get_undangan").attr("disabled", true);
+    $(".x-hide").hide();
   } else {
     $(".modal-judul").text("Ubah Jadwal Undangan");
-    $(".get_rencana").attr("disabled", false);
+    $(".get_undangan").attr("disabled", false);
     $(".x-hide").show();
   }
 
@@ -199,9 +251,7 @@ function get_data_byid(id, action) {
       $("#get_jam_undangan").val(rencana.time);
       $("#get_lokasi").val(rencana.location);
       $("#get_othertro").val(rencana.otherRoTro);
-      $("#get_notes").val(rencana.notes);
-      $("#get_sent_date").val(rencana.sentDate)
-      $("#is_auto").val(rencana.isAutomaticMail)
+      $("#get_notes").val(rencana.status);
       $("#modal-undangan").modal("show");
     },
     error: function () {
@@ -470,7 +520,7 @@ $("#save_undangan").click(function () {
     time: $("#get_jam_undangan").val(),
     location: $("#get_lokasi").val(),
     otherRoTro: $("#get_othertro").val(),
-    notes: $("#get_notes").val()
+    status: $("#get_notes").val()
   }
 
   if (action == "tambah") {

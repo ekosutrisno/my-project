@@ -4,7 +4,6 @@ $(() => {
 
 });
 
-
 $('#get_marital_status').change(function () {
    var x = $('#get_marital_status').val()
    if (x == 1) {
@@ -13,9 +12,6 @@ $('#get_marital_status').change(function () {
       $('.year_marriage').attr('disabled', false);
    }
 })
-
-
-
 
 function get_religion(relId) {
    $.ajax({
@@ -113,25 +109,28 @@ function get_all_data() {
          if (result.length > 0) {
             for (let i = 0; i < result.length; i++) {
                $("#data_rows").append(
-                  `
-                        <tr>
-                          <td> ${number}</td>
-                          <td> ${result[i].fullName}</td>
-                          <td> ${result[i].email}</td>
+                  `   
+                  <tr>
+                  <td>
+                     <div class="row">
+                        <div class="col-md"> ${number}</div>
+                        <div class="col-md"> ${result[i].fullName}</div>
+                        <div class="col-md"> ${result[i].email}</div>
 
-                        <td>
 
+                        <div class="col-md mt-3">
                         <h5 class="">
-                          <a onclick="get_data_byid( ${result[i].id},'edit')"  class="mr-2 " data-toggle="modal" data-target="#addModal" href="#"
-                              id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                          <a onclick="hapus(${result[i].id})"  class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
+                           <a onclick="get_data_byid( ${result[i].id},'edit')" class="mr-2 " data-toggle="modal" data-target="#addModal"
+                              href="#" id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                           <a onclick="hapus(${result[i].id})" class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
                               id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                          <a onclick="detailData(${result[i].id})"  class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
+                           <a onclick="detailData(${result[i].id})" class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
                               id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
                         </h5>
-                        
-                        </td>
-                       </tr> `
+                        </div>
+                     </div>
+                  </td>
+                  </tr> `
                );
                number++;
             }
@@ -157,7 +156,7 @@ function get_data_byid(id, action) {
    if (action == "detail") {
       $(".modal-judul").text("Detail Pelamar ");
       $("#sava_button").attr("disabled", true);
-      $(".get_biodata").attr("disabled", true);
+      $(".x-hide").hide();
    } else {
       $(".modal-judul").text("Edit Biodata");
       $(".get_biodata").attr("disabled", false);

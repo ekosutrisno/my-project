@@ -1,6 +1,7 @@
 package com.xsis.xsis.services.implementation;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import com.xsis.xsis.models.entity.UndanganEntity;
@@ -71,6 +72,11 @@ public class UndanganService implements IUndanganService {
         undangan.setDeletedBy(1L);
         undangan.setDeleteddOn(new Date());
         return undanganRepository.save(undangan);
+    }
+
+    @Override
+    public List<UndanganEntity> searchDataByName(String name) {
+        return undanganRepository.searchDataByName(name);
     }
 
 }
