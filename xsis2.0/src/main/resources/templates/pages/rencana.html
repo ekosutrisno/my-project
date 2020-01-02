@@ -8,7 +8,8 @@
 					<div class="card-block p-4">
 						<div class="row">
 							<div class="col">
-								<h3 class="font-weight-bold">Rencana Jadwal <label class="badge badge-primary" id="show-info">10</label>
+								<h3 class="font-weight-bold">Rencana Jadwal <label class="badge text-white"
+										id="show-info">10</label>
 								</h3>
 							</div>
 							<div class="col">
@@ -19,8 +20,9 @@
 									<a class="mr-2" data-toggle="modal" data-target="" href="#" id="page_sorting2"><i
 											class="fa fa-sort-alpha-up-alt" aria-hidden="true" id="sort-data2"></i></a>
 
-									<a class="mr-2" data-toggle="dropdown" data-target="" data-display="static" href="" id="page_show"><i
-											class="fa fa-list" aria-hidden="true" aria-haspopup="true" aria-expanded="false"></i></a>
+									<a class="mr-2" data-toggle="dropdown" data-target="" data-display="static" href=""
+										id="page_show"><i class="fa fa-list" aria-hidden="true" aria-haspopup="true"
+											aria-expanded="false"></i></a>
 									<div class="dropdown-menu dropdown-menu-lg-right">
 										<a id="data-show-10" class="dropdown-item" type="button">10 Data Per Page</a>
 										<a id="data-show-20" class="dropdown-item" type="button">20 Data Per Page</a>
@@ -46,7 +48,8 @@
 												<i class="far fa-calendar-alt"></i>
 											</span>
 										</div>
-										<input type="text" class="form-control" id="input-search-dari" required autocomplete="off">
+										<input type="text" class="form-control" id="input-search-dari" required
+											autocomplete="off">
 									</div>
 									<!-- /.input group -->
 								</div>
@@ -61,7 +64,8 @@
 												<i class="far fa-calendar-alt"></i>
 											</span>
 										</div>
-										<input type="text" class="form-control" id="input-search-sampai" required autocomplete="off">
+										<input type="text" class="form-control" id="input-search-sampai" required
+											autocomplete="off">
 									</div>
 									<!-- /.input group -->
 								</div>
@@ -71,7 +75,8 @@
 								<div class="form-group">
 									<label class="text-white">action</label>
 									<div class="input-group">
-										<button id="btn-search" class="btn btn-primary mr-2"><i class="fa fa-search"></i></button>
+										<button id="btn-search" class="btn btn-primary mr-2"><i
+												class="fa fa-search"></i></button>
 										<button id="btn-reset" class="btn btn-primary">Reset</button>
 									</div>
 									<!-- /.input group -->
@@ -124,7 +129,8 @@
 								<nav aria-label="Page navigation example">
 									<ul class="pagination justify-content-end mr-2">
 										<li class="page-item"><button class="page-link" id="prev">Previous</button></li>
-										<li class="page-item"><button class="page-link diasabled" href="" id="next">Next</button></li>
+										<li class="page-item"><button class="page-link diasabled" href=""
+												id="next">Next</button></li>
 									</ul>
 								</nav>
 							</div>
@@ -167,7 +173,8 @@
 												<i class="far fa-calendar-alt"></i>
 											</span>
 										</div>
-										<input type="text" class="form-control" id="get_tgl_rencana" name="scheduleDate" required>
+										<input type="text" class="form-control" id="get_tgl_rencana" name="scheduleDate"
+											required>
 									</div>
 									<!-- /.input group -->
 								</div>
@@ -181,8 +188,8 @@
 												<i class="fa fa-clock"></i>
 											</span>
 										</div>
-										<input type="text" class="form-control" id="get_jam_rencana" name="time" required
-											autocomplete="off">
+										<input type="text" class="form-control" id="get_jam_rencana" name="time"
+											required autocomplete="off">
 									</div>
 									<!-- /.input group -->
 								</div>
@@ -214,7 +221,8 @@
 							<div class="col-sm">
 								<div class="form-group">
 									<label for="get_schedule_type">Jenis Jadwal*</label>
-									<select class="form-control get_rencana" id="get_schedule_type" name="scheduleTypeId" required>
+									<select class="form-control get_rencana" id="get_schedule_type"
+										name="scheduleTypeId" required>
 										<!-- diisi dari database master -->
 									</select>
 								</div>
@@ -233,7 +241,8 @@
 							<div class="col-sm">
 								<div class="form-group">
 									<label for="get_othertro">RO / TRO Lain</label>
-									<input type="text" name="otherRoTro" id="get_othertro" class="form-control get_rencana">
+									<input type="text" name="otherRoTro" id="get_othertro"
+										class="form-control get_rencana">
 								</div>
 							</div>
 						</div>
@@ -250,8 +259,8 @@
 						<div class="row">
 							<div class="col-sm">
 								<div class="custom-control custom-checkbox mb-3">
-									<input type="checkbox" class="custom-control-input" id="cek_sent_date" name="automaticMail"
-										value="false">
+									<input type="checkbox" class="custom-control-input" id="cek_sent_date"
+										name="automaticMail" value="false">
 									<label class="custom-control-label" for="cek_sent_date">Kirim undangan
 										otomatis.</label>
 								</div>

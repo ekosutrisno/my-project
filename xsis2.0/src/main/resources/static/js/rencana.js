@@ -1,5 +1,5 @@
 $(() => {
-	get_all_rencana();
+	// get_all_rencana();
 	$('#page_sorting2').hide();
 	$("#get_sent_date").attr("disabled", true);
 });
@@ -173,9 +173,6 @@ $("#add_rencana").click(function () {
 //menghapus inputan
 $("#btn-reset").on("click", function () {
 	$("#input-search-dari, #input-search-sampai").val("");
-	// var emp1 = $('#e1').is(':checked');
-	// alert(emp1)
-	kirim_data()
 });
 
 // fungsi menccari data
@@ -486,7 +483,6 @@ const Toast = Swal.mixin({
 	}
 });
 
-
 //Function search
 function search_data(tgl_mulai, tgl_sampai) {
 	$.ajax({
@@ -746,11 +742,14 @@ function kirim_data() {
 	var penerima = '';
 
 	if (emp1 == true) {
-		penerima = 'ekosutrisno801@gmail.com';
+		// penerima = 'ekosutrisno801@gmail.com';
+		penerima = 'debby.fudmasari@xsis.co.id';
 	} else if (emp2 == true) {
-		penerima = 'ekosutrisno801@yahoo.com';
+		penerima = 'imam.winata@xsis.co.id';
+		// penerima = 'ekosutrisno801@yahoo.com';
 	} else if (emp3 == true) {
-		penerima = 'sutrisnoeko801@gmail.com';
+		// penerima = 'sutrisnoeko801@gmail.com';
+		penerima = 'ekosutrisno801@gmail.com';
 	}
 
 	var judul = '';
@@ -768,7 +767,7 @@ function kirim_data() {
 	} else if (namaro == 6) {
 		judul = 'Kickoff Bootcamp';
 	} else if (namaro == 7) {
-		judul = 'Palcement';
+		judul = 'Placement';
 	} else if (namaro == 8) {
 		judul = 'Interview';
 	}

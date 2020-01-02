@@ -37,7 +37,7 @@ function get_all_rencana() {
                         <div class="col-sm"><h5>${result[i].invitationDate}, ${result[i].time}</h5></div>
 												<div class="col-sm">
                          <h5 class="">
-                          <a onclick="get_data_byid(${result[i].id},'detail')"  class="mr-2" data-toggle="modal" data-target="#modal-rencana" href="#"
+                          <a onclick="get_detail(${result[i].id})"  class="mr-2" data-toggle="modal" data-target="#detail-undangan" href="#"
                               id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
                           <a onclick="get_data_byid(${result[i].id},'ubah')"  class="mr-2 " data-toggle="modal" data-target="#modal-rencana" href="#"
                               id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
@@ -392,7 +392,7 @@ function paginate_data(page, size, sortby, orderby) {
                         <div class="col-sm"><h5>${pagination[i].invitationDate}, ${pagination[i].time}</h5></div>
 												<div class="col-sm">
                          <h5 class="">
-                          <a onclick="get_data_byid(${pagination[i].id},'detail')"  class="mr-2" data-toggle="modal" data-target="#modal-rencana" href="#"
+                          <a onclick="get_detail(${pagination[i].id})"  class="mr-2" data-toggle="modal" data-target="#detail-undangan" href="#"
                               id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
                           <a onclick="get_data_byid(${pagination[i].id},'ubah')"  class="mr-2 " data-toggle="modal" data-target="#modal-rencana" href="#"
                               id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
@@ -586,3 +586,58 @@ $("#save_undangan").click(function () {
     });
   }
 });
+
+
+// get data by id rencana
+function get_detail(id) {
+  $("#get_id").val(id);
+  $.ajax({
+    url: "/api/undangan/" + id,
+    type: "get",
+    contentType: "application/json",
+    success: function (rencana) {
+      $('.modal-jdl').text(rencana.invitationCode)
+      $('#det-undangan').html(`
+              <div class="col-sm">
+								<p class="font-weight-bold">Tanggal Undangan <br>
+									Jam <br>
+									Pelamar <br>
+									Jenis Undangan <br>
+									RO <br>
+									TRO <br>
+									RO / TRO lain <br>
+									Lokasi <br>
+									Catatan
+
+								</p>
+							</div>
+							<div class="col-sm">
+								<p class="font-weight-bold">:  ${rencana.invitationDate} <br>
+                : ${rencana.time} <br>
+								: ${rencana.ro.biodataId.fullName} <br>
+                : ${rencana.scheduleTypeId.name} <br>
+                : ${rencana.ro.biodataId.fullName} <br>
+								: ${rencana.tro.biodataId.fullName}<br>
+								: ${rencana.otherRoTro} <br>
+								: ${rencana.location} <br>
+								: ${rencana.status}
+								</p>
+              </div>
+              <div class="col-sm">
+              <div class="fa fa-envelope"></div>
+              </div>
+`)
+      $("#detail-undangan").modal("hide");
+
+    },
+    error: function () {
+      swal.fire("", "Failed to fetch the data", "error");
+    }
+  });
+};
+
+function get_edit() {
+  $("#detail-undangan").modal("hide");
+  var id = $("#get_id").val();
+  get_data_byid(id, 'ubah');
+}
