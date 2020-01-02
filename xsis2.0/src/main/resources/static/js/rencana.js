@@ -742,14 +742,15 @@ function kirim_data() {
 	var penerima = '';
 
 	if (emp1 == true) {
-		// penerima = 'ekosutrisno801@gmail.com';
-		penerima = 'debby.fudmasari@xsis.co.id';
+		penerima = 'ekosutrisno801@gmail.com';
+		// penerima = 'debby.fudmasari@xsis.co.id';
 	} else if (emp2 == true) {
-		penerima = 'imam.winata@xsis.co.id';
-		// penerima = 'ekosutrisno801@yahoo.com';
+		// penerima = 'imam.winata@xsis.co.id';
+		penerima = 'ekosutrisno801@yahoo.com';
 	} else if (emp3 == true) {
 		// penerima = 'sutrisnoeko801@gmail.com';
-		penerima = 'ekosutrisno801@gmail.com';
+		// penerima = 'ekosutrisno801@gmail.com';
+		penerima = 'ariobimo74@gmail.com';
 	}
 
 	var judul = '';

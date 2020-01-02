@@ -160,6 +160,7 @@ function get_data_byid(id, action) {
    } else {
       $(".modal-judul").text("Edit Biodata");
       $(".get_biodata").attr("disabled", false);
+      // $(".x-email").attr("disabled", true);
    }
    $.ajax({
       url: "/api/biodata-rest/" + id,
@@ -350,6 +351,7 @@ $("#save_button").click(function () {
    var region2 = $("#get_region2").val();
    // ending inputan
 
+   console.log(identityType)
    if (action == "add") {
       type = "post";
    } else if (action == "edit") {
@@ -432,7 +434,7 @@ $("#save_button").click(function () {
                   if (email == cek[i].email) {
                      cek_eml = true;
                   }
-                  if (identityNo == cek[i].identityNo) {
+                  if (identityNo == cek[i].identityNo && identityType == cek[i].identityType.id) {
                      cek_no_idn = true;
                   }
                   if (phoneNumber1 == cek[i].phoneNumber1) {
@@ -441,7 +443,7 @@ $("#save_button").click(function () {
                }
 
                if (type == 'put') {
-                  //save
+                  save
                   $.ajax({
                      url: "/api/biodata-rest",
                      type: type,
