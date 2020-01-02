@@ -624,7 +624,7 @@ function get_detail(id) {
 								</p>
               </div>
               <div class="col-sm">
-              <div class="fa fa-envelope"></div>
+              <img class="fa fa-envelope" style="width:180px;height:180px" src="/images/envelope.png">
               </div>
 `)
       $("#detail-undangan").modal("hide");
