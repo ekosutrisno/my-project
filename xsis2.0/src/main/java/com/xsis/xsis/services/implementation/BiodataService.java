@@ -10,9 +10,12 @@ import javax.transaction.Transactional;
 import com.xsis.xsis.models.entity.AddressEntity;
 import com.xsis.xsis.models.entity.BiodataEntity;
 import com.xsis.xsis.repository.BioRepoBackup;
+import com.xsis.xsis.repository.PagingPelamarRepository;
 import com.xsis.xsis.services.IBiodataService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,6 +27,9 @@ public class BiodataService implements IBiodataService {
 
     @Autowired
     private BioRepoBackup biodataRepository;
+
+    @Autowired
+    private PagingPelamarRepository pagePelamar;
 
     @Override
     public List<BiodataEntity> getAll() {
@@ -116,5 +122,15 @@ public class BiodataService implements IBiodataService {
         biodata.setDeletedBy(1L);
         biodata.setDeleteddOn(new Date());
         return biodataRepository.save(biodata);
+    }
+
+    @Override
+    public Page<BiodataEntity> findByPaging(Pageable pageable, String key) {
+        return pagePelamar.findByPaging(pageable, key);
+    }
+
+    @Override
+    public List<BiodataEntity> searchDataByName(String name) {
+        return biodataRepository.searchDataByName(name);
     }
 }

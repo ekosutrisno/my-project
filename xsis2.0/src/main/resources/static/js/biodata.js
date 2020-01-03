@@ -1,6 +1,7 @@
 $(() => {
    get_all_data();
    get_marriage_year();
+   $('#page_sorting2').hide();
 
 });
 
@@ -96,32 +97,42 @@ function get_marriage_year() {
 };
 
 function get_all_data() {
-   var number = 1;
    $("#data_rows").html(
       `<tr> <td colspan="4" style="text-align:center"><i>Loading...</i> </td></td></tr>`
    );
    $.ajax({
-      url: "/api/biodata-rest/",
+      url: "/api/biodata-rest/page?size=10&page=0",
       type: "get",
       contentType: "application/json",
       success: function (result) {
+
+
+         $("#total-data").text(result.totalElements);
+         $("#total-page").text(result.size);
+         $("#show-info").text(result.size);
+         $("#total-size").text(result.totalPages);
+         $("#total-ke").text(result.pageable.pageNumber);
+         $("#count-page").val(result.pageable.pageNumber);
+         $("#count-first").val(result.first);
+         $("#count-last").val(result.last);
+
+         var result = result.content;
+
          $("#data_rows").html("");
          if (result.length > 0) {
             for (let i = 0; i < result.length; i++) {
                $("#data_rows").append(
                   `   
-                  <tr>
+                  <tr class="x-data">
                   <td>
                      <div class="row">
-                        <div class="col-md"> ${number}</div>
-                        <div class="col-md"> ${result[i].fullName}</div>
+                        <div class="col-md"> <strong>${result[i].fullName}</strong></div>
                         <div class="col-md"> ${result[i].email}</div>
+                        <div class="col-md"> ${result[i].phoneNumber1}</div>
 
 
                         <div class="col-md mt-3">
                         <h5 class="">
-                           <a onclick="get_data_byid( ${result[i].id},'edit')" class="mr-2 " data-toggle="modal" data-target="#addModal"
-                              href="#" id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
                            <a onclick="hapus(${result[i].id})" class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
                               id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
                            <a onclick="detailData(${result[i].id})" class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
@@ -132,7 +143,6 @@ function get_all_data() {
                   </td>
                   </tr> `
                );
-               number++;
             }
          } else {
             $("#data_rows").html(
@@ -150,6 +160,54 @@ function get_all_data() {
    });
 };
 
+
+//Function search
+function search_data(name) {
+   $.ajax({
+      url: "api/biodata-rest/search?name=" + name,
+      type: "get",
+      contentType: "application/json",
+      success: function (data) {
+         $("#data_rows").html("");
+         if (data.length > 0) {
+            for (let i = 0; i < data.length; i++) {
+               $("#data_rows").append(
+                  `   
+                  <tr class="x-data">
+                  <td>
+                     <div class="row">
+                        <div class="col-md"> <strong>${data[i].fullName}</strong></div>
+                        <div class="col-md"> ${data[i].email}</div>
+                        <div class="col-md"> ${data[i].phoneNumber1}</div>
+
+
+                        <div class="col-md mt-3">
+                        <h5 class="">
+                           <a onclick="hapus(${data[i].id})" class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
+                              id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                           <a onclick="detailData(${data[i].id})" class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
+                              id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
+                        </h5>
+                        </div>
+                     </div>
+                  </td>
+                  </tr> `
+               );
+            }
+         } else {
+            $("#data_rows").html(
+               `<tr> <td colspan="4">
+                <div class="alert alert-primary text-center" role="alert">
+                   Data tidak ditemukan! <span><i class="fa fa-error"></i></span>
+                </div> 
+                </td></tr>`
+            );
+         }
+      }
+   });
+
+}
+
 // get data by id Biodata
 function get_data_byid(id, action) {
    $("#action").val(action);
@@ -160,7 +218,7 @@ function get_data_byid(id, action) {
    } else {
       $(".modal-judul").text("Edit Biodata");
       $(".get_biodata").attr("disabled", false);
-      // $(".x-email").attr("disabled", true);
+      $(".x-email").attr("disabled", true);
    }
    $.ajax({
       url: "/api/biodata-rest/" + id,
@@ -351,7 +409,6 @@ $("#save_button").click(function () {
    var region2 = $("#get_region2").val();
    // ending inputan
 
-   console.log(identityType)
    if (action == "add") {
       type = "post";
    } else if (action == "edit") {
@@ -443,7 +500,7 @@ $("#save_button").click(function () {
                }
 
                if (type == 'put') {
-                  save
+                  // save
                   $.ajax({
                      url: "/api/biodata-rest",
                      type: type,
@@ -498,6 +555,25 @@ $("#save_button").click(function () {
       });
    };
 });
+
+//menghapus inputan
+$("#btn-reset").on("click", function () {
+   $("#input-search-pelamar").val("");
+});
+
+// fungsi menccari data
+$("#btn-search").on("click", function () {
+   $("#data_rows").html("");
+   var pelamar = $('#input-search-pelamar').val();
+
+   if (pelamar == '') {
+      swal.fire("Required", "nama pelamar tidak boleh kosong, silahkan isi kembali.", "info");
+   } else {
+      search_data(pelamar);
+   }
+
+});
+
 
 function hapus(id) {
    var data = {
@@ -647,3 +723,167 @@ function get_edit() {
    var id = $("#get_id").val();
    get_data_byid(id, 'edit');
 }
+
+//function searcihng data stanbay
+$(function () {
+   var html = `<div class="col mt-4 mb-3 offset-5">
+<label for="input-search" class="mr-4"> Cari Pelamar </label>
+<input type="search" class="form-control w-50" id="input-search" placeholder="Search...">
+</div>`;
+
+
+   $('#input-search').on('keyup', function () {
+      var rex = new RegExp($(this).val(), 'i');
+      $('.x-data').hide();
+      $('.x-data').filter(function () {
+         return rex.test($(this).text());
+      }).show();
+   });
+});
+
+
+$('#sort-data1').on('click', function () {
+   var banyakdata = $("#show-info").text();
+   paginate_data(0, banyakdata, 'id', 'asc');
+   $('#page_sorting2').show();
+   $('#page_sorting1').hide();
+});
+
+$('#sort-data2').on('click', function () {
+   var banyakdata = $("#show-info").text();
+   paginate_data(0, banyakdata, 'id', 'desc');
+   $('#page_sorting1').show();
+   $('#page_sorting2').hide();
+});
+
+// paginate data
+function paginate_data(page, size, sortby, orderby) {
+   $.ajax({
+      url: "api/biodata-rest/page?page=" + page + "&size=" + size + "&sort=" + sortby + "," + orderby,
+      type: 'get',
+      contentType: 'application/json',
+      success: function (pagination) {
+         $("#total-data").text(pagination.totalElements);
+         $("#total-page").text(pagination.size);
+         $("#show-info").text(pagination.size);
+         $("#total-size").text(pagination.totalPages);
+         $("#total-ke").text(pagination.pageable.pageNumber);
+         $("#count-page").val(pagination.pageable.pageNumber);
+         $("#count-first").val(pagination.first);
+         $("#count-last").val(pagination.last);
+
+         var pagination = pagination.content;
+
+         $("#data_rows").html("");
+         if (pagination.length > 0) {
+            for (let i = 0; i < pagination.length; i++) {
+               $("#data_rows").append(
+                  `   
+                  <tr class="x-data">
+                  <td>
+                     <div class="row">
+                        <div class="col-md"> <strong>${pagination[i].fullName}</strong></div>
+                        <div class="col-md"> ${pagination[i].email}</div>
+                        <div class="col-md"> ${pagination[i].phoneNumber1}</div>
+
+
+                        <div class="col-md mt-3">
+                        <h5 class="">
+                           <a onclick="hapus(${pagination[i].id})" class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
+                              id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                           <a onclick="detailData(${pagination[i].id})" class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
+                              id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
+                        </h5>
+                        </div>
+                     </div>
+                  </td>
+                  </tr> `
+               );
+            }
+         } else {
+            $("#data_rows").html(
+               `<tr> <td colspan="4">
+                <div class="alert alert-primary text-center" role="alert">
+                   Data tidak ditemukan! <span><i class="fa fa-error"></i></span>
+                </div> 
+                </td></tr>`
+            );
+         }
+      }
+   });
+};
+
+// start menentukan banyak data perpage
+$('#data-show-10').on('click', function () {
+   $("#prev").attr('disabled', true);
+   $("#next").attr('disabled', false);
+   paginate_data(0, 10, 'id', 'asc');
+});
+
+$('#data-show-20').on('click', function () {
+   $("#prev").attr('disabled', true);
+   $("#next").attr('disabled', false);
+   paginate_data(0, 20, 'id', 'asc');
+});
+
+$('#data-show-30').on('click', function () {
+   $("#prev").attr('disabled', true);
+   $("#next").attr('disabled', false);
+   paginate_data(0, 30, 'id', 'asc');
+});
+
+$('#data-show-40').on('click', function () {
+   $("#prev").attr('disabled', true);
+   $("#next").attr('disabled', false);
+   paginate_data(0, 40, 'id', 'asc');
+});
+
+$('#data-show-50').on('click', function () {
+   $("#prev").attr('disabled', true);
+   $("#next").attr('disabled', false);
+   paginate_data(0, 50, 'id', 'asc');
+});
+//ending menentukan data perpage
+
+
+//previous and next pabination
+$('#prev').on('click', function () {
+   var cekAwal = $("#count-first").val();
+   var banyakdata = $("#show-info").text();
+   var page = parseInt($('#count-page').val());
+
+   if (cekAwal == "true") {
+      $("#prev").attr("disabled", true);
+      $("#next").attr("disabled", false);
+   }
+
+   if (page == 0) {
+      page = 0;
+   } else {
+      page = page - 1;
+   }
+   paginate_data(page, banyakdata, 'id', 'asc');
+   $("#count-first").val('');
+   $("#count-last").val('false');
+   $("#next").attr('disabled', false);
+});
+
+$('#next').on('click', function () {
+   var cekAkhir = $("#count-last").val();
+   var banyakdata = $("#show-info").text();
+   var page = parseInt($('#count-page').val());
+
+   if (cekAkhir == "true") {
+      $("#next").attr("disabled", true);
+      $("#prev").attr('disabled', false);
+   }
+   if (page >= 0) {
+      page = page + 1;
+      paginate_data(page, banyakdata, 'id', 'asc');
+      $("#count-last").val('');
+      $("#count-first").val('false');
+      $("#prev").attr('disabled', false);
+   }
+});
+ // ending next dan previous function
+

@@ -6,11 +6,17 @@ import java.util.Optional;
 import com.xsis.xsis.models.entity.AddressEntity;
 import com.xsis.xsis.models.entity.BiodataEntity;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
+
 /**
  * IBiodataService
  */
 public interface IBiodataService {
     List<BiodataEntity> getAll();
+
+    Page<BiodataEntity> findByPaging(Pageable pageable, String key);
 
     Optional<BiodataEntity> getById(Long id);
 
@@ -27,5 +33,7 @@ public interface IBiodataService {
     BiodataEntity update(BiodataEntity biodataEntity);
 
     BiodataEntity delete(Long id);
+
+    List<BiodataEntity> searchDataByName(@Param("name") String name);
 
 }

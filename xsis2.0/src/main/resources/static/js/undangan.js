@@ -9,39 +9,31 @@ function get_all_rencana() {
     `<tr> <td colspan="4" style="text-align:center"><i>Loading...</i> </td></td></tr>`
   );
   $.ajax({
-    url: "api/undangan?size=10&page=0",
+    url: "api/view-undangan/",
     type: "get",
     contentType: "application/json",
     success: function (result) {
-      $("#total-data").text(result.totalElements);
-      $("#total-size").text(result.totalPages);
-      $("#total-page").text(result.size);
-      $("#total-ke").text(result.pageable.pageNumber);
-      $("#count-page").val(result.pageable.pageNumber);
-      $("#count-first").val(result.first);
-      $("#count-last").val(result.last);
-
-      var result = result.content;
+      var data = result;
       $("#data_rows").html("");
-      if (result.length > 0) {
-        for (let i = 0; i < result.length; i++) {
+      if (data.length > 0) {
+        for (let i = 0; i < data.length; i++) {
           $("#data_rows").append(
 
             `	<tr>
 								<td>
 											<div class="row font-weight-bold">
-												<div class="col-sm">${result[i].invitationCode}</div>
-												<div class="col-sm">${result[i].ro.biodataId.fullName}</div>
-												<div class="col-sm">${result[i].location}</div>
+												<div class="col-sm">${data[i].invitation_code}</div>
+												<div class="col-sm">${data[i].fullname}</div>
+												<div class="col-sm">${data[i].major}/ ${data[i].school_name} </div>
 									
-                        <div class="col-sm"><h5>${result[i].invitationDate}, ${result[i].time}</h5></div>
+                        <div class="col-sm"><h5>${data[i].invitation_date}, ${data[i].time}</h5></div>
 												<div class="col-sm">
                          <h5 class="">
-                          <a onclick="get_detail(${result[i].id})"  class="mr-2" data-toggle="modal" data-target="#detail-undangan" href="#"
+                          <a onclick="get_detail(${data[i].id})"  class="mr-2" data-toggle="modal" data-target="#detail-undangan" href="#"
                               id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
-                          <a onclick="get_data_byid(${result[i].id},'ubah')"  class="mr-2 " data-toggle="modal" data-target="#modal-rencana" href="#"
+                          <a onclick="get_data_byid(${data[i].id},'ubah')"  class="mr-2 " data-toggle="modal" data-target="#modal-rencana" href="#"
                               id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                          <a onclick="hapus(${result[i].id})"  class="mr-2" data-toggle="modal" data-target="" href="#"
+                          <a onclick="hapus(${data[i].id})"  class="mr-2" data-toggle="modal" data-target="" href="#"
                               id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
                          
                         </h5>
@@ -104,6 +96,7 @@ $("#add_undangan").click(function () {
   get_typeschedule();
   get_ro_isero_true();
   get_tro_isero_true();
+  get_biodata();
   $(".modal-judul").text("Buat Jadwal Undangan");
   $(".get_undangan").attr("disabled", false);
   $("#get_form_undangan")[0].reset();
@@ -134,7 +127,7 @@ $("#btn-search").on("click", function () {
 //Function search
 function search_data(name) {
   $.ajax({
-    url: "api/undangan/search?name=" + name,
+    url: "api/view-undangan/search?name=" + name,
     type: "get",
     contentType: "application/json",
     success: function (data) {
@@ -146,14 +139,14 @@ function search_data(name) {
             `	<tr>
 								<td>
 											<div class="row font-weight-bold">
-												<div class="col-sm">${data[i].invitationCode}</div>
-												<div class="col-sm">${data[i].ro.biodataId.fullName}</div>
-												<div class="col-sm">${data[i].location}</div>
+												<div class="col-sm">${data[i].invitation_code}</div>
+												<div class="col-sm">${data[i].fullname}</div>
+												<div class="col-sm">${data[i].major}/ ${data[i].school_name} </div>
 									
-                        <div class="col-sm"><h5>${data[i].invitationDate}, ${data[i].time}</h5></div>
+                        <div class="col-sm"><h5>${data[i].invitation_date}, ${data[i].time}</h5></div>
 												<div class="col-sm">
                          <h5 class="">
-                          <a onclick="get_data_byid(${data[i].id},'detail')"  class="mr-2" data-toggle="modal" data-target="#modal-rencana" href="#"
+                          <a onclick="get_detail(${data[i].id})"  class="mr-2" data-toggle="modal" data-target="#detail-undangan" href="#"
                               id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
                           <a onclick="get_data_byid(${data[i].id},'ubah')"  class="mr-2 " data-toggle="modal" data-target="#modal-rencana" href="#"
                               id="showAddData"><i class="fa fa-edit" aria-hidden="true"></i></a>
@@ -245,6 +238,7 @@ function get_data_byid(id, action) {
       get_ro_isero_true(rencana.ro.biodataId.id);
       get_tro_isero_true(rencana.tro.biodataId.id);
       get_typeschedule(rencana.scheduleTypeId.id);
+      get_biodata();
       $("#get_id").val(rencana.id);
       $("#get_schedule_code").val(rencana.invitationCode);
       $("#get_tgl_undangan").val(rencana.invitationDate);
@@ -587,7 +581,6 @@ $("#save_undangan").click(function () {
   }
 });
 
-
 // get data by id rencana
 function get_detail(id) {
   $("#get_id").val(id);
@@ -596,7 +589,7 @@ function get_detail(id) {
     type: "get",
     contentType: "application/json",
     success: function (rencana) {
-      $('.modal-jdl').text(rencana.invitationCode)
+      $('.modal-jdl').text("Undangan " + rencana.invitationCode)
       $('#det-undangan').html(`
               <div class="col-sm">
 								<p class="font-weight-bold">Tanggal Undangan <br>
@@ -624,10 +617,10 @@ function get_detail(id) {
 								</p>
               </div>
               <div class="col-sm">
-              <img class="fa fa-envelope" style="width:180px;height:180px" src="/images/envelope.png">
+              <img style="width:180px;height:180px" src="/images/mail.png">
               </div>
 `)
-      $("#detail-undangan").modal("hide");
+      $("#detail-undangan").modal("show");
 
     },
     error: function () {
@@ -640,4 +633,29 @@ function get_edit() {
   $("#detail-undangan").modal("hide");
   var id = $("#get_id").val();
   get_data_byid(id, 'ubah');
+}
+
+// ajax biodata
+function get_biodata(biodataId) {
+  $.ajax({
+    url: "api/biodata/",
+    type: "get",
+    contentType: "application/json",
+    success: function (sch) {
+      var optValue = "";
+      optValue += '<option value="">- Pilih Nama Pelamar -</option>';
+      for (var i = 0; i < sch.length; i++) {
+        if (biodataId == sch[i].id) {
+          optValue += `<option value="${sch[i].id}" selected="selected">${sch[i].fullName}</option>`;
+
+        } else {
+          optValue += `<option value="${sch[i].id}">${sch[i].fullName}</option>`;
+        }
+      }
+      $("#get_nama").html(optValue);
+    },
+    error: function () {
+      swal("", "Gagal Mengambil Data", "error");
+    }
+  });
 }

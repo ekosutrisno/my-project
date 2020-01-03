@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UndanganRepository extends JpaRepository<UndanganEntity, Long> {
 
-  static final String CARI_DATA = "SELECT * FROM x_undangan WHERE LOWER(location) LIKE %:name%";
+  static final String CARI_DATA = "SELECT * FROM x_undangan WHERE isdelete='false' AND LOWER(location) LIKE %:name%";
 
   @Query(value = CARI_DATA, nativeQuery = true)
   List<UndanganEntity> searchDataByName(@Param("name") String name);

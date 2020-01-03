@@ -4,35 +4,116 @@
   <div class="bottom p-4">
     <div class="col">
       <div class="container-fluid clearfix">
-        <h1 class="mb-2">Biodata Pelamar</h1>
-        <button id="add_button" class="btn btn-primary nBtn mb-3"> Tambah Pelamar <i class="fa fa-plus-circle ml-2"></i>
-        </button>
         <div class="card">
-          <div class="card-block">
-            <table class="table table-hover table-responsive-sm">
-              <thead class="">
-                <!-- <th>No</th>
-                <th>Nama Lengkap</th>
-                <th>Email</th>
-                <th>Action</th> -->
-                <tr>
-                  <td>
-                    <div class="row font-weight-bold">
-                      <div class=" col-md "> No</div>
-                      <div class=" col-md "> Nama Lengkap</div>
-                      <div class=" col-md "> Email</div>
-                      <div class=" col-md ">Action </div>
+          <div class="card-block p-4">
+            <div class="row">
+              <div class="col  ml-4">
+                <h3 class="font-weight-bold">Pelamar<label class="badge text-white" id="show-info">10</label>
+                </h3>
+              </div>
+              <div class="col">
+                <h4 class=" float-right">
+                  <a class="mr-2" data-toggle="modal" data-target="" href="#" id="page_sorting1"><i
+                      class="fa fa-sort-alpha-down" aria-hidden="true" id="sort-data1"></i></a>
+
+                  <a class="mr-2" data-toggle="modal" data-target="" href="#" id="page_sorting2"><i
+                      class="fa fa-sort-alpha-up-alt" aria-hidden="true" id="sort-data2"></i></a>
+
+                  <a class="mr-2" data-toggle="dropdown" data-target="" data-display="static" href="" id="page_show"><i
+                      class="fa fa-list" aria-hidden="true" aria-haspopup="true" aria-expanded="false"></i></a>
+                  <div class="dropdown-menu dropdown-menu-lg-right">
+                    <a id="data-show-10" class="dropdown-item" type="button">10 Data Per Page</a>
+                    <a id="data-show-20" class="dropdown-item" type="button">20 Data Per Page</a>
+                    <a id="data-show-30" class="dropdown-item" type="button">30 Data Per Page</a>
+                    <a id="data-show-40" class="dropdown-item" type="button">40 Data Per Page</a>
+                    <a id="data-show-50" class="dropdown-item" type="button">50 Data Per Page</a>
+                  </div>
+
+                  <a class="mr-2" data-toggle="modal" data-target="" href="#" id="add_button"><i
+                      class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                </h4>
+              </div>
+            </div>
+
+            <hr>
+            <div class="row">
+              <div class="col-sm ml-4">
+                <div class="form-group">
+                  <label for="input-search-dari">Nama Pelamar</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="far fa-user"></i>
+                      </span>
                     </div>
-                  </td>
-                </tr>
-              </thead>
+                    <input type="text" class="form-control" id="input-search-pelamar" required autocomplete="off">
+                  </div>
+                  <!-- /.input group -->
+                </div>
+              </div>
 
-              <tbody id="data_rows">
-                <!-- Tempat data di isikan oleh java script -->
-              </tbody>
+              <div class="col-sm float-left ml-4">
+                <div class="form-group">
+                  <label class="text-white">action</label>
+                  <div class="input-group">
+                    <button id="btn-search" class="btn btn-primary mr-2"><i class="fa fa-search"></i></button>
+                    <button id="btn-reset" class="btn btn-primary">Reset</button>
+                  </div>
+                  <!-- /.input group -->
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="card-block p-4">
+              <div class="row">
+                <div class="col-sm">
+                  <div id="showList">
+                    <!-- Show List Vacancy -->
+                    <table id="my-data" class="table table-hover">
+                      <thead class="">
+                      </thead>
 
-            </table>
-            <hr />
+                      <tbody id="data_rows">
+                        <!-- Tempat data di isikan oleh java script -->
+
+                      </tbody>
+                    </table>
+                    <hr>
+                    <tfoot>
+                      <div class="row">
+                        <div class="col-sm col-md">
+                          <p> Total Data:
+                            <a class="badge badge-danger text-white" id="total-data"></a></p>
+                        </div>
+                        <div class="col-sm col-md">
+                          <p> Total Halaman:
+                            <a class="badge badge-warning text-white" id="total-size"></a></p>
+                        </div>
+                        <div class="col-sm col-md">
+                          <p>Data Per Halaman:
+                            <a class="badge badge-success text-white" id="total-page"></a></p>
+                        </div>
+                        <div class="col-sm col-md">
+                          <p> Halaman Ke:
+                            <a class="badge badge-primary text-white" id="total-ke"></a></p>
+                        </div>
+                      </div>
+                    </tfoot>
+
+                  </div>
+                  <hr>
+                  <input type="hidden" id="count-page">
+                  <input type="hidden" id="count-first">
+                  <input type="hidden" id="count-last">
+                  <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end mr-2">
+                      <li class="page-item"><button class="page-link" id="prev">Previous</button></li>
+                      <li class="page-item"><button class="page-link diasabled" href="" id="next">Next</button></li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

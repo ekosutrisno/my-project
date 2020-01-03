@@ -11,6 +11,8 @@ import com.xsis.xsis.services.IBiodataService;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -42,6 +45,17 @@ public class BioApiBackup {
   @GetMapping
   public List<BiodataEntity> getAll() {
     return biodataService.getAll();
+  }
+
+  @GetMapping("/page")
+  public Page<BiodataEntity> findByPaging(Pageable pageable,
+      @RequestParam(name = "key", defaultValue = "") String key) {
+    return biodataService.findByPaging(pageable, key);
+  }
+
+  @GetMapping("/search")
+  public List<BiodataEntity> getSearchDataByName(@RequestParam(name = "name") String name) {
+    return biodataService.searchDataByName(name);
   }
 
   @GetMapping("/{id}")
