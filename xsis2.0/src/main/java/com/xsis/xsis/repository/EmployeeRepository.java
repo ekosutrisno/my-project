@@ -1,6 +1,6 @@
-package com.xsis.xsis.repository;
+package com.xsis.xsis.repository.vacancy_pendidikan_resourceproject;
 
-import com.xsis.xsis.model.Employee;
+import com.xsis.xsis.model.vacancy_pendidikan_resourceproject.Employee;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

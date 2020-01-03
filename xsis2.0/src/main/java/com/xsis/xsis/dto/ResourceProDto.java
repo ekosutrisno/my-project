@@ -1,6 +1,9 @@
-package com.xsis.xsis.dto;
+package com.xsis.xsis.dto.vacancy_pendidikan_resourceproject;
 
 import java.util.Date;
+
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -13,10 +16,12 @@ public class ResourceProDto {
     private Boolean isDelete;
     private Long clientId;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+07:00")
+    @Temporal(TemporalType.DATE)
     private Date startProject;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+07:00")
+    @Temporal(TemporalType.DATE)
     private Date endProject;
 
     private String department;

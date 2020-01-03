@@ -1,7 +1,7 @@
-package com.xsis.xsis.restapi;
+package com.xsis.xsis.restapi.vacancy_pendidikan_resourceproject;
 
-import com.xsis.xsis.model.EducationLevel;
-import com.xsis.xsis.services.EducationLevelServices;
+import com.xsis.xsis.model.vacancy_pendidikan_resourceproject.EducationLevel;
+import com.xsis.xsis.services.vacancy_pendidikan_resourceproject.EducationLevelServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;

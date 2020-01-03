@@ -1,9 +1,9 @@
-package com.xsis.xsis.repository;
+package com.xsis.xsis.repository.vacancy_pendidikan_resourceproject;
 
 import java.util.List;
 
-import com.xsis.xsis.dto.KeahDto;
-import com.xsis.xsis.model.Keahlian;
+import com.xsis.xsis.dto.vacancy_pendidikan_resourceproject.KeahDto;
+import com.xsis.xsis.model.vacancy_pendidikan_resourceproject.Keahlian;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

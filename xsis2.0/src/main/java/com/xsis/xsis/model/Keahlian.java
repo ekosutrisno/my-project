@@ -1,8 +1,8 @@
-package com.xsis.xsis.model;
+package com.xsis.xsis.model.vacancy_pendidikan_resourceproject;
 
 import javax.persistence.*;
 
-import com.xsis.xsis.dto.KeahDto;
+import com.xsis.xsis.dto.vacancy_pendidikan_resourceproject.KeahDto;
 import com.xsis.xsis.models.common.CommonEntity;
 
 @SqlResultSetMapping(name = "keahlianMapping", classes = { @ConstructorResult(targetClass = KeahDto.class, columns = { 

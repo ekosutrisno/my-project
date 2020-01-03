@@ -5,40 +5,59 @@
     <div class="col">
       <div class="container">
         <div class="row">
-          <div class="col-md-2">
-            <input type="text" placeholder="Client" name="searchClient" id="searchClient">
+          <div class="col-md-2 mt-2">
+            <input type="text" placeholder="Client" name="searchClient" id="searchClient" onkeyup="search_key_client()">
           </div>
-          <div class="col-md-5">
-            <label>From</label>
-            <input type="text" name="searchStartDate" id="searchStartDate" placeholder="From">
-            <label>To</label>
-            <input type="text" name="searchEndDate" id="searchEndDate" placeholder="To">
+          <div class="col-md-7 mt-2">
+            <div class="input-group">
+              <input type="text" name="searchStartDate" id="searchStartDate" placeholder="From" size="11"
+                onkeyup="search_key_date()">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="far fa-calendar-alt"></i>
+                </span>
+              </div>
+              <input type="text" name="searchEndDate" id="searchEndDate" placeholder="To" size="11"
+                style="margin-left: 10px;" onkeyup="search_key_date()">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="far fa-calendar-alt"></i>
+                </span>
+              </div>
+              <button class="btn btn-primary" id="searchResourceProject" style="margin-left: 10px;"><i
+                  class="fa fa-search"></i></button>
+            </div>
           </div>
-          <div class="col-md-1 align-left text-left">
-            <button class="btn btn-primary" id="searchResourceProject"><i class="fa fa-search"></i></button>
+          <div class="col-md-1 align-right text-right mt-2">
+            <button class="btn" data-toggle="dropdown" style="color:dodgerblue;" name="A-Z"><i
+                class="fa fa-sort-alpha-up" style="margin-left: 50px;"></i>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" style="color: blue; text-align: left; font-size: 10;">Order</a>
+              <a class="dropdown-item" onclick="sortAscTable()" style="color: blue">Ascending</a>
+              <a class="dropdown-item" onclick="sortDesTable()" style="color: blue">Descending</a>
+            </div>
           </div>
-          <div class="col-md-4 align-right text-right">
-            <select class="selectpicker" id="select_graphtype" onchange="order(this.value)">
-              <option><i class="fa fa-plus-circle"></i></option>
-              <option value="asc">Ascending</option>
-              <option value="des">Descending</option>
-            </select>
-            <select id="maxRows" onchange="row_per_page(this.value)">
-              <option value="100">Row Per Page</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-            <a data-toggle="modal" data-target="#addData" href="#" id="showAddData"><i class="fa fa-plus-circle"
-                aria-hidden="true"></i></a>
+          <div class="col-md-2 align-left text-left mt-2">
+            <button class="btn" data-toggle="dropdown" style="color: dodgerblue;"><i class="fa fa-bars"></i>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" style="color: blue; text-align: left; font-size: 10;">Row Per Page</a>
+              <a class="dropdown-item" onclick="row_per_page('1')" style="color: blue">1</a>
+              <a class="dropdown-item" onclick="row_per_page('2')" style="color: blue">2</a>
+              <a class="dropdown-item" onclick="row_per_page('3')" style="color: blue">3</a>
+              <a class="dropdown-item" onclick="row_per_page('4')" style="color: blue">4</a>
+              <a class="dropdown-item" onclick="row_per_page('5')" style="color: blue">5</a>
+            </div>
+            <button class="btn" data-toggle="modal" data-target="#addData" style="color: dodgerblue;"
+              id="showAddData"><i class="fa fa-plus-circle"></i>
+            </button>
           </div>
         </div>
 
-        <div class="card">
+        <div class="card mt-2">
           <div class="card-block">
-            <table class="table table-hover">
+            <table class="table table-hover" id="myTable">
               <thead>
                 <tr class="text-center">
                   <th scope="col">CLIENT</th>
@@ -54,10 +73,10 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-10 align-right text-right">
+          <div class="col-md-8">
           </div>
-          <div class="col-md-2 align-left text-left">
-            <div id="pager" class="paginationjs-theme-blue paginationjs-big">
+          <div class="col-md-4 align-right text-left">
+            <div id="pager" class="paginationjs-big">
               <ul id="pagination" class="pagination-sm"></ul>
             </div>
           </div>
@@ -81,7 +100,8 @@
           <div class="row">
             <div class="col-md-12">
               <button type="button" onclick="showProjectInformation()"
-                class="btn btn-primary btn-main-style col-md-12">PROJECT INFORMATION<span class="caret"></span></button>
+                class="btn btn-primary btn-main-style col-md-12">PROJECT INFORMATION (<i
+                  class="fa fa-arrow-down"></i>)</button>
               <div class="card" id="showProjectInformation" style="display:none">
                 <div class="form-row">
                   <div class="col-md-6">
@@ -147,8 +167,8 @@
           <div class="row">
             <div class="col-md-12">
               <button type="button" onclick="showProjectDescription()"
-                class="btn btn-primary btn-main-style col-md-12 mt-3">PROJECT DESCRIPTION<span
-                  class="caret"></span></button>
+                class="btn btn-primary btn-main-style col-md-12 mt-3">PROJECT DESCRIPTION (<i
+                  class="fa fa-arrow-down"></i>)</button>
               <div class="card" id="showProjectDescription" style="display:none">
                 <div class="form-row">
                   <div class="col-md-12">
@@ -162,8 +182,8 @@
           <div class="row">
             <div class="col-md-12">
               <button type="button" onclick="showProjectTechnology()"
-                class="btn btn-primary btn-main-style col-md-12 mt-3">PROJECT TECHNOLOGY<span
-                  class="caret"></span></button>
+                class="btn btn-primary btn-main-style col-md-12 mt-3">PROJECT TECHNOLOGY (<i
+                  class="fa fa-arrow-down"></i>)</button>
               <div class="card" id="showProjectTechnology" style="display:none">
                 <div class="form-row">
                   <div class="col-md-12">
@@ -177,7 +197,7 @@
           <div class="row">
             <div class="col-md-12">
               <button type="button" onclick="showMainTask()" class="btn btn-primary btn-main-style col-md-12 mt-3">MAIN
-                TASK<span class="caret"></span></button>
+                TASK (<i class="fa fa-arrow-down"></i>)</button>
               <div class="card" id="showMainTask" style="display:none">
                 <div class="form-row">
                   <div class="col-md-12">
@@ -292,101 +312,91 @@
     });
 
     function row_per_page(rowperpage) {
-      var rowperpage = rowperpage;
-      var $pagination = $('#pagination'),
-        totalRecords = 0,
-        records = [],
-        displayRecords = [],
-        recPerPage = rowperpage,
-        page = 1,
-        totalPages = 3;
+      var $pagination = $('#pagination');
       $.ajax({
         url: "api/resource-project/client-employee",
         async: true,
         dataType: 'json',
         success: function (data) {
-          records = data;
-          totalRecords = records.length;
-          totalPages = Math.ceil(totalRecords / recPerPage);
-          apply_pagination(rowperpage);
+          document.getElementById('searchStartDate').value = "";
+          document.getElementById('searchEndDate').value = "";
+          $pagination.pagination({
+            dataSource: data,
+            pageSize: rowperpage,
+            showPageNumbers: false,
+            showNavigator: true,
+            callback: function (displayRecords, pagination) {
+              $('#tbResourceProjct').html('');
+              for (var i = 0; i < displayRecords.length; i++) {
+                tr = $('<tr class="text-center">');
+                tr.append("<td>" + displayRecords[i].name + "</td>");
+                tr.append("<td>" + convertionDate(displayRecords[i].startProject) + "</td>");
+                tr.append("<td>" + convertionDate(displayRecords[i].endProject) + "</td>");
+                tr.append('<td>\n' +
+                  '<div class="input-group-btn">\n' +
+                  '             <div class="dropdown show">\n' +
+                  '                 <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Action </a>\n' +
+                  '            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">\n' +
+                  '                 <a class="dropdown-item" onclick="get_id_resource_project_detail(\'' + displayRecords[i].id + '\',\'' + displayRecords[i].name + '\')" data-toggle="modal" data-target="#detailData" id="detailResourceProject">Detail</a>\n' +
+                  '                 <a class="dropdown-item" onclick="get_id_resource_project_edit(' + displayRecords[i].id + ')" data-toggle="modal" data-target="#addData">Edit</a>\n' +
+                  '                 <a class="dropdown-item" onclick="get_id_resource_project_delete(\'' + displayRecords[i].id + '\',\'' + displayRecords[i].name + '\')">Delete</a>\n' +
+                  '            </div>\n' +
+                  '             </div>\n' +
+                  '        </div>\n' +
+                  '</td>\n' +
+                  '</tr>')
+                $('#tbResourceProjct').append(tr);
+              }
+            }
+          });
         }
       });
-
-      function apply_pagination(rowperpage) {
-        document.getElementById('searchStartDate').value = "";
-        document.getElementById('searchEndDate').value = "";
-        $.ajax({
-          url: "api/resource-project/client-employee",
-          async: true,
-          dataType: 'json',
-          success: function (data) {
-            $pagination.pagination({
-              dataSource: data,
-              pageSize: rowperpage,
-              showPageNumbers: false,
-              next: '<i class="fa fa-fw fa-long-arrow-right">',
-              previous: '<i class="fa fa-fw fa-long-arrow-left">',
-              callback: function (displayRecords, pagination) {
-                $('#tbResourceProjct').html('');
-                for (var i = 0; i < displayRecords.length; i++) {
-                  tr = $('<tr/>');
-                  tr.append("<td>" + displayRecords[i].name + "</td>");
-                  tr.append("<td>" + convertionDate(displayRecords[i].startProject) + "</td>");
-                  tr.append("<td>" + convertionDate(displayRecords[i].endProject) + "</td>");
-                  tr.append('<td>\n' +
-                    '<div class="input-group-btn">\n' +
-                    '             <div class="dropdown show">\n' +
-                    '                 <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Action </a>\n' +
-                    '            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">\n' +
-                    '                 <a class="dropdown-item" onclick="get_id_resource_project_detail(\'' + displayRecords[i].id + '\',\'' + displayRecords[i].name + '\')" data-toggle="modal" data-target="#detailData" id="detailResourceProject">Detail</a>\n' +
-                    '                 <a class="dropdown-item" onclick="get_id_resource_project_edit(' + displayRecords[i].id + ')" data-toggle="modal" data-target="#addData">Edit</a>\n' +
-                    '                 <a class="dropdown-item" onclick="get_id_resource_project_delete(\'' + displayRecords[i].id + '\',\'' + displayRecords[i].name + '\')">Delete</a>\n' +
-                    '            </div>\n' +
-                    '             </div>\n' +
-                    '        </div>\n' +
-                    '</td>')
-                  $('#tbResourceProjct').append(tr);
-                }
-              }
-            });
+    }
+    function sortAscTable() {
+      var table, rows, switching, i, x, y, shouldSwitch;
+      table = document.getElementById("myTable");
+      switching = true;
+      while (switching) {
+        switching = false;
+        rows = table.rows;
+        for (i = 1; i < (rows.length - 1); i++) {
+          shouldSwitch = false;
+          x = rows[i].getElementsByTagName("TD")[0];
+          y = rows[i + 1].getElementsByTagName("TD")[0];
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            shouldSwitch = true;
+            break;
           }
-        });
+        }
+        if (shouldSwitch) {
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+        }
       }
     }
 
-
-    // $(() => {
-    //   loadResoureProject();
-    // });
-    // loadResoureProject = () => {
-    //   $.ajax({
-    //     url: 'api/resource-project/client-employee',
-    //     type: 'get',
-    //     contentType: 'application/json',
-    //     success: (res) => {
-    //       document.getElementById('searchStartDate').value = "";
-    //       document.getElementById('searchEndDate').value = "";
-    //       $('#tbResourceProjct').html("");
-    //       res.map((data) => {
-    //         var actions = '<div class="input-group-btn">\n' +
-    //           '             <div class="dropdown show">\n' +
-    //           '                 <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Action </a>\n' +
-    //           '            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">\n' +
-    //           '                 <a class="dropdown-item" onclick="get_id_resource_project_detail(\'' + data.id + '\',\'' + data.name + '\')" data-toggle="modal" data-target="#detailData" id="detailResourceProject">Detail</a>\n' +
-    //           '                 <a class="dropdown-item" onclick="get_id_resource_project_edit(' + data.id + ')" data-toggle="modal" data-target="#addData">Edit</a>\n' +
-    //           '                 <a class="dropdown-item" onclick="get_id_resource_project_delete(\'' + data.id + '\',\'' + data.name + '\')">Delete</a>\n' +
-    //           '            </div>\n' +
-    //           '             </div>\n' +
-    //           '        </div>'
-    //         var markup = "<tr class='align-middle text-center'><td>" + data.name + "</td><td>" + convertionDate(data.startProject) + "</td><td>" + convertionDate(data.endProject) + "</td><td>" + actions + "</td></tr>"
-    //         $('#tbResourceProjct').append(markup)
-    //       })
-    //     },
-    //     error: () => {
-    //       swal.fire("Error!", "Fetch Data Resource Project Failed", "error");
-    //     }
-    //   })
-    // }
+    function sortDesTable() {
+      var table, rows, switching, i, x, y, shouldSwitch;
+      table = document.getElementById("myTable");
+      switching = true;
+      while (switching) {
+        switching = false;
+        rows = table.rows;
+        for (i = 1; i < (rows.length - 1); i++) {
+          shouldSwitch = false;
+          x = rows[i].getElementsByTagName("TD")[0];
+          y = rows[i + 1].getElementsByTagName("TD")[0];
+          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+            shouldSwitch = true;
+            break;
+          }
+        }
+        if (shouldSwitch) {
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+        }
+      }
+    }
 
     function order(order_type) {
       if (order_type == 'asc') {
@@ -445,33 +455,32 @@
       }
     }
 
-    function convertionDate(date) {
-      var con_date = new Date(date);
-      var a_year = con_date.getFullYear();
-      var a_month = "";
-      var a_date = con_date.getDate();
+    function convertionDate(get_date) {
+      var a_year = get_date.toString().substr(0, 4);
+      var a_month = get_date.toString().substr(5, 2);
+      var a_date = get_date.toString().substr(8, 2);
 
-      if (con_date.getMonth() + 1 == "01") {
+      if (a_month == "01") {
         a_month = "January";
-      } else if (con_date.getMonth() + 1 == "02") {
+      } else if (a_month == "02") {
         a_month = "February";
-      } else if (con_date.getMonth() + 1 == "03") {
+      } else if (a_month == "03") {
         a_month = "March";
-      } else if (con_date.getMonth() + 1 == "04") {
+      } else if (a_month == "04") {
         a_month = "April";
-      } else if (con_date.getMonth() + 1 == "05") {
+      } else if (a_month == "05") {
         a_month = "Mei";
-      } else if (con_date.getMonth() + 1 == "06") {
+      } else if (a_month == "06") {
         a_month = "June";
-      } else if (con_date.getMonth() + 1 == "07") {
+      } else if (a_month == "07") {
         a_month = "July";
-      } else if (con_date.getMonth() + 1 == "08") {
+      } else if (a_month == "08") {
         a_month = "August";
-      } else if (con_date.getMonth() + 1 == "09") {
+      } else if (a_month == "09") {
         a_month = "September";
-      } else if (con_date.getMonth() + 1 == "10") {
+      } else if (a_month == "10") {
         a_month = "October";
-      } else if (con_date.getMonth() + 1 == "11") {
+      } else if (a_month == "11") {
         a_month = "November";
       } else {
         a_month = "December";
@@ -494,39 +503,67 @@
     }
 
     function showProjectInformation() {
+      var x2 = document.getElementById("showProjectDescription");
+      x2.style.display = "none";
+      var x3 = document.getElementById("showProjectTechnology");
+      x3.style.display = "none";
+      var x4 = document.getElementById("showMainTask");
+      x4.style.display = "none";
       var x = document.getElementById("showProjectInformation");
-      if (x.style.display === "none") {
-        x.style.display = "block";
-      } else {
-        x.style.display = "none";
-      }
+      x.style.display = "block";
+      // if (x.style.display === "none") {
+      //   x.style.display = "block";
+      // } else {
+      //   x.style.display = "none";
+      // }
     }
 
     function showProjectDescription() {
+      var x1 = document.getElementById("showProjectInformation");
+      x1.style.display = "none";
+      var x3 = document.getElementById("showProjectTechnology");
+      x3.style.display = "none";
+      var x4 = document.getElementById("showMainTask");
+      x4.style.display = "none";
       var x = document.getElementById("showProjectDescription");
-      if (x.style.display === "none") {
-        x.style.display = "block";
-      } else {
-        x.style.display = "none";
-      }
+      x.style.display = "block";
+      // if (x.style.display === "none") {
+      //   x.style.display = "block";
+      // } else {
+      //   x.style.display = "none";
+      // }
     }
 
     function showProjectTechnology() {
+      var x1 = document.getElementById("showProjectInformation");
+      x1.style.display = "none";
+      var x2 = document.getElementById("showProjectDescription");
+      x2.style.display = "none";
+      var x4 = document.getElementById("showMainTask");
+      x4.style.display = "none";
       var x = document.getElementById("showProjectTechnology");
-      if (x.style.display === "none") {
-        x.style.display = "block";
-      } else {
-        x.style.display = "none";
-      }
+      x.style.display = "block";
+      // if (x.style.display === "none") {
+      //   x.style.display = "block";
+      // } else {
+      //   x.style.display = "none";
+      // }
     }
 
     function showMainTask() {
+      var x1 = document.getElementById("showProjectInformation");
+      x1.style.display = "none";
+      var x2 = document.getElementById("showProjectDescription");
+      x2.style.display = "none";
+      var x3 = document.getElementById("showProjectTechnology");
+      x3.style.display = "none";
       var x = document.getElementById("showMainTask");
-      if (x.style.display === "none") {
-        x.style.display = "block";
-      } else {
-        x.style.display = "none";
-      }
+      x.style.display = "block";
+      // if (x.style.display === "none") {
+      //   x.style.display = "block";
+      // } else {
+      //   x.style.display = "none";
+      // }
     }
 
     function convertionDate2(date) {
@@ -662,6 +699,17 @@
       })
     }
 
+    $('#detailData').on('hidden.bs.modal', function () {
+      var x1 = document.getElementById("showProjectInformation");
+      x1.style.display = "none";
+      var x2 = document.getElementById("showProjectDescription");
+      x2.style.display = "none";
+      var x3 = document.getElementById("showProjectTechnology");
+      x3.style.display = "none";
+      var x4 = document.getElementById("showMainTask");
+      x4.style.display = "none";
+    })
+
     function get_id_resource_project_delete(id, name) {
       $('#addData').modal('hide');
       const swalWithBootstrapButtons = Swal.mixin({
@@ -687,7 +735,7 @@
             type: 'delete',
             contentType: 'application/json',
             success: () => {
-              loadResoureProject();
+              row_per_page(100);
               swalWithBootstrapButtons.fire(
                 'Deleted!',
                 'Your data has been deleted.',
@@ -738,7 +786,7 @@
 
     function resultSearch() {
       $.ajax({
-        url: 'api/resource-project/search2?&sp=' + $('#searchStartDate').val() + '&ep=' + $('#searchEndDate').val(),
+        url: 'api/resource-project/search2?sp=' + $('#searchStartDate').val() + '&ep=' + $('#searchEndDate').val(),
         type: 'get',
         contentType: 'application/json',
         success: (res) => {
@@ -772,7 +820,7 @@
 
     $('#searchResourceProject').click(() => {
       if ($('#searchStartDate').val() == "" && $('#searchEndDate').val() == "") {
-        swal.fire("Data Search Empty!", "Set From/to Date Or Input Client", "error");
+        swal.fire("Data Search Empty!", "Set From/to Date", "error");
       } else if ($('#searchClient').val() != "" && $('#searchStartDate').val() != "" && $('#searchEndDate').val() != "") {
         swal.fire("Choice Only 1 Type Search", "Searching Name of Client OR Range Date", "error");
       } else if ($('#searchClient').val() != "" && ($('#searchStartDate').val() == "" && $('#searchEndDate').val() == "")) {
@@ -854,16 +902,40 @@
       });
     }
 
+    function search_key_client() {
+      var x = document.getElementById("searchClient");
+      if (x.value == "") {
+        row_per_page(100);
+      }
+    }
+
+    function search_key_date() {
+      var x = document.getElementById("searchEndDate");
+      var y = document.getElementById("searchStartDate");
+      if (x.value == "" && y.value == "") {
+        row_per_page(100);
+      }
+    }
+
     $('#resetBtn').click(() => {
       $('#formAddEditData input[type=text]').val("");
       $('#formAddEditData input[type=number]').val("");
       $('#formAddEditData textarea[type=text]').val("");
+      $('#addData').modal('hide');
       var temp = "";
       $("#clientId").val(temp);
     })
 
     $('#saveBtn').click(() => {
-      if ($('#clientId').val() == "") {
+      if ($("#projectName").val() == "" && $("#startProject").val() == "" && $("#endProject").val() == "" &&
+        $("#projectRole").val() == "" && $("#projectPhase").val() == "" && $("#projectDescription").val() == "" && $("#projectTechnology").val() == "" &&
+        $("#mainTask").val() == "") {
+        swal.fire("Data empty!", "Project Name, Project Role, Start Date, End Date, Project Phase, Project Description, Project Technology, Main Task Masih Kosong", "error");
+      } else if ($('#clientId').val() == "" && $("#startProject").val() == "" && $("#endProject").val() == "" &&
+        $("#projectRole").val() == "" && $("#projectPhase").val() == "" && $("#projectDescription").val() == "" && $("#projectTechnology").val() == "" &&
+        $("#mainTask").val() == "") {
+        swal.fire("Data empty!", "Client, Project Role, Start Date, End Date, Project Phase, Project Description, Project Technology, Main Task Masih Kosong", "error");
+      } else if ($('#clientId').val() == "") {
         swal.fire("Data empty!", "Select Your Client", "error");
       } else if ($("#projectName").val() == "") {
         swal.fire("Data empty!", "Project Name Empty", "error");
@@ -897,7 +969,7 @@
               timer: 1500
             })
             $('#addData').modal('hide');
-            loadResoureProject();
+            row_per_page(100);
           },
           error: () => {
             swal.fire("Error!", "Add data error", "error");
@@ -942,7 +1014,7 @@
               timer: 1500
             })
             $('#addData').modal('hide');
-            loadResoureProject();
+            row_per_page(100);
           },
           error: () => {
             swal.fire("Error!", "Add data error", "error");
