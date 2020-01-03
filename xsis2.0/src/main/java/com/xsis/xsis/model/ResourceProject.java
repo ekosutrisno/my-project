@@ -1,11 +1,11 @@
-package com.xsis.xsis.model;
+package com.xsis.xsis.model.vacancy_pendidikan_resourceproject;
 
 import java.util.Date;
 
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.xsis.xsis.dto.ResourceProDto;
+import com.xsis.xsis.dto.vacancy_pendidikan_resourceproject.ResourceProDto;
 import com.xsis.xsis.models.common.CommonEntity;
 
 @SqlResultSetMapping(name = "resourceProjectMapping", classes = {
@@ -25,13 +25,13 @@ import com.xsis.xsis.models.common.CommonEntity;
 @NamedNativeQuery(name = "ResourceProject.getPagingResourceProjectClientEmployee", query = "select a.id,a.isdelete,a.client_id,a.start_project,a.end_project,a.department,a.pic_name,"
         + "b.name,b.user_client_name,b.ero,c.is_ero from x_resource_project a "
         + "join x_client b on b.id=a.client_id join x_employee c on c.id=b.ero "
-        + "where (a.isdelete=false and b.isdelete=false and c.isdelete=false)", resultSetMapping = "resourceProjectMapping")
+        + "where (a.isdelete=false and b.isdelete=false and c.isdelete=false and c.is_ero=true) order by a.start_project, a.end_project asc", resultSetMapping = "resourceProjectMapping")
 
 // List Resource Project Join Client Join Employee
 @NamedNativeQuery(name = "ResourceProject.getResourceProjectClientEmployee", query = "select a.id,a.isdelete,a.client_id,a.start_project,a.end_project,a.department,a.pic_name,"
         + "b.name,b.user_client_name,b.ero,c.is_ero from x_resource_project a "
         + "join x_client b on b.id=a.client_id join x_employee c on c.id=b.ero "
-        + "where (a.isdelete=false and b.isdelete=false and c.isdelete=false)", resultSetMapping = "resourceProjectMapping")
+        + "where (a.isdelete=false and b.isdelete=false and c.isdelete=false) order by a.start_project, a.end_project asc", resultSetMapping = "resourceProjectMapping")
 
 // Page & Sorting Resource Project Join Client Join Employee
 @NamedNativeQuery(name = "ResourceProject.getResourceProjectClientEmployeePandS", query = "select a.id,a.isdelete,a.client_id,a.start_project,a.end_project,a.department,a.pic_name,"
@@ -43,27 +43,27 @@ import com.xsis.xsis.models.common.CommonEntity;
 @NamedNativeQuery(name = "ResourceProject.getResourceProjectClientEmployeeAscending", query = "select a.id,a.isdelete,a.client_id,a.start_project,a.end_project,a.department,a.pic_name,"
         + "b.name,b.user_client_name,b.ero,c.is_ero from x_resource_project a "
         + "join x_client b on b.id=a.client_id join x_employee c on c.id=b.ero "
-        + "where a.isdelete=false and b.isdelete=false and c.isdelete=false order by b.name asc", resultSetMapping = "resourceProjectMapping")
+        + "where (a.isdelete=false and b.isdelete=false and c.isdelete=false) order by b.name asc", resultSetMapping = "resourceProjectMapping")
 
 // List Resource Project Join Client Join Employee Descending
 @NamedNativeQuery(name = "ResourceProject.getResourceProjectClientEmployeeDescending", query = "select a.id,a.isdelete,a.client_id,a.start_project,a.end_project,a.department,a.pic_name,"
         + "b.name,b.user_client_name,b.ero,c.is_ero from x_resource_project a "
         + "join x_client b on b.id=a.client_id join x_employee c on c.id=b.ero "
-        + "where a.isdelete=false and b.isdelete=false and c.isdelete=false order by b.name desc", resultSetMapping = "resourceProjectMapping")
+        + "where (a.isdelete=false and b.isdelete=false and c.isdelete=false) order by b.name desc", resultSetMapping = "resourceProjectMapping")
 
 // Search Date Resource Project Join Client Join Employee
 @NamedNativeQuery(name = "ResourceProject.searchDateResourceProject", query = "select a.id,a.isdelete,a.client_id,a.start_project,a.end_project,a.department,a.pic_name,"
         + "b.name,b.user_client_name,b.ero,c.is_ero from x_resource_project a "
         + "join x_client b on b.id=a.client_id join x_employee c on c.id=b.ero "
         + "where (a.isdelete=false and b.isdelete=false and c.isdelete=false) and "
-        + "(CAST(a.start_project as varchar) BETWEEN :sp AND :ep) OR (CAST(a.end_project as varchar) BETWEEN :sp AND :ep) order by b.name asc", resultSetMapping = "resourceProjectMapping")
+        + "(CAST(a.start_project as varchar) BETWEEN :sp AND :ep) order by b.name asc", resultSetMapping = "resourceProjectMapping")
 
 // Search Name Client Resource Project Join Client Join Employee
 @NamedNativeQuery(name = "ResourceProject.searchNameClientResourceProject", query = "select a.id,a.isdelete,a.client_id,a.start_project,a.end_project,a.department,a.pic_name,"
         + "b.name,b.user_client_name,b.ero,c.is_ero from x_resource_project a "
         + "join x_client b on b.id=a.client_id join x_employee c on c.id=b.ero "
         + "where (a.isdelete=false and b.isdelete=false and c.isdelete=false) and "
-        + "(LOWER(b.name) like LOWER(concat('%',:name_client,'%'))) ", resultSetMapping = "resourceProjectMapping")
+        + "(LOWER(b.name) like LOWER(concat('%',:name_client,'%'))) order by a.start_project, a.end_project asc", resultSetMapping = "resourceProjectMapping")
 
 /**
  * ResourceProject
@@ -92,11 +92,13 @@ public class ResourceProject extends CommonEntity {
     @Column(name = "project_name")
     private String projectName;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+07:00")
+    @Temporal(TemporalType.DATE)
     @Column(name = "start_project")
     private Date startProject;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+07:00")
+    @Temporal(TemporalType.DATE)
     @Column(name = "end_project")
     private Date endProject;
 

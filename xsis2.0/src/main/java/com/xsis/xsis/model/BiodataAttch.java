@@ -1,8 +1,8 @@
-package com.xsis.xsis.model;
+package com.xsis.xsis.model.vacancy_pendidikan_resourceproject;
 
 import javax.persistence.*;
 
-import com.xsis.xsis.dto.BioAttchDto;
+import com.xsis.xsis.dto.vacancy_pendidikan_resourceproject.BioAttchDto;
 import com.xsis.xsis.models.common.CommonEntity;
 
 @SqlResultSetMapping(name = "biodataAttchMapping", classes = { @ConstructorResult(targetClass = BioAttchDto.class, columns = { 

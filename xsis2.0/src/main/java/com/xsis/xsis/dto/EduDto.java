@@ -1,4 +1,4 @@
-package com.xsis.xsis.dto;
+package com.xsis.xsis.dto.vacancy_pendidikan_resourceproject;
 
 /**
  * EduDto

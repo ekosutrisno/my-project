@@ -1,8 +1,8 @@
-package com.xsis.xsis.model;
+package com.xsis.xsis.model.vacancy_pendidikan_resourceproject;
 
 import javax.persistence.*;
 
-import com.xsis.xsis.dto.TraiDto;
+import com.xsis.xsis.dto.vacancy_pendidikan_resourceproject.TraiDto;
 import com.xsis.xsis.models.common.CommonEntity;
 
 @SqlResultSetMapping(name = "trainingMapping", classes = { @ConstructorResult(targetClass = TraiDto.class, columns = { 

@@ -2,9 +2,9 @@
   xmlns:with="http://www.thymeleaf.org/extras/with" layout:decorate="~{layout}" with:title="'B210'">
 <th:block layout:fragment="content">
   <div class="bottom">
-    <div class="col">
+    <div class=" col">
       <div class="container">
-        <input type="search" class="form-control" id="input-search" placeholder="Search...">
+        <input type="search" class="form-control" id="input-search" placeholder="Search..." style="margin-top: 20px;">
         <div class="card">
           <div class="card-block">
             <div id="showList">
@@ -80,7 +80,6 @@
                   <div class="col-md-12">
                     <div class="row mb-3">
                       <div class="col-md-2">
-                        <!-- <img th:src="@{/images/profile/2019-12-12 215751.421.png}" style="width:130px;height:130px;" > -->
                         <div id="showPhoto">
                           <!-- Show Photo -->
                         </div>
@@ -435,6 +434,14 @@
       })
     }
 
+    $('#addData').on('hidden.bs.modal', function () {
+      $('#detailVacancy').modal('show');
+    })
+
+    $('#editData').on('hidden.bs.modal', function () {
+      $('#detailVacancy').modal('show');
+    })
+
     $(function () {
       $('#input-search').on('keyup', function () {
         var rex = new RegExp($(this).val(), 'i');
@@ -481,14 +488,17 @@
     get_graduation_year = () => {
       $(document).ready(function () {
         $('#entryYear').on('change', function () {
+          var j = this.value;
           var current_year = new Date();
           var year = current_year.getFullYear();
           var value_year = "";
           value_year += '<option value="">- Pilih -</option>';
-          var j = this.value;
-          while (j <= year) {
-            value_year += `<option value="` + j + `">` + j + `</option>`;
-            j++;
+          if (this.value == "") {
+          } else {
+            while (j <= year) {
+              value_year += `<option value="` + j + `">` + j + `</option>`;
+              j++;
+            }
           }
           $("#graduationYear").html(value_year);
         });
@@ -564,7 +574,6 @@
     function age(dob) {
       var today = new Date();
       var birthday = new Date(dob);
-      console.log(birthday);
       var year = 0;
       if (today.getMonth() < birthday.getMonth()) {
         year = 1;
@@ -617,12 +626,6 @@
     //     show3 = "";
     //   }
     //   return show3;
-    // }
-
-    // function showimg(filePath, fileName){
-    //   var url = [[@{/calculation}]];
-    //     $("#fill").load(url + '?input=' + evt.target.value);
-    //     alert('Horray! Someone wrote "' + this.value + '"!');
     // }
 
 
@@ -679,17 +682,44 @@
             success: (res2) => {
               $('#showListPendidikan').html("");
               res2.map((data2) => {
-                var set2 =
-                  '<div class="row">\n' +
-                  '   <div class="col-md-2">\n' +
-                  '      <p>' + data2.entryYear + ' - ' + data2.graduationYear + '</p>\n' +
-                  '   </div>\n' +
-                  '   <div class="col-md-10">\n' +
-                  '      <h6><strong>' + data2.schoolName + ', ' + data2.country + '</strong></h6>\n' +
-                  '      <h6><strong>' + data2.major + '</strong></h6>\n' +
-                  '      <h6><strong>' + data2.gpa + '</strong></h6>\n' +
-                  '   </div>\n' +
-                  '</div>'
+                if (data2.entryYear == "" || data2.entryYear == null) {
+                  data2.entryYear = "";
+                }
+                if (data2.graduationYear == "" || data2.graduationYear == null) {
+                  data2.graduationYear = "";
+                }
+                if (data2.major == "" || data2.major == null) {
+                  data2.major = "-";
+                }
+                if (data2.gpa == "" || data2.gpa == null || data2.gpa == 0) {
+                  data2.gpa = "-";
+                }
+                if (data2.entryYear == data2.graduationYear) {
+                  var set2 =
+                    '<div class="row">\n' +
+                    '   <div class="col-md-2">\n' +
+                    '      <p>' + data2.entryYear + '</p>\n' +
+                    '   </div>\n' +
+                    '   <div class="col-md-10">\n' +
+                    '      <h6><strong>' + data2.schoolName + ', ' + data2.country + '</strong></h6>\n' +
+                    '      <h6><strong>' + data2.major + '</strong></h6>\n' +
+                    '      <h6><strong>' + data2.gpa + '</strong></h6>\n' +
+                    '   </div>\n' +
+                    '</div>'
+                } else {
+                  var set2 =
+                    '<div class="row">\n' +
+                    '   <div class="col-md-2">\n' +
+                    '      <p>' + data2.entryYear + ' - ' + data2.graduationYear + '</p>\n' +
+                    '   </div>\n' +
+                    '   <div class="col-md-10">\n' +
+                    '      <h6><strong>' + data2.schoolName + ', ' + data2.country + '</strong></h6>\n' +
+                    '      <h6><strong>' + data2.major + '</strong></h6>\n' +
+                    '      <h6><strong>' + data2.gpa + '</strong></h6>\n' +
+                    '   </div>\n' +
+                    '</div>'
+                }
+
                 $('#showListPendidikan').append(set2)
               })
             },
@@ -707,16 +737,41 @@
             success: (res3) => {
               $('#showListPengalaman').html("");
               res3.map((data3) => {
-                var set3 =
-                  '<div class="row">\n' +
-                  '   <div class="col-md-2">\n' +
-                  '        <p>' + data3.joinYear + ' - ' + data3.resignYear + '</p>\n' +
-                  '   </div>\n' +
-                  '   <div class="col-md-10">\n' +
-                  '        <h6><strong>' + data3.lastPosition + '</strong></h6>\n' +
-                  '        <h6><strong>' + data3.companyName + '</strong></h6>\n' +
-                  '   </div>\n' +
-                  '</div>'
+                if (data3.joinYear == 0 || data3.joinYear == "" || data3.joinYear == null) {
+                  data3.joinYear == "";
+                }
+                if (data3.resignYear == 0 || data3.resignYear == "" || data3.resignYear == null) {
+                  data3.resignYear == "";
+                }
+                if (data3.lastPosition == "" || data3.lastPosition == null) {
+                  data3.lastPosition == "";
+                }
+                if (data3.companyName == "" || data3.companyName == null) {
+                  data3.companyName == "";
+                }
+                if (data3.joinYear == data3.resignYear) {
+                  var set3 =
+                    '<div class="row">\n' +
+                    '   <div class="col-md-2">\n' +
+                    '        <p>' + data3.joinYear + '</p>\n' +
+                    '   </div>\n' +
+                    '   <div class="col-md-10">\n' +
+                    '        <h6><strong>' + data3.lastPosition + '</strong></h6>\n' +
+                    '        <h6><strong>' + data3.companyName + '</strong></h6>\n' +
+                    '   </div>\n' +
+                    '</div>'
+                } else {
+                  var set3 =
+                    '<div class="row">\n' +
+                    '   <div class="col-md-2">\n' +
+                    '        <p>' + data3.joinYear + ' - ' + data3.resignYear + '</p>\n' +
+                    '   </div>\n' +
+                    '   <div class="col-md-10">\n' +
+                    '        <h6><strong>' + data3.lastPosition + '</strong></h6>\n' +
+                    '        <h6><strong>' + data3.companyName + '</strong></h6>\n' +
+                    '   </div>\n' +
+                    '</div>'
+                }
                 $('#showListPengalaman').append(set3)
               })
             },
@@ -735,33 +790,39 @@
             type: 'get',
             contentType: 'application/json',
             success: (res4) => {
+              var coma = ", ";
+              var set4_1a = "";
+              var set4_2a = "";
+              var set4_3a = "";
               $('#keterampilanL1').html("");
               $('#keterampilanL2').html("");
               $('#keterampilanL3').html("");
               for (var i = 0; i < res4.length; i++) {
                 if (res4[i].skillLevelId == 1) {
-                  set4_1 += res4[i].skillName + "  ";
+                  set4_1 += res4[i].skillName + coma;
                 }
                 if (res4[i].skillLevelId == 2) {
-                  set4_2 += res4[i].skillName + "  ";
+                  set4_2 += res4[i].skillName + coma;
                 }
                 if (res4[i].skillLevelId == 3) {
-                  set4_3 += res4[i].skillName + "  ";
+                  set4_3 += res4[i].skillName + coma;
                 }
               }
-
-              if (set4_1 == "") {
-                set4_1 = "-";
+              set4_1a = set4_1.slice(0, set4_1.length - 2);
+              set4_2a = set4_2.slice(0, set4_2.length - 2);
+              set4_3a = set4_3.slice(0, set4_3.length - 2);
+              if (set4_1a == "") {
+                set4_1a = "-";
               }
-              if (set4_2 == "") {
-                set4_2 = "-";
+              if (set4_2a == "") {
+                set4_2a = "-";
               }
-              if (set4_3 == "") {
-                set4_3 = "-";
+              if (set4_3a == "") {
+                set4_3a = "-";
               }
-              var set4_1_1 = '<p><strong>' + set4_1 + ' </strong></p>'
-              var set4_1_2 = '<p><strong>' + set4_2 + ' </strong></p>'
-              var set4_1_3 = '<p><strong>' + set4_3 + ' </strong></p>'
+              var set4_1_1 = '<p><strong>' + set4_1a + ' </strong></p>'
+              var set4_1_2 = '<p><strong>' + set4_2a + ' </strong></p>'
+              var set4_1_3 = '<p><strong>' + set4_3a + ' </strong></p>'
               $('#keterampilanL1').append(set4_1_1);
               $('#keterampilanL2').append(set4_1_2);
               $('#keterampilanL3').append(set4_1_3);
@@ -778,18 +839,46 @@
             type: 'get',
             contentType: 'application/json',
             success: (res5) => {
+              var v_totaldurationcertificate = 0;
               $('#showListTraining').html("");
               res5.map((data5) => {
-                var set5 =
-                  '<div class="row">\n' +
-                  '  <div class="col-md-2">\n' +
-                  '     <p>' + data5.trainingYear + ' - ' + totaldurationcertificate(data5.trainingYear, data5.trainingDuration, data5.timePeriodId) + '</p>\n' +
-                  '  </div>\n' +
-                  '  <div class="col-md-10">\n' +
-                  '     <h6><strong>' + data5.trainingName + '</strong></h6>\n' +
-                  '     <h6><strong>' + data5.organizer + '</strong></h6>\n' +
-                  '  </div>\n' +
-                  '</div>'
+                v_totaldurationcertificate = totaldurationcertificate(data5.trainingYear, data5.trainingDuration, data5.timePeriodId);
+                if (data5.trainingYear == 0 || data5.trainingYear == "" || data5.trainingYear == null) {
+                  data5.trainingYear == "";
+                }
+                if (data5.trainingName == 0 || data5.trainingName == "" || data5.trainingName == null) {
+                  data5.trainingName == "";
+                }
+                if (data5.organizer == 0 || data5.organizer == "" || data5.organizer == null) {
+                  data5.organizer == "";
+                }
+                if (v_totaldurationcertificate == 0 || v_totaldurationcertificate == "" || v_totaldurationcertificate == null) {
+                  v_totaldurationcertificate == "";
+                }
+                if (data5.trainingYear == v_totaldurationcertificate) {
+                  var set5 =
+                    '<div class="row">\n' +
+                    '  <div class="col-md-2">\n' +
+                    '     <p>' + v_totaldurationcertificate + '</p>\n' +
+                    '  </div>\n' +
+                    '  <div class="col-md-10">\n' +
+                    '     <h6><strong>' + data5.trainingName + '</strong></h6>\n' +
+                    '     <h6><strong>' + data5.organizer + '</strong></h6>\n' +
+                    '  </div>\n' +
+                    '</div>'
+                } else {
+                  var set5 =
+                    '<div class="row">\n' +
+                    '  <div class="col-md-2">\n' +
+                    '     <p>' + data5.trainingYear + ' - ' + v_totaldurationcertificate + '</p>\n' +
+                    '  </div>\n' +
+                    '  <div class="col-md-10">\n' +
+                    '     <h6><strong>' + data5.trainingName + '</strong></h6>\n' +
+                    '     <h6><strong>' + data5.organizer + '</strong></h6>\n' +
+                    '  </div>\n' +
+                    '</div>'
+                }
+
                 $('#showListTraining').append(set5)
               })
             },
@@ -807,6 +896,18 @@
             success: (res6) => {
               $('#showListSertifikasi').html("");
               res6.map((data6) => {
+                if (data6.validStartYear == 0 || data6.validStartYear == "" || data6.validStartYear == null) {
+                  data6.validStartYear == "";
+                }
+                if (data6.untilYear == 0 || data6.untilYear == "" || data6.untilYear == null) {
+                  data6.untilYear == "";
+                }
+                if (data6.certificateName == "" || data6.certificateName == null) {
+                  data6.certificateName == "";
+                }
+                if (data6.publisher == "" || data6.publisher == null) {
+                  data6.publisher == "";
+                }
                 var set6 =
                   '<div class="row">\n' +
                   '   <div class="col-md-2">\n' +
@@ -834,6 +935,18 @@
             success: (res) => {
               $('#tbEducation').html("");
               res.map((data) => {
+                if (data.entryYear == "" || data.entryYear == null) {
+                  data.entryYear = "-";
+                }
+                if (data.graduationYear == "" || data.graduationYear == null) {
+                  data.graduationYear = "-";
+                }
+                if (data.major == "" || data.major == null) {
+                  data.major = "-";
+                }
+                if (data.gpa == "" || data.gpa == null || data.gpa == 0) {
+                  data.gpa = "-";
+                }
                 var actions = '<div class="input-group-btn">\n' +
                   '             <div class="dropdown show">\n' +
                   '                 <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Action </a>\n' +
@@ -843,7 +956,11 @@
                   '            </div>\n' +
                   '             </div>\n' +
                   '        </div>'
-                var markup = "<tr class='text-left'><td>" + data.schoolName + "</td><td>" + data.name + "</td><td>" + data.entryYear + " s.d " + data.graduationYear + "</td><td>" + data.major + "</td><td>" + data.gpa + "</td><td class='align-middle text-center'>" + actions + "</td></tr>"
+                if (data.entryYear == data.graduationYear) {
+                  var markup = "<tr class='text-center'><td>" + data.schoolName + "</td><td>" + data.name + "</td><td>" + data.entryYear + "</td><td>" + data.major + "</td><td>" + data.gpa + "</td><td class='align-middle text-center'>" + actions + "</td></tr>"
+                } else {
+                  var markup = "<tr class='text-center'><td>" + data.schoolName + "</td><td>" + data.name + "</td><td>" + data.entryYear + " s.d " + data.graduationYear + "</td><td>" + data.major + "</td><td>" + data.gpa + "</td><td class='align-middle text-center'>" + actions + "</td></tr>"
+                }
                 $('#tbEducation').append(markup)
               })
             },
@@ -996,7 +1113,9 @@
     // });
 
     $('#editBtn').click(() => {
-      if ($('#eschoolName').val() == "") {
+      if ($('#eschoolName').val() == "" && $("#eeducationLevelId").val() == "") {
+        swal.fire("Data empty!", "Data Nama Sekolah/Instansi, Jenjang Pendidikan Masih Kosong", "error");
+      } else if ($('#eschoolName').val() == "") {
         swal.fire("Data empty!", "Data Sekolah Masih Kosong", "error");
       } else if ($("#eeducationLevelId").val() == "") {
         swal.fire("Data empty!", "Data Level Education Masih Kosong", "error");
@@ -1032,15 +1151,16 @@
     })
 
     $('#saveBtn').click(() => {
-      if ($('#schoolName').val() == "") {
-        swal.fire("Data empty!", "Data Sekolah Masih Kosong", "error");
+      if ($('#schoolName').val() == "" && $("#educationLevelId").val() == "") {
+        swal.fire("Data empty!", "Data Nama Sekolah/Instansi, Jenjang Pendidikan Masih Kosong", "error");
+      } else if ($('#schoolName').val() == "") {
+        swal.fire("Data empty!", "Data Nama Sekolah/Instansi Masih Kosong", "error");
       } else if ($("#educationLevelId").val() == "") {
-        swal.fire("Data empty!", "Data Level Education Masih Kosong", "error");
+        swal.fire("Data empty!", "Data Jenjang Pendidikan Masih Kosong", "error");
       } else {
         var value_ipk = $('#gpa').val();
         var id = $('#biodataId').val();
         var data = getFormData($('#formAddData'));
-        console.log(JSON.stringify(data));
         if (value_ipk > 4) {
           Swal.fire({
             icon: 'error',

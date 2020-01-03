@@ -1,40 +1,31 @@
-package com.xsis.xsis.model;
+package com.xsis.xsis.model.vacancy_pendidikan_resourceproject;
 
 import javax.persistence.*;
 
-import com.xsis.xsis.dto.EduDto;
+import com.xsis.xsis.dto.vacancy_pendidikan_resourceproject.EduDto;
 import com.xsis.xsis.models.common.CommonEntity;
 
-
-@SqlResultSetMapping(name = "educationMapping", classes = { @ConstructorResult(targetClass = EduDto.class, columns = { 
-    @ColumnResult(name = "id", type = Long.class),
-    @ColumnResult(name = "isdelete", type = Boolean.class),
-    @ColumnResult(name = "biodata_id", type = Long.class),
-    @ColumnResult(name = "education_level_id", type = Long.class),
-    @ColumnResult(name = "school_name", type = String.class),
-    @ColumnResult(name = "city", type = String.class),
-    @ColumnResult(name = "country", type = String.class),
-    @ColumnResult(name = "name", type = String.class),
-    @ColumnResult(name = "entry_year", type = String.class),
-    @ColumnResult(name = "graduation_year", type = String.class),
-    @ColumnResult(name = "major", type = String.class),
-    @ColumnResult(name = "gpa", type = Double.class)}) })
+@SqlResultSetMapping(name = "educationMapping", classes = { @ConstructorResult(targetClass = EduDto.class, columns = {
+        @ColumnResult(name = "id", type = Long.class), @ColumnResult(name = "isdelete", type = Boolean.class),
+        @ColumnResult(name = "biodata_id", type = Long.class),
+        @ColumnResult(name = "education_level_id", type = Long.class),
+        @ColumnResult(name = "school_name", type = String.class), @ColumnResult(name = "city", type = String.class),
+        @ColumnResult(name = "country", type = String.class), @ColumnResult(name = "name", type = String.class),
+        @ColumnResult(name = "entry_year", type = String.class),
+        @ColumnResult(name = "graduation_year", type = String.class),
+        @ColumnResult(name = "major", type = String.class), @ColumnResult(name = "gpa", type = Double.class) }) })
 
 // List Education Join Education Level
-@NamedNativeQuery(name = "Education.getEduName", 
-query = "select a.id,a.isdelete,a.education_level_id,a.biodata_id,a.school_name,a.city,a.country,b.name,a.entry_year,a.graduation_year,a.major,a.gpa from x_riwayat_pendidikan a " +
-"join x_education_level b on b.id=a.education_level_id where a.biodata_id=:biodataId and a.isdelete=false and b.isdelete=false", resultSetMapping = "educationMapping")
+@NamedNativeQuery(name = "Education.getEduName", query = "select a.id,a.isdelete,a.education_level_id,a.biodata_id,a.school_name,a.city,a.country,b.name,a.entry_year,a.graduation_year,a.major,a.gpa from x_riwayat_pendidikan a "
+        + "join x_education_level b on b.id=a.education_level_id where (a.biodata_id=:biodataId and a.isdelete=false and b.isdelete=false) order by b.description", resultSetMapping = "educationMapping")
 
 // Get Last Education By ID
-@NamedNativeQuery(name = "Education.getLastEducation", 
-query = "select a.id,a.isdelete,a.education_level_id,a.biodata_id,a.school_name,a.city,a.country,b.name,a.entry_year,a.graduation_year,a.major,a.gpa from x_riwayat_pendidikan a " +
-"join x_education_level b on b.id=a.education_level_id where a.biodata_id=:biodataId and a.isdelete=false and b.isdelete=false order by a.education_level_id desc limit 1", resultSetMapping = "educationMapping")
-
+@NamedNativeQuery(name = "Education.getLastEducation", query = "select a.id,a.isdelete,a.education_level_id,a.biodata_id,a.school_name,a.city,a.country,b.name,a.entry_year,a.graduation_year,a.major,a.gpa from x_riwayat_pendidikan a "
+        + "join x_education_level b on b.id=a.education_level_id where a.biodata_id=:biodataId and a.isdelete=false and b.isdelete=false order by b.description desc limit 1", resultSetMapping = "educationMapping")
 
 // Get Detail Education Join Biodata
-@NamedNativeQuery(name = "Education.getEduNameDetail", 
-query = "select a.id,a.isdelete,a.education_level_id,a.biodata_id,a.school_name,a.city,a.country,b.name,a.entry_year,a.graduation_year,a.major,a.gpa from x_riwayat_pendidikan a " +
-"join x_education_level b on b.id=a.education_level_id where (a.biodata_id=:biodataId and a.id=:id) and a.isdelete=false and b.isdelete=false", resultSetMapping = "educationMapping")
+@NamedNativeQuery(name = "Education.getEduNameDetail", query = "select a.id,a.isdelete,a.education_level_id,a.biodata_id,a.school_name,a.city,a.country,b.name,a.entry_year,a.graduation_year,a.major,a.gpa from x_riwayat_pendidikan a "
+        + "join x_education_level b on b.id=a.education_level_id where (a.biodata_id=:biodataId and a.id=:id) and a.isdelete=false and b.isdelete=false", resultSetMapping = "educationMapping")
 
 /**
  * Pendidikan
@@ -90,7 +81,9 @@ public class Education extends CommonEntity {
     public Education() {
     }
 
-    public Education(Long id, Long biodataId, String schoolName, String city, String country, Long educationLevelId, String entryYear, String graduationYear, String major, Double gpa, String notes, Integer orders, String judulTa, String deskripsiTa) {
+    public Education(Long id, Long biodataId, String schoolName, String city, String country, Long educationLevelId,
+            String entryYear, String graduationYear, String major, Double gpa, String notes, Integer orders,
+            String judulTa, String deskripsiTa) {
         this.id = id;
         this.biodataId = biodataId;
         this.schoolName = schoolName;
@@ -106,9 +99,6 @@ public class Education extends CommonEntity {
         this.judulTa = judulTa;
         this.deskripsiTa = deskripsiTa;
     }
-
-    
-
 
     public Long getId() {
         return this.id;

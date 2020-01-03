@@ -1,6 +1,6 @@
-package com.xsis.xsis.restapi;
+package com.xsis.xsis.restapi.vacancy_pendidikan_resourceproject;
 
-import com.xsis.xsis.services.SertifikasiServices;
+import com.xsis.xsis.services.vacancy_pendidikan_resourceproject.SertifikasiServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

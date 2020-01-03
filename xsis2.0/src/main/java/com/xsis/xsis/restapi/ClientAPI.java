@@ -1,10 +1,10 @@
-package com.xsis.xsis.restapi;
+package com.xsis.xsis.restapi.vacancy_pendidikan_resourceproject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.xsis.xsis.model.Client;
-import com.xsis.xsis.services.ClientServices;
+import com.xsis.xsis.model.vacancy_pendidikan_resourceproject.Client;
+import com.xsis.xsis.services.vacancy_pendidikan_resourceproject.ClientServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

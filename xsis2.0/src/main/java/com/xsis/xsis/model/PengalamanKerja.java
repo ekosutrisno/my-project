@@ -1,9 +1,9 @@
-package com.xsis.xsis.model;
+package com.xsis.xsis.model.vacancy_pendidikan_resourceproject;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
-import com.xsis.xsis.dto.PeKerDto;
+import com.xsis.xsis.dto.vacancy_pendidikan_resourceproject.PeKerDto;
 import com.xsis.xsis.models.common.CommonEntity;
 
 @SqlResultSetMapping(name = "pengalamanKerjaMapping", classes = { @ConstructorResult(targetClass = PeKerDto.class, columns = { 

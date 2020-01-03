@@ -1,12 +1,12 @@
-package com.xsis.xsis.restapi;
+package com.xsis.xsis.restapi.vacancy_pendidikan_resourceproject;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import com.xsis.xsis.model.Education;
-import com.xsis.xsis.services.EducationServices;
+import com.xsis.xsis.model.vacancy_pendidikan_resourceproject.Education;
+import com.xsis.xsis.services.vacancy_pendidikan_resourceproject.EducationServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
