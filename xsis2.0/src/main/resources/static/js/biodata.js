@@ -1,5 +1,6 @@
 $(() => {
-   get_all_data();
+   // get_all_data();
+   get_all_datax();
    get_marriage_year();
    $('#page_sorting2').hide();
 
@@ -164,7 +165,7 @@ function get_all_data() {
 //Function search
 function search_data(name) {
    $.ajax({
-      url: "api/biodata-rest/search?name=" + name,
+      url: "api/view-biodata/search?name=" + name,
       type: "get",
       contentType: "application/json",
       success: function (data) {
@@ -176,10 +177,27 @@ function search_data(name) {
                   <tr class="x-data">
                   <td>
                      <div class="row">
-                        <div class="col-md"> <strong>${data[i].fullName}</strong></div>
-                        <div class="col-md"> ${data[i].email}</div>
-                        <div class="col-md"> ${data[i].phoneNumber1}</div>
+                        <div class="col-md"><h5>
+                        <strong>${data[i].fullname}</strong><br>
+                        </h5>
+                        <p>
+                        Nama Panggilan <br>
+                        Email <br>
+                        Nomor Telephon <br>
+                        Pendidikan
+                        </p>
+                        </div>
 
+                        <div class="col-md">
+                        <br>
+                        <br>
+                        <p>
+                        :  ${data[i].nick_name} <br>
+                        :  ${data[i].email} <br>
+                        :  ${data[i].phone_number1} <br>
+                        :  ${data[i].school_name} <br>
+                        </P>
+                        </div>
 
                         <div class="col-md mt-3">
                         <h5 class="">
@@ -727,12 +745,6 @@ function get_edit() {
 
 //function searcihng data stanbay
 $(function () {
-   var html = `<div class="col mt-4 mb-3 offset-5">
-<label for="input-search" class="mr-4"> Cari Pelamar </label>
-<input type="search" class="form-control w-50" id="input-search" placeholder="Search...">
-</div>`;
-
-
    $('#input-search').on('keyup', function () {
       var rex = new RegExp($(this).val(), 'i');
       $('.x-data').hide();
@@ -760,7 +772,7 @@ $('#sort-data2').on('click', function () {
 // paginate data
 function paginate_data(page, size, sortby, orderby) {
    $.ajax({
-      url: "api/biodata-rest/page?page=" + page + "&size=" + size + "&sort=" + sortby + "," + orderby,
+      url: "api/view-biodata?page=" + page + "&size=" + size + "&sort=" + sortby + "," + orderby,
       type: 'get',
       contentType: 'application/json',
       success: function (pagination) {
@@ -783,10 +795,27 @@ function paginate_data(page, size, sortby, orderby) {
                   <tr class="x-data">
                   <td>
                      <div class="row">
-                        <div class="col-md"> <strong>${pagination[i].fullName}</strong></div>
-                        <div class="col-md"> ${pagination[i].email}</div>
-                        <div class="col-md"> ${pagination[i].phoneNumber1}</div>
+                        <div class="col-md"><h5>
+                        <strong>${pagination[i].fullname}</strong><br>
+                        </h5>
+                        <p>
+                        Nama Panggilan <br>
+                        Email <br>
+                        Nomor Telephon <br>
+                        Pendidikan
+                        </p>
+                        </div>
 
+                        <div class="col-md">
+                        <br>
+                        <br>
+                        <p>
+                        :  ${pagination[i].nick_name} <br>
+                        :  ${pagination[i].email} <br>
+                        :  ${pagination[i].phone_number1} <br>
+                        :  ${pagination[i].school_name} <br>
+                        </P>
+                        </div>
 
                         <div class="col-md mt-3">
                         <h5 class="">
@@ -859,7 +888,7 @@ $('#prev').on('click', function () {
    }
 
    if (page == 0) {
-      page = 0;
+      page = 1;
    } else {
       page = page - 1;
    }
@@ -887,3 +916,84 @@ $('#next').on('click', function () {
    }
 });
 // ending next dan previous function
+
+
+function get_all_datax() {
+   $("#data_rows").html(
+      `<tr> <td colspan="4" style="text-align:center"><i>Loading...</i> </td></td></tr>`
+   );
+   $.ajax({
+      url: "/api/view-biodata?size=10&page=0",
+      type: "get",
+      contentType: "application/json",
+      success: function (result) {
+
+         $("#total-data").text(result.totalElements);
+         $("#total-page").text(result.size);
+         $("#show-info").text(result.size);
+         $("#total-size").text(result.totalPages);
+         $("#total-ke").text(result.pageable.pageNumber);
+         $("#count-page").val(result.pageable.pageNumber);
+         $("#count-first").val(result.first);
+         $("#count-last").val(result.last);
+
+         var result = result.content;
+
+         $("#data_rows").html("");
+         if (result.length > 0) {
+            for (let i = 0; i < result.length; i++) {
+               $("#data_rows").append(
+                  `   
+                  <tr class="x-data">
+                  <td>
+                     <div class="row">
+                        <div class="col-md"><h5>
+                        <strong>${result[i].fullname}</strong><br>
+                        </h5>
+                        <p>
+                        Nama Panggilan <br>
+                        Email <br>
+                        Nomor Telephon <br>
+                        Pendidikan
+                        </p>
+                        </div>
+
+                        <div class="col-md">
+                        <br>
+                        <br>
+                        <p>
+                        :  ${result[i].nick_name} <br>
+                        :  ${result[i].email} <br>
+                        :  ${result[i].phone_number1} <br>
+                        :  ${result[i].school_name} <br>
+                        </P>
+                        </div>
+
+                        <div class="col-md mt-3">
+                        <h5 class="">
+                           <a onclick="hapus(${result[i].id})" class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
+                              id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                           <a onclick="detailData(${result[i].id})" class="ml-2" data-toggle="modal" data-target="#addModal" href="#"
+                              id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
+                        </h5>
+                        </div>
+                     </div>
+                  </td>
+                  </tr> `
+               );
+            }
+         } else {
+            $("#data_rows").html(
+               `<tr> <td colspan="4">
+               <div class="alert alert-primary text-center" role="alert">
+						Data tidak ditemukan! <span><i class="fa fa-error"></i></span>
+					</div> 
+               </td></tr>`
+            );
+         }
+      },
+      error: function () {
+         swal("", "Failed to fetch data", "error");
+      }
+   });
+};
