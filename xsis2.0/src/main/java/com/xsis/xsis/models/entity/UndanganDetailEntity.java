@@ -26,7 +26,7 @@ public class UndanganDetailEntity extends CommonEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "undangan_id", nullable = false)
+    @JoinColumn(name = "undangan_id", nullable = false, referencedColumnName = "id")
     private UndanganEntity undanganId;
 
     @ManyToOne

@@ -2,8 +2,10 @@ package com.xsis.xsis.dto;
 
 import java.util.Date;
 
+import com.xsis.xsis.models.entity.BiodataEntity;
 import com.xsis.xsis.models.entity.EmployeeEntity;
 import com.xsis.xsis.models.entity.ScheduleTypeEntity;
+import com.xsis.xsis.models.entity.UndanganEntity;
 
 /**
  * UndanganDto
@@ -21,22 +23,10 @@ public class UndanganDto {
     private EmployeeEntity tro;
     private String status;
 
-    public UndanganDto() {
-    }
-
-    public UndanganDto(Long id, ScheduleTypeEntity scheduleTypeId, Date invitationDate, String invitationCode,
-            String time, String otherRoTro, String location, EmployeeEntity ro, EmployeeEntity tro, String status) {
-        this.id = id;
-        this.scheduleTypeId = scheduleTypeId;
-        this.invitationDate = invitationDate;
-        this.invitationCode = invitationCode;
-        this.time = time;
-        this.otherRoTro = otherRoTro;
-        this.location = location;
-        this.ro = ro;
-        this.tro = tro;
-        this.status = status;
-    }
+    private Long detId;
+    private UndanganEntity undanganId;
+    private BiodataEntity biodataId;
+    private String notes;
 
     public Long getId() {
         return id;
@@ -116,6 +106,38 @@ public class UndanganDto {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Long getDetId() {
+        return detId;
+    }
+
+    public void setDetId(Long detId) {
+        this.detId = detId;
+    }
+
+    public UndanganEntity getUndanganId() {
+        return undanganId;
+    }
+
+    public void setUndanganId(UndanganEntity undanganId) {
+        this.undanganId = undanganId;
+    }
+
+    public BiodataEntity getBiodataId() {
+        return biodataId;
+    }
+
+    public void setBiodataId(BiodataEntity biodataId) {
+        this.biodataId = biodataId;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
 }

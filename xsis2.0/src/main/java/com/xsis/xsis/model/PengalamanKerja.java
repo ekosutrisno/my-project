@@ -1,24 +1,23 @@
-package com.xsis.xsis.model.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
-import com.xsis.xsis.dto.vacancy_pendidikan_resourceproject.PeKerDto;
+import com.xsis.xsis.dto.PeKerDto;
 import com.xsis.xsis.models.common.CommonEntity;
 
-@SqlResultSetMapping(name = "pengalamanKerjaMapping", classes = { @ConstructorResult(targetClass = PeKerDto.class, columns = { 
-    @ColumnResult(name = "id", type = Long.class),
-    @ColumnResult(name = "biodata_id", type = Long.class),
-    @ColumnResult(name = "company_name", type = String.class),
-    @ColumnResult(name = "join_year", type = String.class),
-    @ColumnResult(name = "resign_year", type = String.class),
-    @ColumnResult(name = "last_position", type = String.class),
-    @ColumnResult(name = "isdelete", type = Boolean.class)}) })
+@SqlResultSetMapping(name = "pengalamanKerjaMapping", classes = {
+        @ConstructorResult(targetClass = PeKerDto.class, columns = { @ColumnResult(name = "id", type = Long.class),
+                @ColumnResult(name = "biodata_id", type = Long.class),
+                @ColumnResult(name = "company_name", type = String.class),
+                @ColumnResult(name = "join_year", type = String.class),
+                @ColumnResult(name = "resign_year", type = String.class),
+                @ColumnResult(name = "last_position", type = String.class),
+                @ColumnResult(name = "isdelete", type = Boolean.class) }) })
 
 // List Pengalaman Kerja Join Biodata
-@NamedNativeQuery(name = "PengalamanKerja.getPengalamanKerjaBiodata", 
-query = "select a.id,a.biodata_id,a.company_name,a.join_year,a.resign_year,a.last_position,a.isdelete from x_riwayat_pekerjaan a " +
-"join x_biodata b on b.id=a.biodata_id where a.biodata_id=:biodataId and a.isdelete=false and b.isdelete=false", resultSetMapping = "pengalamanKerjaMapping")
+@NamedNativeQuery(name = "PengalamanKerja.getPengalamanKerjaBiodata", query = "select a.id,a.biodata_id,a.company_name,a.join_year,a.resign_year,a.last_position,a.isdelete from x_riwayat_pekerjaan a "
+        + "join x_biodata b on b.id=a.biodata_id where a.biodata_id=:biodataId and a.isdelete=false and b.isdelete=false", resultSetMapping = "pengalamanKerjaMapping")
 
 /**
  * PengalamanKerja

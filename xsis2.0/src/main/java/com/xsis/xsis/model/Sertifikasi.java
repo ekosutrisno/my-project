@@ -1,32 +1,31 @@
-package com.xsis.xsis.model.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
-import com.xsis.xsis.dto.vacancy_pendidikan_resourceproject.SertDto;
+import com.xsis.xsis.dto.SertDto;
 import com.xsis.xsis.models.common.CommonEntity;
 
-@SqlResultSetMapping(name = "sertifikasiMapping", classes = { @ConstructorResult(targetClass = SertDto.class, columns = { 
-    @ColumnResult(name = "id", type = Long.class),
-    @ColumnResult(name = "biodata_id", type = Long.class),
-    @ColumnResult(name = "certificate_name", type = String.class),
-    @ColumnResult(name = "publisher", type = String.class),
-    @ColumnResult(name = "valid_start_year", type = String.class),
-    @ColumnResult(name = "until_year", type = String.class),
-    @ColumnResult(name = "isdelete", type = Boolean.class)}) })
+@SqlResultSetMapping(name = "sertifikasiMapping", classes = {
+        @ConstructorResult(targetClass = SertDto.class, columns = { @ColumnResult(name = "id", type = Long.class),
+                @ColumnResult(name = "biodata_id", type = Long.class),
+                @ColumnResult(name = "certificate_name", type = String.class),
+                @ColumnResult(name = "publisher", type = String.class),
+                @ColumnResult(name = "valid_start_year", type = String.class),
+                @ColumnResult(name = "until_year", type = String.class),
+                @ColumnResult(name = "isdelete", type = Boolean.class) }) })
 
 // List Sertifikasi Join Biodata
-@NamedNativeQuery(name = "Sertifikasi.getSertifikasiBiodata", 
-query = "select a.id,a.biodata_id,a.certificate_name,a.publisher,a.valid_start_year,a.until_year,a.isdelete from x_sertifikasi a " +
-"join x_biodata b on b.id=a.biodata_id where a.biodata_id=:biodataId and a.isdelete=false and b.isdelete=false", resultSetMapping = "sertifikasiMapping")
+@NamedNativeQuery(name = "Sertifikasi.getSertifikasiBiodata", query = "select a.id,a.biodata_id,a.certificate_name,a.publisher,a.valid_start_year,a.until_year,a.isdelete from x_sertifikasi a "
+        + "join x_biodata b on b.id=a.biodata_id where a.biodata_id=:biodataId and a.isdelete=false and b.isdelete=false", resultSetMapping = "sertifikasiMapping")
 
 /**
  * Sertifikasi
  */
 @Entity
-@Table(name="x_sertifikasi")
-public class Sertifikasi extends CommonEntity{
-    
+@Table(name = "x_sertifikasi")
+public class Sertifikasi extends CommonEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -35,11 +34,11 @@ public class Sertifikasi extends CommonEntity{
     @Column(name = "biodata_id", nullable = false)
     private Long biodataId;
 
-    @Column(name="certificate_name")
+    @Column(name = "certificate_name")
     @Size(max = 200)
     private String certificateName;
 
-    @Column(name="publisher")
+    @Column(name = "publisher")
     @Size(max = 100)
     private String publisher;
 
@@ -63,10 +62,11 @@ public class Sertifikasi extends CommonEntity{
     @Size(max = 1000)
     private String notes;
 
-    public Sertifikasi(){
+    public Sertifikasi() {
     }
 
-    public Sertifikasi(Long biodataId, String certificateName, String publisher, String validStartYear, String validStartMonth, String untilYear, String untilMonth, String notes) {
+    public Sertifikasi(Long biodataId, String certificateName, String publisher, String validStartYear,
+            String validStartMonth, String untilYear, String untilMonth, String notes) {
         this.biodataId = biodataId;
         this.certificateName = certificateName;
         this.publisher = publisher;

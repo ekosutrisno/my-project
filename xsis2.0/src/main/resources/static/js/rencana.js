@@ -1,5 +1,5 @@
 $(() => {
-	// get_all_rencana();
+	get_all_rencana();
 	$('#page_sorting2').hide();
 	$("#get_sent_date").attr("disabled", true);
 });
@@ -161,6 +161,7 @@ $("#add_rencana").click(function () {
 	get_typeschedule();
 	get_ro_isero_true();
 	get_tro_isero_true();
+	kode_rencana();
 	$(".modal-judul").text("Buat Rencana Jadwal");
 	$(".get_rencana").attr("disabled", false);
 	$("#get_form_rencana")[0].reset();
@@ -173,6 +174,7 @@ $("#add_rencana").click(function () {
 //menghapus inputan
 $("#btn-reset").on("click", function () {
 	$("#input-search-dari, #input-search-sampai").val("");
+	kirim_data()
 });
 
 // fungsi menccari data
@@ -279,27 +281,51 @@ $("#save_rencana").click(function () {
 			"Anda belum memilih pelamar.",
 			"info"
 		);
+	} else if ($('#cek_sent_date').is(':checked') && $('#get_sent_date').val() == '') {
+		Swal.fire("", "Mohon pilih tanggal pengiriman terlebih dahulu", "warning");
 	} else {
-		$.ajax({
-			url: "/api/rencana",
-			type: type,
-			contentType: "application/json",
-			data: JSON.stringify(data),
-			success: function (result) {
-				get_all_rencana();
-				Toast.fire({
-					icon: 'success',
-					title: "Data berhasil di" + action + "."
-				})
-				$("#modal-rencana").modal("hide");
-				kirim_data();
-				$("#get_form_rencana")[0].reset();
+		if ($('#cek_sent_date').is(':checked')) {
+			$.ajax({
+				url: "/api/rencana",
+				type: type,
+				contentType: "application/json",
+				data: JSON.stringify(data),
+				success: function (result) {
+					get_all_rencana();
+					Toast.fire({
+						type: 'success',
+						title: "Data berhasil di" + action + "."
+					})
+					$("#modal-rencana").modal("hide");
+					$("#get_form_rencana")[0].reset();
+				},
+				error: function () {
+					Swal.fire("", "Failed to " + action + " data", "error");
+				}
+			});
+		} else {
+			$.ajax({
+				url: "/api/rencana",
+				type: type,
+				contentType: "application/json",
+				data: JSON.stringify(data),
+				success: function (result) {
+					get_all_rencana();
+					Toast.fire({
+						type: 'success',
+						title: "Data berhasil di" + action + "."
+					})
+					$("#modal-rencana").modal("hide");
+					kirim_data();
+					$("#get_form_rencana")[0].reset();
+				},
+				error: function () {
+					Swal.fire("", "Failed to " + action + " data", "error");
+				}
+			});
+		}
 
-			},
-			error: function () {
-				Swal.fire("", "Failed to " + action + " data", "error");
-			}
-		});
+
 	}
 });
 
@@ -476,7 +502,7 @@ const Toast = Swal.mixin({
 	position: 'bottom-end',
 	showConfirmButton: false,
 	timer: 3000,
-	timerProgressBar: true,
+	// timerProgressBar: true,
 	onOpen: (toast) => {
 		toast.addEventListener('mouseenter', Swal.stopTimer)
 		toast.addEventListener('mouseleave', Swal.resumeTimer)
@@ -707,6 +733,7 @@ $('#next').on('click', function () {
 });
 // ending next dan previous function
 
+
 //function mengirim ke email pelamar
 function kirim_data() {
 	var e1 = $('#e1').is(':checked');
@@ -739,19 +766,36 @@ function kirim_data() {
 	var emp1 = $('#e1').is(':checked');
 	var emp2 = $('#e2').is(':checked');
 	var emp3 = $('#e3').is(':checked');
-	var penerima = '';
+	var em = [];
 
-	if (emp1 == true) {
-		penerima = 'ekosutrisno801@gmail.com';
-		// penerima = 'debby.fudmasari@xsis.co.id';
-	} else if (emp2 == true) {
-		// penerima = 'imam.winata@xsis.co.id';
-		penerima = 'ekosutrisno801@yahoo.com';
-	} else if (emp3 == true) {
-		// penerima = 'sutrisnoeko801@gmail.com';
-		// penerima = 'ekosutrisno801@gmail.com';
-		penerima = 'ariobimo74@gmail.com';
+	// penerima = 'debby.fudmasari@xsis.co.id';
+	// penerima = 'imam.winata@xsis.co.id';
+	// penerima = 'ariobimo74@gmail.com';
+
+
+	if (emp1 == true && emp2 == false && emp3 == false) {
+		em.push('ekosutrisno801@gmail.com');
+		penerima = em.join();
+	} else if (emp1 == false && emp2 == true && emp3 == false) {
+		em.push('ekosutrisno801@yahoo.com');
+		penerima = em.join();
+	} else if (emp1 == false && emp2 == false && emp3 == true) {
+		em.push('sutrisnoeko801@gmail.com');
+		penerima = em.join();
+	} else if (emp1 == true && emp2 == true && emp3 == false) {
+		em.push('ekosutrisno801@gmail.com', 'ekosutrisno801@yahoo.com');
+		penerima = em.join();
+	} else if (emp1 == true && emp2 == false && emp3 == true) {
+		em.push('ekosutrisno801@gmail.com', 'sutrisnoeko801@gmail.com');
+		penerima = em.join();
+	} else if (emp1 == false && emp2 == true && emp3 == true) {
+		em.push('ekosutrisno801@yahoo.com', 'sutrisnoeko801@gmail.com');
+		penerima = em.join();
+	} else if (emp1 == true && emp2 == true && emp3 == true) {
+		em.push('ekosutrisno801@gmail.com', 'ekosutrisno801@yahoo.com', 'sutrisnoeko801@gmail.com');
+		penerima = em.join();
 	}
+
 
 	var judul = '';
 	var namaro = $('#get_schedule_type').val();
@@ -773,13 +817,14 @@ function kirim_data() {
 		judul = 'Interview';
 	}
 
-
+	// <strong>Nama<span> : </span>	 ` + nm + `</strong> <br>
 	var nm = plmr;
 	var tg = $("#get_tgl_rencana").val();
 	var jm = $("#get_jam_rencana").val();
 	var tm = $("#get_lokasi").val();
 	var jd = judul;
 	var ro = ro;
+	var nt = $("#get_notes").val();
 
 	var html = `
 <!DOCTYPE html
@@ -994,7 +1039,7 @@ function kirim_data() {
 																width="50"></td>
 															<td>
 																<div class="h3-grey-center"
-																	style="color:#666666; font-family:Arial,sans-serif; font-size:26px; line-height:34px; text-align:center">
+																	style="color:#000000; font-family:Arial,sans-serif; font-size:26px; line-height:34px; text-align:center">
 																	Jadwal ` + jd + `</div>
 																<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer"
 																	style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
@@ -1006,12 +1051,16 @@ function kirim_data() {
 																</table>
 
 																<div class=""
-																	style="color:#777777; font-family:Arial,sans-serif; font-size:14px; line-height:20px; text-align:left">
-																	<p>
-																				<strong>Nama<span> : </span>	 ` + nm + `</strong> <br>
+																	style="color:#000000; font-family:Arial,sans-serif; font-size:14px; line-height:20px; text-align:left">
+																	<p>Dear Kandidat, <br><br>
+																	Berdasarkan berkas dan syarat lainnya yang telah anda kirimkan kepada kami, maka dari itu Kami
+																	mengundangan Anda dalam agenda  ` + jd + ` yang akan dilaksanakan pada :<br>
+																	<p><br>
 																				<strong>Tanggal<span> : </span>	 ` + tg + `</strong><br>
 																				<strong>Jam<span> : </span>	 ` + jm + `</strong><br>
-																				<strong>Tempat<span> : </span>	 ` + tm + `</strong><br>
+																				<strong>Tempat<span> : </span>	 ` + tm + ` WIB</strong><br><br>
+																				Atas perhatian dan kerjasamanya kami ucapkan terimaksaih.<br>
+																				<strong>Notes<span> : </span>	</strong> ` + nt + `<br>
 																	</p>
 																</div>
 																<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer"
@@ -1175,7 +1224,7 @@ function kirim_data() {
 
 																			<div class="text-m-center"
 																				style="color:#777777; font-family:Arial,sans-serif; font-size:12px; line-height:20px; text-align:left">
-																				<p>Copyright &copy; 2020 Xsis Mitra Utama</p>
+																				<p>Copyright &copy; 2020 Xsis Academy</p>
 																				</div>
 																			<div style="font-size:0pt; line-height:0pt;" class="mobile-br-15"></div>
 
@@ -1256,7 +1305,7 @@ function kirim_data() {
 		judul: judul,
 		konten: html
 	}
-	console.log(data)
+
 	$.ajax({
 		url: '/sendemail',
 		type: 'post',
@@ -1270,3 +1319,41 @@ function kirim_data() {
 		}
 	})
 };
+
+
+
+// function generating code 
+function kode_rencana() {
+	var kode = 'JDW';
+	$.ajax({
+		url: "/api/rencana/desc",
+		type: 'get',
+		contentType: "application/json",
+		success: function (result) {
+			var data = result[0];
+			var code = data.scheduleCode;
+
+
+			if (code == '' || null) {
+				code = kode + '0001';
+			}
+
+			code = code.substring(3, code.length)
+			code = parseInt(code);
+
+			var cek = String(code).length;
+			var tambahan = '';
+			if (cek == 1) {
+				tamabahan = '000'
+			} else if (cek == 2) {
+				tambahan = '00'
+			} else if (cek == 3) {
+				tambahan = '0'
+			}
+
+			code = kode + tambahan + (code + 1);
+			$("#get_schedule_code").val(code)
+		},
+	});
+
+}

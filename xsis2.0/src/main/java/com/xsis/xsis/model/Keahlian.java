@@ -1,29 +1,26 @@
-package com.xsis.xsis.model.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.model;
 
 import javax.persistence.*;
 
-import com.xsis.xsis.dto.vacancy_pendidikan_resourceproject.KeahDto;
+import com.xsis.xsis.dto.KeahDto;
 import com.xsis.xsis.models.common.CommonEntity;
 
-@SqlResultSetMapping(name = "keahlianMapping", classes = { @ConstructorResult(targetClass = KeahDto.class, columns = { 
-    @ColumnResult(name = "id", type = Long.class),
-    @ColumnResult(name = "biodata_id", type = Long.class),
-    @ColumnResult(name = "skill_name", type = String.class),
-    @ColumnResult(name = "skill_level_id", type = Long.class),
-    @ColumnResult(name = "isdelete", type = Boolean.class)}) })
+@SqlResultSetMapping(name = "keahlianMapping", classes = { @ConstructorResult(targetClass = KeahDto.class, columns = {
+        @ColumnResult(name = "id", type = Long.class), @ColumnResult(name = "biodata_id", type = Long.class),
+        @ColumnResult(name = "skill_name", type = String.class),
+        @ColumnResult(name = "skill_level_id", type = Long.class),
+        @ColumnResult(name = "isdelete", type = Boolean.class) }) })
 
 // List Keahlian Join Biodata
-@NamedNativeQuery(name = "Keahlian.getKeahlianBiodata", 
-query = "select a.id,a.biodata_id,a.skill_name,a.skill_level_id,a.isdelete from x_keahlian a " +
-"join x_biodata b on b.id=a.biodata_id where a.biodata_id=:biodataId and a.isdelete=false and b.isdelete=false", resultSetMapping = "keahlianMapping")
-
+@NamedNativeQuery(name = "Keahlian.getKeahlianBiodata", query = "select a.id,a.biodata_id,a.skill_name,a.skill_level_id,a.isdelete from x_keahlian a "
+        + "join x_biodata b on b.id=a.biodata_id where a.biodata_id=:biodataId and a.isdelete=false and b.isdelete=false", resultSetMapping = "keahlianMapping")
 
 /**
  * Keahlian
  */
 @Entity
 @Table(name = "x_keahlian")
-public class Keahlian extends CommonEntity{
+public class Keahlian extends CommonEntity {
 
     @Id
     @Column(name = "id")
@@ -38,7 +35,8 @@ public class Keahlian extends CommonEntity{
     @Column(name = "skill_level_id")
     private Long skillLevelId;
 
-    public Keahlian(){}
+    public Keahlian() {
+    }
 
     public Keahlian(Long id, Long biodataId, String skillName, Long skillLevelId) {
         this.id = id;
@@ -78,6 +76,5 @@ public class Keahlian extends CommonEntity{
     public void setSkillLevelId(Long skillLevelId) {
         this.skillLevelId = skillLevelId;
     }
-
 
 }

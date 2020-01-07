@@ -9,10 +9,13 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import org.hibernate.annotations.Immutable;
+
 /**
  * UndanganView
  */
 @Entity
+@Immutable
 @Table(name = "x_data_search")
 public class UndanganView {
 
@@ -35,6 +38,9 @@ public class UndanganView {
 
     @Column(name = "major")
     private String major;
+
+    @Column(name = "notes")
+    private String notes;
 
     @Column(name = "school_name")
     private String school_name;
@@ -67,4 +73,7 @@ public class UndanganView {
         return id;
     }
 
+    public String getNotes() {
+        return notes;
+    }
 }

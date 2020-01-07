@@ -1,4 +1,4 @@
-package com.xsis.xsis.model.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.model;
 
 import java.util.Date;
 
@@ -121,7 +121,11 @@ public class Biodata extends CommonEntity {
     public Biodata() {
     }
 
-    public Biodata(Long id, String fullName, String nickName, String pob, Date dob, Boolean gender, Long religionId, Integer hight, Integer weight, String nationality, String ethnic, String hobby, Long identityTypeId, String email, String identityNo, String phoneNumber1, String phoneNumber2, String parentPhoneNumber, String childSequence, String howManyBrothers, Long maritalStatusId, Long addrbookId, String token, Date expiredToken, String marriageYear, Long companyId, Boolean isProcess, Boolean isComplete) {
+    public Biodata(Long id, String fullName, String nickName, String pob, Date dob, Boolean gender, Long religionId,
+            Integer hight, Integer weight, String nationality, String ethnic, String hobby, Long identityTypeId,
+            String email, String identityNo, String phoneNumber1, String phoneNumber2, String parentPhoneNumber,
+            String childSequence, String howManyBrothers, Long maritalStatusId, Long addrbookId, String token,
+            Date expiredToken, String marriageYear, Long companyId, Boolean isProcess, Boolean isComplete) {
         this.id = id;
         this.fullName = fullName;
         this.nickName = nickName;
@@ -387,8 +391,5 @@ public class Biodata extends CommonEntity {
     public void setIsComplete(Boolean isComplete) {
         this.isComplete = isComplete;
     }
-
-    
-
 
 }

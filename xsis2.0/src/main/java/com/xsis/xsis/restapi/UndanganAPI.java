@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import com.xsis.xsis.dto.UndanganDto;
+import com.xsis.xsis.models.entity.UndanganDetailEntity;
 import com.xsis.xsis.models.entity.UndanganEntity;
+import com.xsis.xsis.services.IUndanganDetailService;
 import com.xsis.xsis.services.IUndanganService;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +37,12 @@ public class UndanganAPI {
     @Autowired
     private IUndanganService undanganService;
 
+    @Autowired
+    private IUndanganDetailService unDetail;
+
+    @Autowired
+    private ModelMapper modelaMapper;
+
     @GetMapping
     public Page<UndanganEntity> findByPaging(Pageable pageable,
             @RequestParam(name = "key", defaultValue = "") String key) {
@@ -57,7 +66,9 @@ public class UndanganAPI {
     @PostMapping
     public UndanganDto simpanUndangan(@RequestBody UndanganDto undanganDto) {
 
-        UndanganEntity undanganDetail = new UndanganEntity();
+        UndanganEntity undanganDetail = modelaMapper.map(undanganDto, UndanganEntity.class);
+        UndanganDetailEntity undet = modelaMapper.map(undanganDto, UndanganDetailEntity.class);
+
         undanganDetail.setInvitationCode(undanganDto.getInvitationCode());
         undanganDetail.setInvitationDate(undanganDto.getInvitationDate());
         undanganDetail.setScheduleTypeId(undanganDto.getScheduleTypeId());
@@ -68,14 +79,21 @@ public class UndanganAPI {
         undanganDetail.setTro(undanganDto.getTro());
         undanganDetail.setStatus(undanganDto.getStatus());
 
+        undet.setBiodataId(undanganDto.getBiodataId());
+        undet.setUndanganId(undanganDetail);
+        undet.setNotes(undanganDto.getNotes());
+
         undanganService.save(undanganDetail);
+        unDetail.save(undet);
         return undanganDto;
     }
 
     @PutMapping
     public UndanganDto UpdateUndangan(@RequestBody UndanganDto undanganDto) {
 
-        UndanganEntity undanganDetail = new UndanganEntity();
+        UndanganEntity undanganDetail = modelaMapper.map(undanganDto, UndanganEntity.class);
+        UndanganDetailEntity undet = modelaMapper.map(undanganDto, UndanganDetailEntity.class);
+
         undanganDetail.setId(undanganDto.getId());
         undanganDetail.setInvitationCode(undanganDto.getInvitationCode());
         undanganDetail.setInvitationDate(undanganDto.getInvitationDate());
@@ -87,7 +105,13 @@ public class UndanganAPI {
         undanganDetail.setTro(undanganDto.getTro());
         undanganDetail.setStatus(undanganDto.getStatus());
 
+        undet.setId(undanganDto.getDetId());
+        undet.setBiodataId(undanganDto.getBiodataId());
+        undet.setUndanganId(undanganDetail);
+        undet.setNotes(undanganDto.getNotes());
+
         undanganService.update(undanganDetail);
+        unDetail.update(undet);
         return undanganDto;
     }
 
@@ -96,4 +120,8 @@ public class UndanganAPI {
         return undanganService.delete(id);
     }
 
+    @GetMapping("/desc")
+    public List<UndanganEntity> getUndanganDescending() {
+        return undanganService.getDescendings();
+    }
 }

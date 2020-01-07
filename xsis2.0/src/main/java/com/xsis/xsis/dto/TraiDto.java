@@ -1,4 +1,4 @@
-package com.xsis.xsis.dto.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.dto;
 
 /**
  * TraiDto
@@ -14,9 +14,11 @@ public class TraiDto {
     private Long timePeriodId;
     private Boolean isDelete;
 
-    public TraiDto(){}
+    public TraiDto() {
+    }
 
-    public TraiDto(Long id, Long biodataId, String trainingName, String organizer, String trainingYear, Integer trainingDuration, Long timePeriodId, Boolean isDelete) {
+    public TraiDto(Long id, Long biodataId, String trainingName, String organizer, String trainingYear,
+            Integer trainingDuration, Long timePeriodId, Boolean isDelete) {
         this.id = id;
         this.biodataId = biodataId;
         this.trainingName = trainingName;
@@ -95,5 +97,4 @@ public class TraiDto {
         this.isDelete = isDelete;
     }
 
-    
 }

@@ -18,5 +18,5 @@ public interface ViewRepository extends JpaRepository<UndanganView, Long> {
     static final String SEARCH_DATA = "SELECT * FROM x_data_search WHERE LOWER(fullname) LIKE %:name%";
 
     @Query(value = SEARCH_DATA, nativeQuery = true)
-    List<UndanganView> searchUndanganbyName(@Param("name") String name);
+    List<UndanganView> findByFullNameContainingIgnoreCase(@Param("name") String fullname);
 }

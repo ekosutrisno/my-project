@@ -18,6 +18,8 @@ public interface IUndanganDetailService {
 
     Page<UndanganDetailEntity> findByPaging(Pageable pageable, String key);
 
+    List<UndanganDetailEntity> getDetailByUndanganId(Long id);
+
     UndanganDetailEntity save(UndanganDetailEntity undanganDetailEntity);
 
     Optional<UndanganDetailEntity> getById(Long id);

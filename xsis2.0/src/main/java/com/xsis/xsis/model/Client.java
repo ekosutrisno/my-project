@@ -1,8 +1,8 @@
-package com.xsis.xsis.model.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.model;
 
 import javax.persistence.*;
 
-import com.xsis.xsis.dto.vacancy_pendidikan_resourceproject.ClientEmployeeDto;
+import com.xsis.xsis.dto.ClientEmployeeDto;
 import com.xsis.xsis.models.common.CommonEntity;
 
 @SqlResultSetMapping(name = "clientMapping", classes = {

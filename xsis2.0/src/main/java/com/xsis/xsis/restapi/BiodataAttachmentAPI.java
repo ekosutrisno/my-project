@@ -1,6 +1,6 @@
-package com.xsis.xsis.restapi.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.restapi;
 
-import com.xsis.xsis.services.vacancy_pendidikan_resourceproject.BiodataAttachmentServices;
+import com.xsis.xsis.services.BiodataAttachmentServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,5 +26,5 @@ public class BiodataAttachmentAPI {
     public ResponseEntity<?> findBiodataAttachment(@PathVariable("biodata_id") Long biodataId) {
         return new ResponseEntity<>(biodataAttachmentServices.getBiodataAttachment(biodataId), HttpStatus.OK);
     }
-    
+
 }

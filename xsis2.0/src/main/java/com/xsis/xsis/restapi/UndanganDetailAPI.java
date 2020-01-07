@@ -49,6 +49,11 @@ public class UndanganDetailAPI {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/und/{undanganId}")
+    public ResponseEntity<?> undanganByUndanganId(@PathVariable("undanganId") Long id) {
+        return new ResponseEntity<>(undanganDetailService.getDetailByUndanganId(id), HttpStatus.OK);
+    }
+
     @GetMapping("/search")
     public List<UndanganDetailEntity> cariDetailUndangan(@RequestParam(name = "name") String name) {
         return undanganDetailService.searchDataByName(name);

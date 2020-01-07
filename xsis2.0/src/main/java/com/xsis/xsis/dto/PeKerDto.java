@@ -1,4 +1,4 @@
-package com.xsis.xsis.dto.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.dto;
 
 /**
  * PeKerDto
@@ -13,9 +13,11 @@ public class PeKerDto {
     private String lastPosition;
     private Boolean isDelete;
 
-    public PeKerDto(){}
+    public PeKerDto() {
+    }
 
-    public PeKerDto(Long id, Long biodataId, String companyName, String joinYear, String resignYear, String lastPosition, Boolean isDelete) {
+    public PeKerDto(Long id, Long biodataId, String companyName, String joinYear, String resignYear,
+            String lastPosition, Boolean isDelete) {
         this.id = id;
         this.biodataId = biodataId;
         this.companyName = companyName;
@@ -84,7 +86,5 @@ public class PeKerDto {
     public void setIsDelete(Boolean isDelete) {
         this.isDelete = isDelete;
     }
-
-    
 
 }

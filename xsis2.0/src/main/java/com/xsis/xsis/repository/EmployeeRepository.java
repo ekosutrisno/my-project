@@ -1,13 +1,12 @@
-package com.xsis.xsis.repository.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.repository;
 
-import com.xsis.xsis.model.vacancy_pendidikan_resourceproject.Employee;
+import com.xsis.xsis.model.Employee;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * EmployeeRepository
  */
-public interface EmployeeRepository extends JpaRepository <Employee, Long>{
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-    
 }

@@ -1,7 +1,7 @@
-package com.xsis.xsis.restapi.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.restapi;
 
-import com.xsis.xsis.model.vacancy_pendidikan_resourceproject.EducationLevel;
-import com.xsis.xsis.services.vacancy_pendidikan_resourceproject.EducationLevelServices;
+import com.xsis.xsis.model.EducationLevel;
+import com.xsis.xsis.services.EducationLevelServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,5 +24,5 @@ public class EducationLevelAPI {
     public Iterable<EducationLevel> findAllEducationLevel() {
         return educationLevelServices.getEducationLevel();
     }
-    
+
 }

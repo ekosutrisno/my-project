@@ -1,4 +1,4 @@
-package com.xsis.xsis.dto.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.dto;
 
 /**
  * EduDto
@@ -21,7 +21,8 @@ public class EduDto {
     public EduDto() {
     }
 
-    public EduDto(Long id, Boolean isDelete, Long biodataId, Long educationLevelId, String schoolName, String city, String country, String name, String entryYear, String graduationYear, String major, Double gpa) {
+    public EduDto(Long id, Boolean isDelete, Long biodataId, Long educationLevelId, String schoolName, String city,
+            String country, String name, String entryYear, String graduationYear, String major, Double gpa) {
         this.id = id;
         this.isDelete = isDelete;
         this.biodataId = biodataId;
@@ -136,6 +137,4 @@ public class EduDto {
         this.gpa = gpa;
     }
 
-    
-    
 }

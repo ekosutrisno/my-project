@@ -2,6 +2,7 @@ package com.xsis.xsis.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.xsis.xsis.models.entity.IdentitasTypeEntity;
 import com.xsis.xsis.models.entity.MaritalStatusEntity;
 import com.xsis.xsis.models.entity.ReligionEntity;
@@ -54,70 +55,13 @@ public class BiodataDto {
     private String region2;
     private Long idA;
     private Long createdBy;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createdOn;
 
     private ReligionEntity religion;
     private MaritalStatusEntity maritalStatus;
     private IdentitasTypeEntity identityType;
-
-    public BiodataDto() {
-    }
-
-    public BiodataDto(Long id, String fullName, String nickName, String pob, Date dob, Boolean gender, Integer hight,
-            Integer weight, String nationality, String ethnic, String hobby, String email, String identityNo,
-            String phoneNumber1, String phoneNumber2, String parentPhoneNumber, String childSequence,
-            String howManyBrothers, Long addrbookId, String token, Date expiredToken, String marriageYear,
-            Long companyId, Boolean isProcess, Boolean isComplete, String address1, String postalCode1, String rt1,
-            String rw1, String kelurahan1, String kecamatan1, String region1, String address2, String postalCode2,
-            String rt2, String rw2, String kelurahan2, String kecamatan2, String region2, ReligionEntity religion,
-            MaritalStatusEntity maritalStatus, IdentitasTypeEntity identityType, Long idA, Long createdBy,
-            Date createdOn) {
-        this.id = id;
-        this.fullName = fullName;
-        this.nickName = nickName;
-        this.pob = pob;
-        this.dob = dob;
-        this.gender = gender;
-        this.hight = hight;
-        this.weight = weight;
-        this.nationality = nationality;
-        this.ethnic = ethnic;
-        this.hobby = hobby;
-        this.email = email;
-        this.identityNo = identityNo;
-        this.phoneNumber1 = phoneNumber1;
-        this.phoneNumber2 = phoneNumber2;
-        this.parentPhoneNumber = parentPhoneNumber;
-        this.childSequence = childSequence;
-        this.howManyBrothers = howManyBrothers;
-        this.addrbookId = addrbookId;
-        this.token = token;
-        this.expiredToken = expiredToken;
-        this.marriageYear = marriageYear;
-        this.companyId = companyId;
-        this.isProcess = isProcess;
-        this.isComplete = isComplete;
-        this.address1 = address1;
-        this.postalCode1 = postalCode1;
-        this.rt1 = rt1;
-        this.rw1 = rw1;
-        this.kelurahan1 = kelurahan1;
-        this.kecamatan1 = kecamatan1;
-        this.region1 = region1;
-        this.address2 = address2;
-        this.postalCode2 = postalCode2;
-        this.rt2 = rt2;
-        this.rw2 = rw2;
-        this.kelurahan2 = kelurahan2;
-        this.kecamatan2 = kecamatan2;
-        this.region2 = region2;
-        this.religion = religion;
-        this.maritalStatus = maritalStatus;
-        this.identityType = identityType;
-        this.idA = idA;
-        this.createdBy = createdBy;
-        this.createdOn = createdOn;
-    }
 
     public Long getId() {
         return id;

@@ -1,8 +1,8 @@
-package com.xsis.xsis.model.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.model;
 
 import javax.persistence.*;
 
-import com.xsis.xsis.dto.vacancy_pendidikan_resourceproject.EduDto;
+import com.xsis.xsis.dto.EduDto;
 import com.xsis.xsis.models.common.CommonEntity;
 
 @SqlResultSetMapping(name = "educationMapping", classes = { @ConstructorResult(targetClass = EduDto.class, columns = {

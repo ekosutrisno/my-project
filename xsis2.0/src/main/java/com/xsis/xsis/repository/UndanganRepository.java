@@ -20,4 +20,6 @@ public interface UndanganRepository extends JpaRepository<UndanganEntity, Long> 
   @Query(value = CARI_DATA, nativeQuery = true)
   List<UndanganEntity> searchDataByName(@Param("name") String name);
 
+  @Query(value = "SELECT*FROM x_undangan ORDER BY id DESC", nativeQuery = true)
+  List<UndanganEntity> getUndanganDesc();
 }

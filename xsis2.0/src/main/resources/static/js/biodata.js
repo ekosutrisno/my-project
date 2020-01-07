@@ -135,7 +135,7 @@ function get_all_data() {
                         <h5 class="">
                            <a onclick="hapus(${result[i].id})" class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
                               id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                           <a onclick="detailData(${result[i].id})" class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
+                           <a onclick="detailData(${result[i].id})" class="ml-2" data-toggle="modal" data-target="#addModal" href="#"
                               id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
                         </h5>
                         </div>
@@ -185,7 +185,7 @@ function search_data(name) {
                         <h5 class="">
                            <a onclick="hapus(${data[i].id})" class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
                               id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                           <a onclick="detailData(${data[i].id})" class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
+                           <a onclick="detailData(${data[i].id})" class="ml-2" data-toggle="modal" data-target="#addModal" href="#"
                               id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
                         </h5>
                         </div>
@@ -345,7 +345,8 @@ $("#save_button").click(function () {
       marriageYear: $("#get_marriage_year").val(),
       identityNo: $("#get_no_indentity").val(),
       companyId: $("#get_companyid").val(),
-
+      createdBy: parseInt($("#get_createdBy").val()),
+      createdOn: $("#get_createdOn").val(),
       religion: {
          id: $("#get_religion").val()
       },
@@ -510,7 +511,7 @@ $("#save_button").click(function () {
                         $("#get_form_biodata")[0].reset();
                         get_all_data();
                         Toast.fire({
-                           icon: 'success',
+                           type: 'success',
                            title: "Data berhasil di" + action + "."
                         })
                         $("#modal-biodata").modal("hide");
@@ -565,7 +566,7 @@ $("#btn-reset").on("click", function () {
 $("#btn-search").on("click", function () {
    $("#data_rows").html("");
    var pelamar = $('#input-search-pelamar').val();
-
+   pelamar = pelamar.toLowerCase();
    if (pelamar == '') {
       swal.fire("Required", "nama pelamar tidak boleh kosong, silahkan isi kembali.", "info");
    } else {
@@ -630,7 +631,7 @@ const Toast = Swal.mixin({
    position: 'bottom-end',
    showConfirmButton: false,
    timer: 3000,
-   timerProgressBar: true,
+   // timerProgressBar: true,
    onOpen: (toast) => {
       toast.addEventListener('mouseenter', Swal.stopTimer)
       toast.addEventListener('mouseleave', Swal.resumeTimer)
@@ -791,7 +792,7 @@ function paginate_data(page, size, sortby, orderby) {
                         <h5 class="">
                            <a onclick="hapus(${pagination[i].id})" class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
                               id="showAddData"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                           <a onclick="detailData(${pagination[i].id})" class="mr-2" data-toggle="modal" data-target="#addModal" href="#"
+                           <a onclick="detailData(${pagination[i].id})" class="ml-2" data-toggle="modal" data-target="#addModal" href="#"
                               id="showAddData"><i class="fa fa-search-plus" aria-hidden="true"></i></a>
                         </h5>
                         </div>
@@ -885,5 +886,4 @@ $('#next').on('click', function () {
       $("#prev").attr('disabled', false);
    }
 });
- // ending next dan previous function
-
+// ending next dan previous function

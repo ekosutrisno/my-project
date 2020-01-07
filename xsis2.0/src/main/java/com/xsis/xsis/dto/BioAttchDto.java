@@ -1,4 +1,4 @@
-package com.xsis.xsis.dto.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.dto;
 
 /**
  * BioAttchDto
@@ -13,9 +13,11 @@ public class BioAttchDto {
     private Boolean isPhoto;
     private Boolean isDelete;
 
-    public BioAttchDto(){}
+    public BioAttchDto() {
+    }
 
-    public BioAttchDto(Long id, Long biodataId, String fileName, String filePath, String notes, Boolean isPhoto, Boolean isDelete) {
+    public BioAttchDto(Long id, Long biodataId, String fileName, String filePath, String notes, Boolean isPhoto,
+            Boolean isDelete) {
         this.id = id;
         this.biodataId = biodataId;
         this.fileName = fileName;
@@ -88,7 +90,5 @@ public class BioAttchDto {
     public void setIsDelete(Boolean isDelete) {
         this.isDelete = isDelete;
     }
-
-    
 
 }

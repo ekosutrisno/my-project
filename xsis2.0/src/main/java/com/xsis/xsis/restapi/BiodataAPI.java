@@ -1,11 +1,11 @@
-package com.xsis.xsis.restapi.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.restapi;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.xsis.xsis.model.vacancy_pendidikan_resourceproject.Biodata;
-import com.xsis.xsis.services.vacancy_pendidikan_resourceproject.BiodataServices;
+import com.xsis.xsis.model.Biodata;
+import com.xsis.xsis.services.BiodataServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,10 +30,8 @@ public class BiodataAPI {
     @GetMapping
     public Iterable<Biodata> findAllBiodata() {
         List<Biodata> biodata = new ArrayList<>();
-        for (Biodata biodatas : biodataServices.getBiodata())
-        {
-            if (!biodatas.getIsDelete())
-            {
+        for (Biodata biodatas : biodataServices.getBiodata()) {
+            if (!biodatas.getIsDelete()) {
                 biodata.add(biodatas);
             }
         }
@@ -49,5 +47,4 @@ public class BiodataAPI {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    
 }

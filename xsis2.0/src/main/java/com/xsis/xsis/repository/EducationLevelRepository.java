@@ -1,6 +1,6 @@
-package com.xsis.xsis.repository.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.repository;
 
-import com.xsis.xsis.model.vacancy_pendidikan_resourceproject.EducationLevel;
+import com.xsis.xsis.model.EducationLevel;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -361,7 +361,6 @@
       });
     });
 
-
     $('#showAddData').click(() => {
       $('#addData').modal('show');
       $('#detailVacancy').modal('hide');
@@ -408,6 +407,7 @@
     $(() => {
       eget_entry_year();
     });
+
     eget_entry_year = () => {
       var current_year = new Date();
       var year = current_year.getFullYear();
@@ -420,7 +420,6 @@
       }
       $("#eentryYear").html(value_year);
     }
-
 
     $(() => {
       eget_graduation_year();
@@ -437,8 +436,6 @@
       }
       $("#egraduationYear").html(value_year);
     }
-
-
 
     $(() => {
       get_education_level();
@@ -463,7 +460,6 @@
       })
     }
 
-
     function get_id_biodata(id) {
       $.ajax({
         url: 'api/biodata/' + id,
@@ -484,15 +480,15 @@
                   '                 <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Action </a>\n' +
                   '            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">\n' +
                   '                 <a class="dropdown-item" onclick="get_id_education_edit(' + data
-                    .id + ')" data-toggle="modal" data-target="#editData">Edit</a>\n' +
+                  .id + ')" data-toggle="modal" data-target="#editData">Edit</a>\n' +
                   '                 <a class="dropdown-item" onclick="get_id_education_delete(\'' + data
-                    .id + '\',\'' + data.schoolName + '\',\'' + id + '\')">Delete</a>\n' +
+                  .id + '\',\'' + data.schoolName + '\',\'' + id + '\')">Delete</a>\n' +
                   '            </div>\n' +
                   '             </div>\n' +
                   '        </div>'
                 var markup = "<tr class='text-left'><td>" + data.schoolName + "</td><td>" + data.name +
                   "</td><td>" + data.entryYear + " s.d " + data.graduationYear + "</td><td>" + data
-                    .major + "</td><td>" + data.gpa + "</td><td class='align-middle text-center'>" +
+                  .major + "</td><td>" + data.gpa + "</td><td class='align-middle text-center'>" +
                   actions + "</td></tr>"
                 $('#tbEducation').append(markup)
               })
@@ -556,7 +552,6 @@
         }
       })
     }
-
 
     function get_id_education_edit(vacancyId) {
       $('#detailVacancy').modal('hide');

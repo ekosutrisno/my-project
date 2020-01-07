@@ -1,4 +1,4 @@
-package com.xsis.xsis.dto.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.dto;
 
 /**
  * SertDto
@@ -13,9 +13,11 @@ public class SertDto {
     private String untilYear;
     private Boolean isDelete;
 
-    public SertDto(){}
+    public SertDto() {
+    }
 
-    public SertDto(Long id, Long biodataId, String certificateName, String publisher, String validStartYear, String untilYear, Boolean isDelete) {
+    public SertDto(Long id, Long biodataId, String certificateName, String publisher, String validStartYear,
+            String untilYear, Boolean isDelete) {
         this.id = id;
         this.biodataId = biodataId;
         this.certificateName = certificateName;
@@ -85,8 +87,4 @@ public class SertDto {
         this.isDelete = isDelete;
     }
 
-    
-
-   
-    
 }

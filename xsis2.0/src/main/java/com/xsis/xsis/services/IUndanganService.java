@@ -24,4 +24,6 @@ public interface IUndanganService {
     UndanganEntity delete(Long id);
 
     List<UndanganEntity> searchDataByName(@Param("name") String name);
+
+    List<UndanganEntity> getDescendings();
 }

@@ -79,4 +79,9 @@ public class UndanganService implements IUndanganService {
         return undanganRepository.searchDataByName(name);
     }
 
+    @Override
+    public List<UndanganEntity> getDescendings() {
+        return undanganRepository.getUndanganDesc();
+    }
+
 }

@@ -1,10 +1,10 @@
-package com.xsis.xsis.repository.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.repository;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.xsis.xsis.model.vacancy_pendidikan_resourceproject.Education;
-import com.xsis.xsis.dto.vacancy_pendidikan_resourceproject.EduDto;
+import com.xsis.xsis.model.Education;
+import com.xsis.xsis.dto.EduDto;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.Query;
  * PendidikanRepository
  */
 public interface EducationRepository extends JpaRepository<Education, Long> {
-    
+
     @Query(nativeQuery = true)
     List<EduDto> getEduName(Long biodataId);
 

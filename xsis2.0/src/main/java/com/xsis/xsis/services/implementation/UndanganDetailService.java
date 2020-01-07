@@ -87,4 +87,9 @@ public class UndanganDetailService implements IUndanganDetailService {
         return undanganDetailRepository.searchDataByName(name);
     }
 
+    @Override
+    public List<UndanganDetailEntity> getDetailByUndanganId(Long id) {
+        return undanganDetailRepository.getDetailByUndanganId(id);
+    }
+
 }

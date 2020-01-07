@@ -1,4 +1,4 @@
-package com.xsis.xsis.model.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.model;
 
 import javax.persistence.*;
 
@@ -31,7 +31,8 @@ public class Employee extends CommonEntity {
     @Column(name = "ero_email")
     private String eroEmail;
 
-    public Employee(){}
+    public Employee() {
+    }
 
     public Employee(Long id, Long biodataId, Boolean isIdle, Boolean isEro, Boolean isUserClient, String eroEmail) {
         this.id = id;

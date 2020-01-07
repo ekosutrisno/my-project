@@ -17,4 +17,7 @@ public interface UndanganDetailRepository extends JpaRepository<UndanganDetailEn
 
     @Query(value = CARI_DATA, nativeQuery = true)
     List<UndanganDetailEntity> searchDataByName(@Param("name") String name);
+
+    @Query(value = "SELECT * FROM x_undangan_detail WHERE undangan_id = ?1", nativeQuery = true)
+    List<UndanganDetailEntity> getDetailByUndanganId(Long id);
 }

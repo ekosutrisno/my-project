@@ -1,31 +1,28 @@
-package com.xsis.xsis.model.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.model;
 
 import javax.persistence.*;
 
-import com.xsis.xsis.dto.vacancy_pendidikan_resourceproject.TraiDto;
+import com.xsis.xsis.dto.TraiDto;
 import com.xsis.xsis.models.common.CommonEntity;
 
-@SqlResultSetMapping(name = "trainingMapping", classes = { @ConstructorResult(targetClass = TraiDto.class, columns = { 
-    @ColumnResult(name = "id", type = Long.class),
-    @ColumnResult(name = "biodata_id", type = Long.class),
-    @ColumnResult(name = "training_name", type = String.class),
-    @ColumnResult(name = "organizer", type = String.class),
-    @ColumnResult(name = "training_year", type = String.class),
-    @ColumnResult(name = "training_duration", type = Integer.class),
-    @ColumnResult(name = "time_period_id", type = Long.class),
-    @ColumnResult(name = "isdelete", type = Boolean.class)}) })
+@SqlResultSetMapping(name = "trainingMapping", classes = { @ConstructorResult(targetClass = TraiDto.class, columns = {
+        @ColumnResult(name = "id", type = Long.class), @ColumnResult(name = "biodata_id", type = Long.class),
+        @ColumnResult(name = "training_name", type = String.class),
+        @ColumnResult(name = "organizer", type = String.class),
+        @ColumnResult(name = "training_year", type = String.class),
+        @ColumnResult(name = "training_duration", type = Integer.class),
+        @ColumnResult(name = "time_period_id", type = Long.class),
+        @ColumnResult(name = "isdelete", type = Boolean.class) }) })
 
 // List Training Join Biodata
-@NamedNativeQuery(name = "Training.getTrainingBiodata", 
-query = "select a.id,a.biodata_id,a.training_name,a.organizer,a.training_year,a.training_duration,a.time_period_id,a.isdelete from x_riwayat_pelatihan a " +
-"join x_biodata b on b.id=a.biodata_id where a.biodata_id=:biodataId and a.isdelete=false and b.isdelete=false", resultSetMapping = "trainingMapping")
-
+@NamedNativeQuery(name = "Training.getTrainingBiodata", query = "select a.id,a.biodata_id,a.training_name,a.organizer,a.training_year,a.training_duration,a.time_period_id,a.isdelete from x_riwayat_pelatihan a "
+        + "join x_biodata b on b.id=a.biodata_id where a.biodata_id=:biodataId and a.isdelete=false and b.isdelete=false", resultSetMapping = "trainingMapping")
 
 /**
  * Training
  */
 @Entity
-@Table(name="x_riwayat_pelatihan")
+@Table(name = "x_riwayat_pelatihan")
 public class Training extends CommonEntity {
 
     @Id
@@ -34,7 +31,7 @@ public class Training extends CommonEntity {
 
     @Column(name = "biodata_id")
     private Long biodataId;
-    
+
     @Column(name = "training_name")
     private String trainingName;
 
@@ -62,9 +59,12 @@ public class Training extends CommonEntity {
     @Column(name = "notes")
     private String notes;
 
-    public Training(){}
+    public Training() {
+    }
 
-    public Training(Long id, Long biodataId, String trainingName, String organizer, String trainingYear, String trainingMonth, Integer trainingDuration, Long timePeriodId, String city, String country, String notes) {
+    public Training(Long id, Long biodataId, String trainingName, String organizer, String trainingYear,
+            String trainingMonth, Integer trainingDuration, Long timePeriodId, String city, String country,
+            String notes) {
         this.id = id;
         this.biodataId = biodataId;
         this.trainingName = trainingName;

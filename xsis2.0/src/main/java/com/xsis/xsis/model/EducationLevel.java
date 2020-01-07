@@ -1,4 +1,4 @@
-package com.xsis.xsis.model.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.model;
 
 import javax.persistence.*;
 
@@ -22,7 +22,8 @@ public class EducationLevel extends CommonEntity {
     @Column(name = "description")
     private String description;
 
-    public EducationLevel(){}
+    public EducationLevel() {
+    }
 
     public EducationLevel(Long id, String name, String description) {
         this.id = id;
@@ -53,5 +54,5 @@ public class EducationLevel extends CommonEntity {
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
 }

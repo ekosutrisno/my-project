@@ -1,4 +1,4 @@
-package com.xsis.xsis.dto.vacancy_pendidikan_resourceproject;
+package com.xsis.xsis.dto;
 
 /**
  * KeahDto
@@ -11,7 +11,8 @@ public class KeahDto {
     private Long skillLevelId;
     private Boolean isDelete;
 
-    public KeahDto(){}
+    public KeahDto() {
+    }
 
     public KeahDto(Long id, Long biodataId, String skillName, Long skillLevelId, Boolean isDelete) {
         this.id = id;
@@ -65,6 +66,4 @@ public class KeahDto {
         this.isDelete = isDelete;
     }
 
-    
-    
 }
