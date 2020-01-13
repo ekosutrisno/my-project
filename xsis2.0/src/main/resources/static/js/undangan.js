@@ -715,7 +715,6 @@ function kode_undangan() {
 		type: 'get',
 		contentType: "application/json",
 		success: function (result) {
-			console.log(result)
 			var data = result[0];
 			var code = data.invitationCode;
 

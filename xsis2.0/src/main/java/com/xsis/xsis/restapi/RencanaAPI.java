@@ -105,7 +105,6 @@ public class RencanaAPI {
 		rencanaDetail.setScheduleCode(rencanaDto.getScheduleCode());
 		rencanaDetail.setScheduleDate(rencanaDto.getScheduleDate());
 		rencanaDetail.setTime(rencanaDto.getTime());
-		rencanaDetail.setTime(rencanaDto.getTime());
 		rencanaDetail.setRo(rencanaDto.getRo());
 		rencanaDetail.setTro(rencanaDto.getTro());
 		rencanaDetail.setScheduleTypeId(rencanaDto.getScheduleTypeId());
